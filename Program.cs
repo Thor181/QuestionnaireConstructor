@@ -29,7 +29,7 @@ namespace QuestionnaireConstructor
 
             app.UseAuthorization();
 
-            app.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
+            app.MapControllerRoute("default", "{controller=Main}/{action=Index}/{id?}");
 
             app.Run();
         }

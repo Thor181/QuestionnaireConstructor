@@ -7,7 +7,43 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Views\MainView.cshtml" />
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="Views\Main\Main.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="Views\Main\Main.cshtml" />
+    <None Include="Views\Main\MainView.cshtml" />
+    <None Include="wwwroot\img\add.svg" />
+    <None Include="wwwroot\img\arrowgrey.svg" />
+    <None Include="wwwroot\img\cancel.svg" />
+    <None Include="wwwroot\img\clock.svg" />
+    <None Include="wwwroot\img\close.svg" />
+    <None Include="wwwroot\img\delete.svg" />
+    <None Include="wwwroot\img\down.svg" />
+    <None Include="wwwroot\img\download.svg" />
+    <None Include="wwwroot\img\downloadhover.svg" />
+    <None Include="wwwroot\img\edit.svg" />
+    <None Include="wwwroot\img\f1.svg" />
+    <None Include="wwwroot\img\f2.svg" />
+    <None Include="wwwroot\img\filter.svg" />
+    <None Include="wwwroot\img\link.svg" />
+    <None Include="wwwroot\img\next.svg" />
+    <None Include="wwwroot\img\plus-button.svg" />
+    <None Include="wwwroot\img\plus-hover.svg" />
+    <None Include="wwwroot\img\plus.svg" />
+    <None Include="wwwroot\img\plus2.svg" />
+    <None Include="wwwroot\img\plus3.svg" />
+    <None Include="wwwroot\img\prev-swiper.svg" />
+    <None Include="wwwroot\img\prev.svg" />
+    <None Include="wwwroot\img\s1.svg" />
+    <None Include="wwwroot\img\s2.svg" />
+    <None Include="wwwroot\img\s3.svg" />
+    <None Include="wwwroot\img\s4.svg" />
+    <None Include="wwwroot\img\save.svg" />
+    <None Include="wwwroot\img\search.svg" />
+    <None Include="wwwroot\img\up.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,8 +51,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\css\elements\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

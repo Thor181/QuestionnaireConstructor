@@ -1,0 +1,12 @@
+[
+  {
+    "outputFileName": "wwwroot/css/shared/bundle.css",
+    "inputFiles": [
+      "wwwroot/css/shared/consts.css",
+      "wwwroot/css/blocks/container.css",
+      "wwwroot/css/blocks/sidebar.css",
+      "wwwroot/css/modifiers/grid-placement.css",
+      "wwwroot/css/modifiers/background.css"
+    ]
+  }
+]

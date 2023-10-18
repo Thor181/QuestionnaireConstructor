@@ -1,0 +1,32 @@
+:root {
+    --background_gray: #f8fafb;
+}
+
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+}
+
+.content {
+
+}
+
+.sidebar {
+
+}
+
+.grid-placement_left {
+    grid-column: 1/2;
+}
+
+.grid-placement_center {
+    grid-column: 2/3;
+}
+
+.grid-placement_right {
+    grid-column: 3/4;
+}
+
+.background-gray {
+    background-color: var(--background_gray);
+}

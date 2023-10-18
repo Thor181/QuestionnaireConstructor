@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace QuestionnaireConstructor.Controllers
 {
-    public class MainController : BaseController
+    public class TemplateController : BaseController
     {
-        public override string ViewPath => "~/Views/Main/MainView.cshtml";
+        public override string ViewPath => "~/Views/Main/TemplateView.cshtml";
     }
 }

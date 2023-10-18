@@ -1,0 +1,11 @@
+﻿.grid-placement_left {
+    grid-column: 1/2;
+}
+
+.grid-placement_center {
+    grid-column: 2/3;
+}
+
+.grid-placement_right {
+    grid-column: 3/4;
+}

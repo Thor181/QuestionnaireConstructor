@@ -11,6 +11,10 @@ namespace QuestionnaireConstructor.Controllers
     {
         public abstract string ViewPath { get; }
 
-
+        [HttpGet]
+        public virtual IActionResult Index()
+        {
+            return View(ViewPath);
+        }
     }
 }
