@@ -1,0 +1,3 @@
+﻿.height_full-without-header {
+    height: calc(100vh - 76px);
+}

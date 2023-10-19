@@ -1,8 +1,11 @@
 ﻿.main-grid-container {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: 72px 1fr;
 }
 
-.content {
-
+.content-container {
+    padding: 2px;
 }
+
+

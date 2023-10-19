@@ -1,3 +1,7 @@
 ﻿:root {
     --background_gray: #f8fafb;
+    --main_blue: #274ADC;
+    --main_blue-light: #677edd;
+    --main_blue-lightest: #acbaf3;
+    --gray_lightest: #EAE9EB;
 }

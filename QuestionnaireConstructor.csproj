@@ -48,10 +48,10 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\css\elements\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

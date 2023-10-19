@@ -9,3 +9,8 @@
 .grid-placement_right {
     grid-column: 3/4;
 }
+
+.grid-placement_top {
+    grid-row: 1/2;
+}
+
