@@ -1,13 +1,9 @@
-.slide-wrapper {
-    display: block;
+﻿.slide-wrapper__container {
+    width: 100%;
     height: 100%;
     border-radius: 12px;
-    padding: 10px 0;
-    
-    box-sizing: border-box;
+    border: 1px solid var(--gray_lightest);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
 }
-

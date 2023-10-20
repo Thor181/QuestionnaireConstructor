@@ -2,13 +2,9 @@
     overflow: hidden auto;
     height: calc(100vh - 76px);
 
-    padding-top: 15px;
-
     display: flex;
     flex-direction: column;
 
     justify-content: start;
     align-items: center;
-
-    gap: 15px;
 }

@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
     <Content Remove="Views\Main\Main.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
+    <Content Include="gulpfile.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Main\Main.cshtml" />
     <None Include="Views\Main\MainView.cshtml" />
+    <None Include="wwwroot\css\blocks\slide-wrapper\__thumbnail\_title\thumbnail-title.css" />
     <None Include="wwwroot\img\add.svg" />
     <None Include="wwwroot\img\arrowgrey.svg" />
     <None Include="wwwroot\img\cancel.svg" />
@@ -52,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\img\other\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

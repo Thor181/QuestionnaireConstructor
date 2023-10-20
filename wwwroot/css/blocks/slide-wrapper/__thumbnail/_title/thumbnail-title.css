@@ -1,0 +1,4 @@
+﻿.slide-wrapper__thumbnail-title {
+    color: var(--thumbnail_text-color);
+    font-size: 12px;
+}
