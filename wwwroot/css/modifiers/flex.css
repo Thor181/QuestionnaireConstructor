@@ -1,22 +1,8 @@
-﻿.flex_flex-row {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex_flex-column {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex_top-center {
+﻿.flex_top-center {
     justify-content: start;
     align-items: center;
 }
 
 .flex_gap_15 {
     gap: 15px;
-}
-
-.flex_no-shrink {
-    flex-shrink: 0;
 }

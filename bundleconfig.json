@@ -2,23 +2,27 @@
   {
     "outputFileName": "wwwroot/css/shared/bundle.css",
     "inputFiles": [
-      "wwwroot/css/shared/site.css",
-      "wwwroot/css/shared/consts.css",
+      "wwwroot/css/blocks/container/container.css",
 
-      "wwwroot/css/blocks/container.css",
-      "wwwroot/css/blocks/sidebar.css",
-      "wwwroot/css/blocks/header.css",
+      "wwwroot/css/blocks/header/header.css",
 
-      "wwwroot/css/elements/sidebar__item.css",
+      "wwwroot/css/blocks/slide-wrapper/slide-wrapper.css",
 
+      "wwwroot/css/blocks/sidebar/__item/sidebar__item.css",
+      "wwwroot/css/blocks/sidebar/__container/sidebar__container.css",
+      "wwwroot/css/blocks/sidebar/sidebar.css",
+
+      "wwwroot/css/modifiers/background.css",
+      "wwwroot/css/modifiers/content-container.css",
+      "wwwroot/css/modifiers/flex.css",
       "wwwroot/css/modifiers/grid-placement.css",
       "wwwroot/css/modifiers/grid-span.css",
-      "wwwroot/css/modifiers/background.css",
-      "wwwroot/css/modifiers/flex.css",
+      "wwwroot/css/modifiers/height.css",
       "wwwroot/css/modifiers/overflow.css",
       "wwwroot/css/modifiers/position.css",
-      "wwwroot/css/modifiers/height.css"
 
+      "wwwroot/css/shared/consts.css",
+      "wwwroot/css/shared/site.css"
     ]
   }
 ]

@@ -1,0 +1,9 @@
+﻿.sidebar__item {
+    width: 100%;
+    height: 155px;
+    background: red;
+    flex-shrink: 0;
+    box-sizing: border-box;
+
+    padding: 15px 10px;
+}
