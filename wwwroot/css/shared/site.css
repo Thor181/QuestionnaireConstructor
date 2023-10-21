@@ -1,11 +1,17 @@
 ﻿html {
     font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
 body {
     margin: 0;
 }
- 
+
+.container {
+    min-height: 100vh;
+    background-color: var(--background_gray); 
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     
@@ -20,4 +26,9 @@ body {
     background-color: var(--main_blue-light);
     border-radius: 8px;
     border: 1px solid var(--main_blue-lightest);
+}
+
+input {
+    outline: 0;
+    border: none;
 }

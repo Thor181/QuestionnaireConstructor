@@ -1,4 +1,6 @@
-﻿.header-container {
-    border-bottom: 1px solid var(--gray_lightest);   
+﻿.header {
+    border-bottom: 1px solid var(--gray_lightest);
+    background: white;
+    z-index: 3;
 }
  

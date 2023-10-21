@@ -1,11 +1,13 @@
-﻿.slide-wrapper__plus-button {
-    flex-shrink: 3;
-    
+﻿
+.plus-button {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
     cursor: pointer;
     background: url(/img/plus-button.svg) no-repeat center center;
 }
 
-    .slide-wrapper__plus-button:hover {
+    .plus-button:hover {
         background: url(/img/plus-hover.svg) no-repeat center center;
         background-color: var(--main_blue);
     }

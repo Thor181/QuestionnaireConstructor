@@ -1,14 +1,11 @@
-﻿.slide-wrapper__thumbnail {
-    flex-shrink: 1;
-    width: 100%;
-    height: 100%;
+﻿.slide-tuner__card {
     border-radius: 12px;
     border: 1px solid var(--gray_lightest);
-
+    width: 35%;
+    min-height: 50%;
+    padding: 6px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
     background-color: white;
 }
