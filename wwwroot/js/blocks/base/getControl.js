@@ -9,14 +9,27 @@ export async function getControl(path, parameters) {
     if (response.ok) {
         let control = await response.text();
 
-        for (let i in parameters) {
-            control = control.replace(i, parameters[i]);
+        if (parameters != undefined) {
+            for (let key in parameters) {
+                control = replaceAll(control, `{{${key}}}`, parameters[key]);
+            }
         }
 
         return control;
     }
 
+    console.error(await response.text());
     return 'undefined';
+}
+
+
+/**
+ * @param {string} string
+ * @param {string} search
+ * @param {string} replace
+ */
+function replaceAll(string, search, replace) {
+    return string.split(search).join(replace);
 }
 
 

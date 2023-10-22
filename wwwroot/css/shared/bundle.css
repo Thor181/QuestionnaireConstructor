@@ -8,12 +8,6 @@
 
 
 
-.header {
-    border-bottom: 1px solid var(--gray_lightest);
-    background: white;
-    z-index: 3;
-}
- 
 .content-container {
     display: flex;
     flex-direction: row;
@@ -21,9 +15,18 @@
     align-items: start;
 }
 
+.header {
+    border-bottom: 1px solid var(--gray_lightest);
+    background: white;
+    z-index: 3;
+}
+ 
 .image {
     width: 100%;
     height: 100%;
+}
+.input-title {
+    
 }
 
 .plus-button {
@@ -39,9 +42,6 @@
         background-color: var(--main_blue);
     }
 
-.input-title {
-    
-}
 .sidebar {
     width: 270px;
     background-color: white;
@@ -95,14 +95,6 @@
     box-sizing: border-box;
 }
 
-.image--half-size {
-    width: 50%;
-    height: 50%;
-}
-.image--third-size {
-    width: 30%;
-    height: 30%;
-}
 .input-title__title {
     display: block;
     font-size: 14px;
@@ -111,6 +103,14 @@
     margin: 0;
 }
 
+.image--half-size {
+    width: 50%;
+    height: 50%;
+}
+.image--third-size {
+    width: 30%;
+    height: 30%;
+}
 .sidebar__container {
     overflow: hidden auto;
     height: calc(100vh - 76px);
@@ -120,9 +120,6 @@
 
     justify-content: start;
     align-items: center;
-}
-.simple-text--weight-bold {
-   font-weight: bold;
 }
 .sidebar__item {
     width: 100%;
@@ -137,6 +134,9 @@
         background-color: var(--background_gray);
     }
 
+.simple-text--weight-bold {
+   font-weight: bold;
+}
 .slide-tuner__card {
     border-radius: 12px;
     border: 1px solid var(--gray_lightest);
@@ -153,6 +153,17 @@
     display: block;
     padding: 15px;
 }
+.slide-wrapper__container {
+    width: 100%;
+    height: 100%;
+    flex-shrink: 3;
+    border-radius: 12px;
+    border: 1px solid var(--gray_lightest);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .slide-wrapper__thumbnail {
     flex-shrink: 1;
     width: 100%;
@@ -168,17 +179,9 @@
     background-color: white;
 }
 
-.slide-wrapper__container {
-    width: 100%;
-    height: 100%;
-    flex-shrink: 3;
-    border-radius: 12px;
-    border: 1px solid var(--gray_lightest);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.slide-wrapper__container--no-border {
+    border: none;
 }
-
 .slide-wrapper__thumbnail-picture--info {
     background: url(/img/other/info.svg) no-repeat center center;
 }
@@ -191,9 +194,6 @@
     font-size: 12px;
 }
 
-.slide-wrapper__container--no-border {
-    border: none;
-}
 .background-gray {
     background-color: var(--background_gray);
 }

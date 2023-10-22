@@ -1,10 +1,12 @@
-﻿import { getControl } from "../../../blocks";
+﻿//@ts-check
+
+import { getControl } from "../../base/getControl.js";
 
 /**
  * @param {string} innerContent
  * 
  */
-export function sidebar__item(innerContent) {
+export default async function sidebar__item(innerContent) {
     
-    return getControl();
+    return await getControl('/controls/blocks/sidebar/__item/sidebar__item.html', { innerContent });
 }
