@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="bundleconfig.json" />
     <Content Remove="Views\Main\Main.cshtml" />
   </ItemGroup>
 
@@ -16,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bundleconfig.json" />
     <None Include="Views\Main\Main.cshtml" />
     <None Include="Views\Main\MainView.cshtml" />
     <None Include="wwwroot\css\blocks\slide-wrapper\__thumbnail\_title\thumbnail-title.css" />
@@ -50,6 +48,7 @@
     <None Include="wwwroot\img\search.svg" />
     <None Include="wwwroot\img\up.svg" />
     <None Include="wwwroot\js\blocks\plus-button\plus-button.js" />
+    <None Include="wwwroot\js\shared\consts.js" />
   </ItemGroup>
 
   <ItemGroup>

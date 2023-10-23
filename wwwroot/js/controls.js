@@ -1,8 +1,7 @@
 ﻿//@ts-check
 
-import available_slide from './blocks/available-slide/available-slide.js';
-import indexed_slide from './blocks/indexed-slide/indexed-slide.js';
-import sidebar__item from './blocks/sidebar/__item/sidebar__item.js'
+import AvailableSlideControl from './blocks/available-slide/available-slide-control.js';
+import SidebarItemControl from './blocks/sidebar/__item/sidebar__item-control.js';
 
 $(async function () {
     let container = $('#left-sidebar-container');
@@ -12,22 +11,27 @@ $(async function () {
 
     //    container.append(item);
     //}
-
-
     container = $('#right-sidebar-container');
 
-    let availableSlide = await available_slide("Info slide" + 1, 'slide-wrapper__thumbnail-picture--info', a, 'info', '{ "title":"myquiz", "subtitle":" " }');
-    let item = await sidebar__item(availableSlide);
+    let sidebarItemControl = new SidebarItemControl();
 
-    container.append(item);
+    let availableSlideControl = new AvailableSlideControl();
+    availableSlideControl.title = "Info slide" + 1;
+    availableSlideControl.imageModifier = 'slide-wrapper__thumbnail-picture--info';
+    availableSlideControl.schemeName = 'info';
+    availableSlideControl.schemeContent = '{ "title":"myquiz", "subtitle":" " }';
 
-    let availableSlide2 = await available_slide("Info slide" + 2, 'slide-wrapper__thumbnail-picture--info', a, 'info', '{ "title":"myquiz", "subtitle":" " }');
-    let item2 = await sidebar__item(availableSlide2);
+    sidebarItemControl.innerContent = await availableSlideControl.getControl();
+    container.append(await sidebarItemControl.getControl());
 
-    container.append(item2);
+    let a = new AvailableSlideControl();
+    a.title = "Info slide" + 1;
+    a.imageModifier = 'slide-wrapper__thumbnail-picture--info';
+    a.schemeName = 'info';
+    a.schemeContent = '{ "title":"myquiz", "subtitle":" " }';
+
+    sidebarItemControl.innerContent = await a.getControl();
+    container.append(await sidebarItemControl.getControl());
+    container.append(await sidebarItemControl.getControl());
+    container.append(await sidebarItemControl.getControl());
 });
-
-async function a() {
-    const indexedEl = await indexed_slide(1, 'indexed slide', 'slide-wrapper__thumbnail-picture--info', "asd,", "zxc");
-    $('#left-sidebar-container').append(indexedEl)
-}

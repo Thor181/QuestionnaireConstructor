@@ -5,7 +5,7 @@
  * @param {string} path
  */
 export async function getControl(path, parameters) {
-    let response = await fetch(path);
+    let response = await fetch(path, { cache: "no-store" });
     if (response.ok) {
         let control = await response.text();
 

@@ -1,9 +1,0 @@
-[
-  {
-    "outputFileName": "wwwroot/bundle.js",
-    "inputFiles": [
-      "wwwroot/js/blocks/indexed-slide/indexed-slide.js",
-      "wwwroot/js/blocks/available-slide/available-slide.js"
-    ]
-  }
-]

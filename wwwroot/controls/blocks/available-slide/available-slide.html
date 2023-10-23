@@ -1,5 +1,6 @@
 ﻿<div data-node-id="{{nodeId}}" class="slide-wrapper">
     <script data-schemeName='{{schemeName}}' data-schemeContent='{{schemeContent}}' type="application/json"></script>
+    <script data-object type="application/json">{{data}}</script>
 
     <div class="slide-wrapper__container">
         <div class="plus-button"></div>
@@ -9,7 +10,6 @@
         <span class="slide-wrapper__thumbnail-title">{{title}}</span>
     </div>
 
-    <script type="module" >
-        $(`[data-node-id="{{nodeId}}"]`).find('.plus-button').on('click', {{onclickEvent}});
+    <script type="module" src="/js/blocks/available-slide/clickEventHandler.js">
     </script>
 </div>
