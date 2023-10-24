@@ -5,10 +5,12 @@ import consts from "../../../shared/consts.js";
 let sidebar = document.querySelector(consts.selectors.leftSidebarId);
 
 let leftSidebarMutationObserver = new MutationObserver((mr, o) => {
-    let c = $(sidebar).find('[index]')
+    let indexSpan = $(sidebar).find(consts.selectors.index)
 
-    for (var i = 0; i < c.length; i++) {
-        c.eq(i).text(i +1);
+    for (var i = 0; i < indexSpan.length; i++) {
+        let item = indexSpan.eq(i);
+        item.text(i + 1);
+        item.attr(consts.attributes.index, i + 1);
     }
 });
 

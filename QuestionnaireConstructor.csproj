@@ -47,7 +47,6 @@
     <None Include="wwwroot\img\save.svg" />
     <None Include="wwwroot\img\search.svg" />
     <None Include="wwwroot\img\up.svg" />
-    <None Include="wwwroot\js\blocks\plus-button\plus-button.js" />
     <None Include="wwwroot\js\shared\consts.js" />
   </ItemGroup>
 

@@ -1,10 +1,9 @@
 ﻿//@ts-check
 
-import { getControl } from "../../base/getControl";
+import ContainerControl from "../../base/ContainerControl.js";
 
-/**
- * @param {string} innerContent
- */
-export async function slide_tuner__item(innerContent) {
-    return await getControl('/controls/blocks/slide-tuner/__item/slide-tuner__item.html', { innerContent});
+export default class SlideTunerItem extends ContainerControl {
+    constructor() {
+        super('/controls/blocks/slide-tuner/__item/slide-tuner__item.html');
+    }
 }

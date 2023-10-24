@@ -1,9 +1,11 @@
-﻿import SlideControl from "./SlideControl.js";
+﻿//@ts-check
+
+import SlideControl from "./SlideControl.js";
 
 export default class NodeControl extends SlideControl {
 
     /**
-     * @type {string}
+     * @type {number}
      * @private
      */
     nodeId

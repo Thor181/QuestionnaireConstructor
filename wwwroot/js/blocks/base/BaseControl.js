@@ -8,7 +8,7 @@ export default class BaseControl {
 
     /**
      * @type {string}
-     * @private
+     * @protected
      */
     path;
 
