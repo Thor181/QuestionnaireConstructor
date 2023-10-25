@@ -44,12 +44,43 @@ export async function getInputControl(path, parameters) {
     return 'undefined';
 }
 
+export async function generateControl(path, parameters) {
+    let response = await fetch(path);
+
+    if (response.ok) {
+        let control = await response.text();
+
+        if (parameters != undefined) {
+            for (let key in parameters) {
+                control = replaceAll(control, `{{title}}`, key);
+                control = replaceAll(control, `{{inputValue}}`, parameters[key]);
+            }
+        }
+
+        return control;
+    }
+
+    console.error(await response.text());
+    return 'undefined';
+}
+
+export async function getControlPure(path) {
+    let response = await fetch(path);
+
+    if (response.ok) {
+        return await response.text();
+    }
+
+    console.error(await response.text());
+    return 'undefined';
+}
+
 /**
  * @param {string} string
  * @param {string} search
  * @param {string} replace
  */
-function replaceAll(string, search, replace) {
+export function replaceAll(string, search, replace) {
     return string.split(search).join(replace ?? "");
 }
 

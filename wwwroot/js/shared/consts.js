@@ -7,11 +7,10 @@ export default {
         plusButtonClass: '.plus-button',
         slideWrapperClass: '.slide-wrapper',
         sidebarItemClass: '.sidebar__item',
+        slideTunerCardClass: '.slide-tuner__card',
         dataObject: '[data-object]',
         index: '[index]',
         schemeName: '[scheme-name]'
-
-
     },
 
     attributes: {
@@ -27,8 +26,14 @@ export default {
     },
 
     controlsMap: {
-        title: InputTitleControl,
-        subtitle: InputTitleControl,
+        title: 'text',
+        subtitle: 'text',
+        infotitle: 'text',
+        infotext: 'text',
+    },
+
+    paths: {
+        input_title: '/controls/blocks/input-title/input-title.html',
     }
 
 }

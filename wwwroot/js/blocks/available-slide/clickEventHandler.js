@@ -24,5 +24,5 @@ $(consts.selectors.rightSidebarId).on('click', consts.selectors.plusButtonClass,
     item.innerContent = await indexedSlide.getControl();
 
     $(consts.selectors.leftSidebarId).append(await item.getControl());
-    $(this).closest(consts.selectors.sidebarItemClass).remove()
+    //$(this).closest(consts.selectors.sidebarItemClass).remove()
 });
