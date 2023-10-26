@@ -1,6 +1,7 @@
 ﻿//@ts-check
 
 import consts from "../../shared/consts.js";
+import { GlobalMeta } from "../../shared/globalMeta.js";
 import IndexedSlideControl from "../indexed-slide/indexed-slide-control.js";
 import SidebarItemControl from "../sidebar/__item/sidebar__item-control.js";
 import AvailableSlideControl from "./available-slide-control.js";
@@ -24,5 +25,6 @@ $(consts.selectors.rightSidebarId).on('click', consts.selectors.plusButtonClass,
     item.innerContent = await indexedSlide.getControl();
 
     $(consts.selectors.leftSidebarId).append(await item.getControl());
-    //$(this).closest(consts.selectors.sidebarItemClass).remove()
+
+    GlobalMeta.addQuestion(availableSlideControl.schemeContent)
 });

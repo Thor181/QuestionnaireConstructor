@@ -10,17 +10,23 @@ export default class ControlBuilder {
     /**@type {string}*/
     control
 
-    /**@type {[{Key, Value}]}*/
+    /**@type {[{Key, Placeholder, Value}]}*/
     addableTexts = [];
 
     constructor(path) {
         this.path = path;
     }
+    
+    addText(key, value, placeholder) {
+        this.addableTexts.push({ Key: key, Value: value, Placeholder: placeholder });
+    }
 
-    mathodsMap = { text: this.addText };
+    addButtonNext(title, placeholder) {
+        this.addableTexts.push({ Key: 'Button next', Value: title, Placeholder: placeholder });
+    }
 
-    addText(key, value) {
-        this.addableTexts.push({ Key: key, Value: value });
+    addButtonPrevious(title, placeholder) {
+        this.addableTexts.push({ Key: 'Button previous', Value: title, Placeholder: placeholder });
     }
 
     async build() {
@@ -29,7 +35,9 @@ export default class ControlBuilder {
         for (var i = 0; i < this.addableTexts.length; i++) {
             let item = this.addableTexts[i];
             this.control = replaceAll(this.control, '{{title}}', item.Key);
-            this.control = replaceAll(this.control, '{{inputValue}}', item.Value)
+            this.control = replaceAll(this.control, '{{inputValue}}', item.Value);
+            this.control = replaceAll(this.control, '{{placeholder}}', item.Placeholder);
+            this.control = replaceAll(this.control, '{{dataType}}', 'text');
         }
 
         return this.control;

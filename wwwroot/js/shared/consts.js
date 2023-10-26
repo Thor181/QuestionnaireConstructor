@@ -8,17 +8,21 @@ export default {
         slideWrapperClass: '.slide-wrapper',
         sidebarItemClass: '.sidebar__item',
         slideTunerCardClass: '.slide-tuner__card',
+        slideTunerItemClass: '.slide-tuner__item',
         dataObject: '[data-object]',
         index: '[index]',
-        schemeName: '[scheme-name]'
+        schemeName: '[data-schemeName]',
+        dataType: '[data-type]',
+        dataGlobalMeta: '[data-global-meta]'
     },
 
     attributes: {
         dataNodeId: 'data-node-id',
-        dataSchemeName: 'scheme-name',
+        dataSchemeName: 'data-schemeName',
         dataSchemeContent: 'data-schemeContent',
         dataObject: 'data-object',
-        index: 'index'
+        index: 'index',
+        dataGlobalMeta: 'data-global-meta'
     },
 
     shared: {
@@ -34,6 +38,10 @@ export default {
 
     paths: {
         input_title: '/controls/blocks/input-title/input-title.html',
+    },
+
+    classes: {
+        sidebarItemSelected: 'sidebar__item--selected'
     }
 
 }
