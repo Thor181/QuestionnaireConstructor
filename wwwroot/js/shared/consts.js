@@ -11,9 +11,12 @@ export default {
         slideTunerItemClass: '.slide-tuner__item',
         dataObject: '[data-object]',
         index: '[index]',
-        schemeName: '[data-schemeName]',
+        dataSchemeName: '[data-schemeName]',
         dataType: '[data-type]',
-        dataGlobalMeta: '[data-global-meta]'
+        dataGlobalMeta: '[data-global-meta]',
+        globalMeta: '#global-meta',
+        dataMetaId: '[data-meta-id]'
+
     },
 
     attributes: {
@@ -22,7 +25,8 @@ export default {
         dataSchemeContent: 'data-schemeContent',
         dataObject: 'data-object',
         index: 'index',
-        dataGlobalMeta: 'data-global-meta'
+        dataGlobalMeta: 'data-global-meta',
+        dataMetaId: 'data-meta-id'
     },
 
     shared: {
@@ -42,6 +46,15 @@ export default {
 
     classes: {
         sidebarItemSelected: 'sidebar__item--selected'
+    },
+
+    events: {
+        globalMeta__questionAdded: 'QuestionAdded'
+    },
+
+    typeToImageMap: {
+        info: 'slide-wrapper__thumbnail-picture--info',
+        question: 'slide-wrapper__thumbnail-picture--question'
     }
 
 }

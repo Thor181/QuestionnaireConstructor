@@ -1,19 +1,32 @@
 ﻿//@ts-check
 
-import consts from "../../../shared/consts.js";
-import ControlBuilder from "../../base/ControlBuilder.js";
-import { SlideTunerCard } from "../../slide-tuner/__card/slide-tuner__card.js";
-import SlideTunerItem from "../../slide-tuner/__item/slide-tuner__item.js";
+import consts from "../../shared/consts.js";
+import { GlobalMeta } from "../../shared/globalMeta.js";
+import { SlideTunerCard } from "../slide-tuner/__card/slide-tuner__card.js";
+import SlideTunerItem from "../slide-tuner/__item/slide-tuner__item.js";
+import BaseNewControl from "./BaseNewControl.js";
+import ControlBuilder from "./ControlBuilder.js";
+
+export default class IndexSlideNewControl extends BaseNewControl {
+
+    /**
+     * @param {number} index
+     * @param {string} title
+     * @param {string} imageModifier
+     * @param {number} metaId
+     */
+    constructor(index, title, imageModifier, metaId) {
+        super('/controls/blocks/indexed-slide/indexed-slide.html', { index, title, imageModifier, metaId });
+    }
+}
 
 $(consts.selectors.leftSidebarId).on('click', consts.selectors.sidebarItemClass, async function () {
     $(consts.selectors.slideTunerCardClass).children(consts.selectors.slideTunerItemClass).remove();
 
     let item = $(this);
-
-    let obj = item.find(consts.selectors.schemeName);
-    let schemeName = obj.attr(consts.attributes.dataSchemeName);
-    let schemeContent = obj.text();
-    let parsed = JSON.parse(schemeContent);
+    let dataId = item.find(consts.selectors.dataMetaId).attr(consts.attributes.dataMetaId);
+    let question = GlobalMeta.getQuestion(dataId);
+    let parsed = question.data;
     for (var i in parsed) {
         let builder = new ControlBuilder(consts.paths.input_title);
         let type = consts.controlsMap[i.toLowerCase()];
@@ -26,12 +39,11 @@ $(consts.selectors.leftSidebarId).on('click', consts.selectors.sidebarItemClass,
 
         $(consts.selectors.slideTunerCardClass).append(await slideTunerItem.getControl());
     }
-   
-    SlideTunerCard.setDataObjectFromString(schemeContent);
+
+    SlideTunerCard.setDataMetaId(dataId);
 
     changeSelectedStatus(item);
 });
-
 
 /**
  * 

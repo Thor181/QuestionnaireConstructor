@@ -2,8 +2,10 @@
 
 import AvailableSlideControl from './blocks/available-slide/available-slide-control.js';
 import SidebarItemControl from './blocks/sidebar/__item/sidebar__item-control.js';
+import { GlobalMeta } from './shared/globalMeta.js';
 
 $(async function () {
+
     let container = $('#left-sidebar-container');
     container = $('#right-sidebar-container');
 
@@ -28,6 +30,8 @@ $(async function () {
 
     sidebarItemControl2.innerContent = await availableSlideControlQ.getControl();
     container.append(await sidebarItemControl2.getControl());
+
+    GlobalMeta.initialize();
 
 });
 
