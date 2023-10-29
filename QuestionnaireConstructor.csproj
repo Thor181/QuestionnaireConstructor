@@ -58,6 +58,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\other\" />
+    <Folder Include="wwwroot\js\blocks\indexed-slide\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

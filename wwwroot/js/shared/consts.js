@@ -2,20 +2,25 @@
 
 export default {
     selectors: {
-        rightSidebarId: '#right-sidebar-container',
+
+
+        dataGlobalMeta: '[data-global-meta]',
+        dataMetaId: '[data-meta-id]',
+        dataObject: '[data-object]',
+        dataSchemeName: '[data-schemeName]',
+        dataType: '[data-type]',
+        getDataMetaId(id) { return `[data-meta-id="${id}"]` },
+        globalMeta: '#global-meta',
+        index: '[index]',
         leftSidebarId: '#left-sidebar-container',
         plusButtonClass: '.plus-button',
-        slideWrapperClass: '.slide-wrapper',
+        rightSidebarId: '#right-sidebar-container',
         sidebarItemClass: '.sidebar__item',
         slideTunerCardClass: '.slide-tuner__card',
         slideTunerItemClass: '.slide-tuner__item',
-        dataObject: '[data-object]',
-        index: '[index]',
-        dataSchemeName: '[data-schemeName]',
-        dataType: '[data-type]',
-        dataGlobalMeta: '[data-global-meta]',
-        globalMeta: '#global-meta',
-        dataMetaId: '[data-meta-id]'
+        slideWrapperClass: '.slide-wrapper',
+        slideWrapperThumbnailClass: '.slide-wrapper__thumbnail',
+        slideWrapperThumbnailTitleClass: '.slide-wrapper__thumbnail-title',
 
     },
 
@@ -26,7 +31,8 @@ export default {
         dataObject: 'data-object',
         index: 'index',
         dataGlobalMeta: 'data-global-meta',
-        dataMetaId: 'data-meta-id'
+        dataMetaId: 'data-meta-id',
+        dataOrderMax: 'data-order-max'
     },
 
     shared: {
@@ -49,7 +55,8 @@ export default {
     },
 
     events: {
-        globalMeta__questionAdded: 'QuestionAdded'
+        globalMeta__questionAdded: 'QuestionAdded',
+        globalMeta__questionUpdated: 'QuestionUpdated'
     },
 
     typeToImageMap: {

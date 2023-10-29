@@ -15,16 +15,16 @@ $(consts.selectors.slideTunerCardClass).on('change', consts.selectors.dataType, 
 
     const card = $(this).closest(consts.selectors.slideTunerCardClass);
     const id = SlideTunerCard.getDataMetaId();
+
     /**@type {QuestionData}*/
     let currentDataObject = GlobalMeta.getQuestion(id);
 
     let controls = card.find(consts.selectors.dataType);
 
-    for (var i in currentDataObject) {
+    for (var i in currentDataObject.data) {
         let control = controls.filter(`[data-title="${i}"]`);
         currentDataObject.data[i] = control.val();
     }
 
-    GlobalMeta.addOrUpdateQuestion(currentDataObject);
-    //SlideTunerCard.setDataObjectFromObject(currentDataObject);
+    GlobalMeta.updateQuestion(currentDataObject);
 });

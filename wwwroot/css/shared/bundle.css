@@ -1,10 +1,3 @@
-.content-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: start;
-}
-
 .main-grid-container {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
@@ -15,6 +8,16 @@
 
 
 
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+}
+
+.input-title {
+    
+}
 .header {
     border-bottom: 1px solid var(--gray_lightest);
     background: white;
@@ -25,9 +28,12 @@
     width: 100%;
     height: 100%;
 }
-.input-title {
-    
+.sidebar {
+    width: 270px;
+    background-color: white;
+    z-index: 2;
 }
+
 
 .plus-button {
     width: 100%;
@@ -42,34 +48,12 @@
         background-color: var(--main_blue);
     }
 
-.sidebar {
-    width: 270px;
-    background-color: white;
-    z-index: 2;
-}
-
 .simple-text {
     color: var(--thumbnail_text-color);
     font-size: 16px;
 }
 
 
-
-.text-input-wrap {
-    color: #130E4A;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    display: block;
-    padding-left: 18px;
-    padding-right: 18px;
-    width: 100%;
-    height: 48px;
-    line-height: 48px;
-    background: #F8FAFB;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
 
 .slide-wrapper {
     height: 100%;
@@ -95,6 +79,22 @@
     margin-top: var(--header-height);
 }
 
+.text-input-wrap {
+    color: #130E4A;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    display: block;
+    padding-left: 18px;
+    padding-right: 18px;
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    background: #F8FAFB;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
 .input-title__title {
     display: block;
     font-size: 14px;
@@ -110,6 +110,16 @@
 .image--third-size {
     width: 30%;
     height: 30%;
+}
+.sidebar__container {
+    overflow: hidden auto;
+    height: calc(100vh - 76px);
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: start;
+    align-items: center;
 }
 .sidebar__item--selected {
     background-color: var(--background-selected-color);
@@ -128,16 +138,6 @@
         background-color: var(--background_gray);
     }
 
-.sidebar__container {
-    overflow: hidden auto;
-    height: calc(100vh - 76px);
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: start;
-    align-items: center;
-}
 .simple-text--weight-bold {
    font-weight: bold;
 }

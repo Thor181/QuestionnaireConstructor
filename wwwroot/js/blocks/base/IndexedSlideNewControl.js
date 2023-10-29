@@ -15,8 +15,8 @@ export default class IndexSlideNewControl extends BaseNewControl {
      * @param {string} imageModifier
      * @param {number} metaId
      */
-    constructor(index, title, imageModifier, metaId) {
-        super('/controls/blocks/indexed-slide/indexed-slide.html', { index, title, imageModifier, metaId });
+    constructor(index, title, imageModifier, metaId, metaOrder) {
+        super('/controls/blocks/indexed-slide/indexed-slide.html', { index, title, imageModifier, metaId, metaOrder });
     }
 }
 
@@ -53,3 +53,12 @@ function changeSelectedStatus(selectedObject) {
     $(consts.selectors.leftSidebarId).find(consts.selectors.sidebarItemClass).removeClass(consts.classes.sidebarItemSelected);
     selectedObject.addClass(consts.classes.sidebarItemSelected);
 }
+
+//Обновление заголовка 
+$(consts.selectors.globalMeta).on(consts.events.globalMeta__questionUpdated, function (e) {
+    const id = e.detail.questionId;
+    const data = GlobalMeta.getQuestion(id);
+    $(consts.selectors.leftSidebarId).find(consts.selectors.getDataMetaId(id)).siblings(consts.selectors.slideWrapperThumbnailClass)
+        .find(consts.selectors.slideWrapperThumbnailTitleClass)
+        .text(data.data.Title);
+});

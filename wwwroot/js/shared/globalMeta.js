@@ -10,11 +10,13 @@ export class GlobalMeta {
 
         /** @type {Array}*/
         let data = JSON.parse(dataJson);
-
+        
         for (var i = 0; i < data.length; i++) {
             /**@type {QuestionData}*/
-            let item = data[i];
-            this.#generateEvent(item.meta.id, item.meta.type);
+            let item = data.filter(x => x.meta.order == i + 1)[0]
+            console.log(item)
+            this.#generateAddedEvent(item.meta.id, item.meta.type);
+
         }
     }
 
@@ -23,7 +25,8 @@ export class GlobalMeta {
      */
     static addOrUpdateQuestion(questionData) {
         if (questionData == null || questionData == undefined) {
-            console.error('Значение questionData не может быть null')
+            console.error('Значение questionData не может быть null');
+            return;
         }
 
         if (questionData.meta.id == null) {
@@ -61,7 +64,55 @@ export class GlobalMeta {
         let localDataJson = JSON.stringify(storageDataValue);
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
 
-        this.#generateEvent(questionData.meta.id, questionData.meta.type);
+        this.#generateAddedEvent(questionData.meta.id, questionData.meta.type);
+    }
+
+    /**
+     * 
+     * @param {QuestionData} questionData
+     */
+    static updateQuestion(questionData) {
+        if (questionData == null || questionData == undefined) {
+            console.error('Значение questionData не может быть null')
+            return;
+        }
+
+        if (questionData.meta.id == undefined) {
+            console.error('Значение questionData.meta.id не может быть null')
+            return;
+        }
+
+        let storageData = window.localStorage.getItem(this.#storageSectionName);
+        if (storageData == null) {
+            console.error('В localstorage не найдено значение для ' + this.#storageSectionName)
+            return;
+        }
+
+        /** @type {Array}*/
+        let storageDataValue = JSON.parse(storageData);
+
+        if (storageDataValue.length == 0) {
+            console.error(`Не удалось обновить данные для id: ${questionData.meta.id} - сущности отсутсвуют в массиве "${this.#storageSectionName}"`)
+            return;
+        }
+
+        let updated = false;
+        for (var i = 0; i < storageDataValue.length; i++) {
+
+            /**@type {QuestionData}*/
+            let qData = storageDataValue[i];
+
+            if (qData.meta.id == questionData.meta.id) {
+                Object.assign(qData, questionData);
+                updated = true;
+                break;
+            }
+        }
+
+        let localDataJson = JSON.stringify(storageDataValue);
+        window.localStorage.setItem(this.#storageSectionName, localDataJson);
+
+        this.#generateUpdatedEvent(questionData.meta.id, questionData.meta.type);
     }
 
     /**
@@ -69,8 +120,25 @@ export class GlobalMeta {
      * @param {number} questionId
      * @param {string} type
      */
-    static #generateEvent(questionId, type) {
-        let event = new CustomEvent(consts.events.globalMeta__questionAdded, { detail: { questionId, type} });
+    static #generateAddedEvent(questionId, type) {
+        this.#generateEventInternal(consts.events.globalMeta__questionAdded, { questionId, type })
+    }
+
+    /**
+     * 
+     * @param {number} questionId
+     * @param {string} type
+     */
+    static #generateUpdatedEvent(questionId, type) {
+        this.#generateEventInternal(consts.events.globalMeta__questionUpdated, { questionId, type })
+    }
+
+    /**
+     * @param {string} eventType
+     * @param {object} detail
+     */
+    static #generateEventInternal(eventType, detail) {
+        let event = new CustomEvent(eventType, { detail: detail });
         document.querySelector(consts.selectors.globalMeta).dispatchEvent(event);
     }
 
@@ -80,7 +148,6 @@ export class GlobalMeta {
         window.localStorage.setItem(this.#storageSectionName, valueJson);
         return valueJson;
     }
-
 
     /**
      * @param {number} id
@@ -112,5 +179,8 @@ export class Meta {
 
     /**@type {string}*/
     type
+
+    /**@type {number}*/
+    order
 }
 
