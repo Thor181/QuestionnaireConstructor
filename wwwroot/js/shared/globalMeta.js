@@ -3,7 +3,7 @@
 import consts from "./consts.js";
 
 export class GlobalMeta {
-    static #storageSectionName = 'Questions';
+    static #storageSectionName = 'Slides';
 
     static initialize() {
         let dataJson = window.localStorage.getItem(this.#storageSectionName);
@@ -13,10 +13,8 @@ export class GlobalMeta {
         
         for (var i = 0; i < data.length; i++) {
             /**@type {QuestionData}*/
-            let item = data.filter(x => x.meta.order == i + 1)[0]
-            console.log(item)
+            let item = data.filter(x => x.meta.order == i + 1)[0];
             this.#generateAddedEvent(item.meta.id, item.meta.type);
-
         }
     }
 
@@ -152,7 +150,7 @@ export class GlobalMeta {
     /**
      * @param {number} id
      */
-    static getQuestion(id) {
+    static getSlide(id) {
         let dataJson = window.localStorage.getItem(this.#storageSectionName);
 
         /** @type {Array}*/

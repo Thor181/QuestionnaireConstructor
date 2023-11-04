@@ -1,7 +1,8 @@
 ﻿//@ts-check
 
 import consts from "../../../shared/consts.js";
-import { GlobalMeta } from "../../../shared/globalMeta.js";
+import { GlobalMeta, QuestionData } from "../../../shared/globalMeta.js";
+import generateRandomNumber from "../../../shared/random.js";
 import IndexSlideNewControl from "../../base/IndexedSlideNewControl.js";
 import SidebarItemControl from "../__item/sidebar__item-control.js";
 
@@ -28,7 +29,7 @@ export function getOrderMax() {
 
 //создание итемов (IndexedSlide) при событии QuestionAdded
 $(consts.selectors.globalMeta).on(consts.events.globalMeta__questionAdded, async function (e) {
-    let questionData = GlobalMeta.getQuestion(e.detail.questionId)
+    let questionData = GlobalMeta.getSlide(e.detail.questionId)
 
     if (questionData == null) {
         console.log('В хранилище не найдена запись для ID: ' + e.detail.questionId)
@@ -47,5 +48,23 @@ $(consts.selectors.globalMeta).on(consts.events.globalMeta__questionAdded, async
     let sidebarChildren = Array.from($(consts.selectors.leftSidebarId).children());
     let sorted = sidebarChildren.sort(function (a, b) { return $(a).find('[data-meta-order]')[0].getAttribute('data-meta-order') - $(b).find('[data-meta-order]')[0].getAttribute('data-meta-order'); })
     sorted.forEach(x => leftSidebar.append(x))
+});
+
+$(consts.selectors.rightSidebarId).on('click', consts.selectors.plusButtonClass, async function (e) {
+
+    let schemeTag = $(this).closest(consts.selectors.slideWrapperClass).find(consts.selectors.dataSchemeName);
+
+    let schemeName = schemeTag.attr(consts.attributes.dataSchemeName);
+    let schemeContent = JSON.parse(schemeTag.html());
+
+    let order = getOrderMax();
+
+    let qData = new QuestionData();
+    qData.meta.id = generateRandomNumber();
+    qData.meta.type = schemeName;
+    qData.data = schemeContent;
+    qData.meta.order = order + 1;
+
+    GlobalMeta.addOrUpdateQuestion(qData)
 });
 

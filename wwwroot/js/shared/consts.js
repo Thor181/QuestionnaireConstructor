@@ -44,6 +44,17 @@ export default {
         subtitle: 'text',
         infotitle: 'text',
         infotext: 'text',
+        question: 'text',
+        assistivetext: 'text',
+        buttons: 'buttons',
+        "button next": 'text', 
+        "button previous": 'text', 
+    },
+
+    types: {
+        text: 'text',
+        button: 'button',
+        buttons: 'buttons'
     },
 
     paths: {
@@ -61,7 +72,8 @@ export default {
 
     typeToImageMap: {
         info: 'slide-wrapper__thumbnail-picture--info',
-        question: 'slide-wrapper__thumbnail-picture--question'
+        question: 'slide-wrapper__thumbnail-picture--question',
+        yesno: 'slide-wrapper__thumbnail-picture--yesno'
     }
 
 }

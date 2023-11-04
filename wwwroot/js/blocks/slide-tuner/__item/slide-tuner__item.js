@@ -17,13 +17,26 @@ $(consts.selectors.slideTunerCardClass).on('change', consts.selectors.dataType, 
     const id = SlideTunerCard.getDataMetaId();
 
     /**@type {QuestionData}*/
-    let currentDataObject = GlobalMeta.getQuestion(id);
+    let currentDataObject = GlobalMeta.getSlide(id);
 
     let controls = card.find(consts.selectors.dataType);
 
     for (var i in currentDataObject.data) {
-        let control = controls.filter(`[data-title="${i}"]`);
-        currentDataObject.data[i] = control.val();
+
+        if (i.toLowerCase() == consts.types.buttons) {
+            let buttons = Array.from(currentDataObject.data[i]);
+
+            for (var btn = 0; btn < buttons.length; btn++) {
+                let keys = Object.keys(buttons[btn]);
+
+                let control = controls.filter(`[data-title='Button \"${buttons[btn][keys[0]]}\"']`);
+                currentDataObject.data[i] = control.val();
+            }
+        }
+        else {
+            let control = controls.filter(`[data-title="${i}"]`);
+            currentDataObject.data[i] = control.val();
+        }
     }
 
     GlobalMeta.updateQuestion(currentDataObject);

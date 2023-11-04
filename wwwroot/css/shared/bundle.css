@@ -1,3 +1,10 @@
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+}
+
 .main-grid-container {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
@@ -8,22 +15,15 @@
 
 
 
-.content-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: start;
-}
-
-.input-title {
-    
-}
 .header {
     border-bottom: 1px solid var(--gray_lightest);
     background: white;
     z-index: 3;
 }
  
+.input-title {
+    
+}
 .image {
     width: 100%;
     height: 100%;
@@ -55,6 +55,17 @@
 
 
 
+.slide-tuner {
+    
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-top: 20px;
+    margin-top: var(--header-height);
+}
+
 .slide-wrapper {
     height: 100%;
     border-radius: 12px;
@@ -67,17 +78,6 @@
     gap: 10px;
 }
 
-
-.slide-tuner {
-    
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    padding-top: 20px;
-    margin-top: var(--header-height);
-}
 
 .text-input-wrap {
     color: #130E4A;
@@ -141,6 +141,22 @@
 .simple-text--weight-bold {
    font-weight: bold;
 }
+.slide-tuner__card {
+    border-radius: 12px;
+    border: 1px solid var(--gray_lightest);
+    width: 35%;
+    min-height: 50%;
+    padding: 6px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.slide-tuner__item {
+    display: block;
+    padding: 15px;
+}
 .slide-wrapper__container {
     width: 100%;
     height: 100%;
@@ -167,22 +183,6 @@
     background-color: white;
 }
 
-.slide-tuner__card {
-    border-radius: 12px;
-    border: 1px solid var(--gray_lightest);
-    width: 35%;
-    min-height: 50%;
-    padding: 6px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-}
-
-.slide-tuner__item {
-    display: block;
-    padding: 15px;
-}
 .slide-wrapper__container--no-border {
     border: none;
 }
@@ -201,6 +201,10 @@
 
 .slide-wrapper__thumbnail-picture--question {
     background: url(/img/other/question.svg) no-repeat center center;
+}
+
+.slide-wrapper__thumbnail-picture--yesno {
+    background: url(/img/other/yes.svg) no-repeat center center;
 }
 
 .background-gray {

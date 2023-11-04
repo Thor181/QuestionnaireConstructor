@@ -25,19 +25,39 @@ $(consts.selectors.leftSidebarId).on('click', consts.selectors.sidebarItemClass,
 
     let item = $(this);
     let dataId = item.find(consts.selectors.dataMetaId).attr(consts.attributes.dataMetaId);
-    let question = GlobalMeta.getQuestion(dataId);
-    let parsed = question.data;
-    for (var i in parsed) {
-        let builder = new ControlBuilder(consts.paths.input_title);
-        let type = consts.controlsMap[i.toLowerCase()];
+    let slide = GlobalMeta.getSlide(dataId);
+    let parsedData = slide.data;
+    for (var prop in parsedData) {
+        let type = consts.controlsMap[prop.toLowerCase()];
 
-        builder.addText(i, parsed[i], i);
-        let control = await builder.build();
+        if (type == consts.types.text) {
+            let builder = new ControlBuilder(consts.paths.input_title);
+            builder.addText(prop, parsedData[prop], prop);
 
-        let slideTunerItem = new SlideTunerItem();
-        slideTunerItem.innerContent = control;
+            let control = await builder.build();
+            let slideTunerItem = new SlideTunerItem();
+            slideTunerItem.innerContent = control;
 
-        $(consts.selectors.slideTunerCardClass).append(await slideTunerItem.getControl());
+            $(consts.selectors.slideTunerCardClass).append(await slideTunerItem.getControl());
+        }
+        else if (type == consts.types.buttons) {
+            let buttons = Array.from(parsedData[prop]);
+            for (var i = 0; i < buttons.length; i++) {
+
+                let builder = new ControlBuilder(consts.paths.input_title);
+                let btn = buttons[i];
+                let btnKeyNames = Object.keys(btn);
+                let a = btn[btnKeyNames[0]];
+                builder.addButton(a, a, a);
+
+
+                let control = await builder.build();
+                let slideTunerItem = new SlideTunerItem();
+                slideTunerItem.innerContent = control;
+
+                $(consts.selectors.slideTunerCardClass).append(await slideTunerItem.getControl());
+            }
+        }
     }
 
     SlideTunerCard.setDataMetaId(dataId);
@@ -57,7 +77,7 @@ function changeSelectedStatus(selectedObject) {
 //Обновление заголовка 
 $(consts.selectors.globalMeta).on(consts.events.globalMeta__questionUpdated, function (e) {
     const id = e.detail.questionId;
-    const data = GlobalMeta.getQuestion(id);
+    const data = GlobalMeta.getSlide(id);
     $(consts.selectors.leftSidebarId).find(consts.selectors.getDataMetaId(id)).siblings(consts.selectors.slideWrapperThumbnailClass)
         .find(consts.selectors.slideWrapperThumbnailTitleClass)
         .text(data.data.Title);
