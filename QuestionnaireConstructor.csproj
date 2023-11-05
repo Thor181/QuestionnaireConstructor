@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Main\Main.cshtml" />
+    <Content Remove="wwwroot\js\controls.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,10 +49,14 @@
     <None Include="wwwroot\img\search.svg" />
     <None Include="wwwroot\img\up.svg" />
     <None Include="wwwroot\js\blocks\slide-tuner\__card\slide-tuner__card.js" />
-    <None Include="wwwroot\js\shared\consts.js" />
+    <None Include="wwwroot\js\shared\constsJ.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.2.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
@@ -59,6 +64,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\js\blocks\indexed-slide\" />
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\js\controls.js" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿import InputTitleControl from "../blocks/input-title/input-title.js";
-
-export default {
+﻿export default {
     selectors: {
 
 

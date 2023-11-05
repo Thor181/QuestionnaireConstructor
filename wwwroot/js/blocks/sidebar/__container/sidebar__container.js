@@ -1,6 +1,6 @@
 ﻿//@ts-check
 
-import consts from "../../../shared/consts.js";
+import consts from "../../../shared/constsJ.js";
 import { GlobalMeta, QuestionData } from "../../../shared/globalMeta.js";
 import generateRandomNumber from "../../../shared/random.js";
 import IndexSlideNewControl from "../../base/IndexedSlideNewControl.js";

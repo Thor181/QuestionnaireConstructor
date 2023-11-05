@@ -1,6 +1,6 @@
 ﻿//@ts-check
 
-import consts from "../../shared/consts.js";
+import consts from "../../shared/constsJ.js";
 import { GlobalMeta } from "../../shared/globalMeta.js";
 import { SlideTunerCard } from "../slide-tuner/__card/slide-tuner__card.js";
 import SlideTunerItem from "../slide-tuner/__item/slide-tuner__item.js";

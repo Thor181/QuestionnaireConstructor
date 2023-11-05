@@ -1,9 +1,10 @@
-﻿//@ts-check
+﻿
 
 import AvailableSlideControl from './blocks/available-slide/AvailableSlideControl.js';
 import SidebarItemControl from './blocks/sidebar/__item/sidebar__item-control.js';
-import consts from './shared/consts.js';
+import consts from './shared/constsJ.js';
 import { GlobalMeta } from './shared/globalMeta.js';
+import AvailableSlide from './components/AvailableSlide.js';
 
 $(async function () {
 
@@ -25,7 +26,7 @@ $(async function () {
 
     let questionSlide = new AvailableSlideControl();
     questionSlide.title = "Question slide";
-    questionSlide.imageModifier = consts.typeToImageMap.question;    
+    questionSlide.imageModifier = consts.typeToImageMap.question;
     questionSlide.schemeName = 'question';
     questionSlide.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistivetext":"", "Button next":"", "Button previous":"" }';
 
@@ -33,6 +34,8 @@ $(async function () {
     container.append(await sidebarItemControl2.getControl());
 
     let sidebarItemControl3 = new SidebarItemControl();
+
+    let yesnoSlideNew = new AvailableSlide();
 
     let yesnoSlide = new AvailableSlideControl();
 
