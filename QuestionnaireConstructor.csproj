@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Content Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <EmbeddedResource Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <None Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <TypeScriptCompile Remove="wwwroot\js\blocks\indexed-slide\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Main\Main.cshtml" />
     <Content Remove="wwwroot\js\controls.js" />
   </ItemGroup>
@@ -62,7 +70,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\blocks\indexed-slide\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
