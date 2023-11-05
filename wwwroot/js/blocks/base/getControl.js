@@ -1,6 +1,6 @@
 ﻿//@ts-check
 
-import consts from "../../shared/consts.js";
+import consts from "../../shared/constsJ.js";
 
 
 /**

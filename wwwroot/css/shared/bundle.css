@@ -186,6 +186,15 @@
 .slide-wrapper__container--no-border {
     border: none;
 }
+.slide-wrapper__thumbnail-title {
+    color: var(--thumbnail_text-color);
+    font-size: 12px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+}
+
 .slide-wrapper__thumbnail-picture--info {
     background: url(/img/other/info.svg) no-repeat center center;
 }
@@ -194,9 +203,8 @@
     background: url(/img/other/question.svg) no-repeat center center;
 }
 
-.slide-wrapper__thumbnail-title {
-    color: var(--thumbnail_text-color);
-    font-size: 12px;
+.slide-wrapper__thumbnail-picture--yesno {
+    background: url(/img/other/yes.svg) no-repeat center center;
 }
 
 .background-gray {

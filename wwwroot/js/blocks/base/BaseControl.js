@@ -1,6 +1,4 @@
-﻿//@ts-check
-
-import { getControl } from "./getControl.js";
+﻿import { getControl } from "./getControl.js";
 
 export default class BaseControl {
 
