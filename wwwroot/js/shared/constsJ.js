@@ -1,13 +1,11 @@
-﻿export default {
+export default {
     selectors: {
-
-
         dataGlobalMeta: '[data-global-meta]',
         dataMetaId: '[data-meta-id]',
         dataObject: '[data-object]',
         dataSchemeName: '[data-schemeName]',
         dataType: '[data-type]',
-        getDataMetaId(id) { return `[data-meta-id="${id}"]` },
+        getDataMetaId(id) { return `[data-meta-id="${id}"]`; },
         globalMeta: '#global-meta',
         index: '[index]',
         leftSidebarId: '#left-sidebar-container',
@@ -19,9 +17,7 @@
         slideWrapperClass: '.slide-wrapper',
         slideWrapperThumbnailClass: '.slide-wrapper__thumbnail',
         slideWrapperThumbnailTitleClass: '.slide-wrapper__thumbnail-title',
-
     },
-
     attributes: {
         dataNodeId: 'data-node-id',
         dataSchemeName: 'data-schemeName',
@@ -32,11 +28,9 @@
         dataMetaId: 'data-meta-id',
         dataOrderMax: 'data-order-max'
     },
-
     shared: {
         asHeader: "$Header",
     },
-
     controlsMap: {
         title: 'text',
         subtitle: 'text',
@@ -45,33 +39,28 @@
         question: 'text',
         assistivetext: 'text',
         buttons: 'buttons',
-        "button next": 'text', 
-        "button previous": 'text', 
+        "button next": 'text',
+        "button previous": 'text',
     },
-
     types: {
         text: 'text',
         button: 'button',
         buttons: 'buttons'
     },
-
     paths: {
         input_title: '/controls/blocks/input-title/input-title.html',
     },
-
     classes: {
         sidebarItemSelected: 'sidebar__item--selected'
     },
-
     events: {
         globalMeta__questionAdded: 'QuestionAdded',
         globalMeta__questionUpdated: 'QuestionUpdated'
     },
-
     typeToImageMap: {
         info: 'slide-wrapper__thumbnail-picture--info',
         question: 'slide-wrapper__thumbnail-picture--question',
         yesno: 'slide-wrapper__thumbnail-picture--yesno'
     }
-
-}
+};
+//# sourceMappingURL=constsJ.js.map

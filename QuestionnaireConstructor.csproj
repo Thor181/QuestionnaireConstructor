@@ -73,8 +73,4 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\controls.js" />
-  </ItemGroup>
-
 </Project>

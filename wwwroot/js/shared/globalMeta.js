@@ -4,8 +4,6 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _a, _GlobalMeta_storageSectionName, _GlobalMeta_generateAddedEvent, _GlobalMeta_generateUpdatedEvent, _GlobalMeta_generateEventInternal, _GlobalMeta_createStorageSection;
-const questionAddedEvent = 'QuestionAdded';
-const questionUpdatedEvent = 'QuestionUpdated';
 const globalMeta = '#global-meta';
 export class GlobalMeta {
     static initialize() {
@@ -16,44 +14,44 @@ export class GlobalMeta {
             __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, item.meta.id, item.meta.type);
         }
     }
-    static addOrUpdateQuestion(questionData) {
+    static addOrUpdateSlideData(slideData) {
         var _b;
-        if (questionData == null || questionData == undefined) {
+        if (slideData == null) {
             console.error('Значение questionData не может быть null');
             return;
         }
-        if (questionData.meta.id == null) {
-            questionData.meta.id = Math.floor(Math.random() * 1000000);
+        if (slideData.meta.id == null) {
+            slideData.meta.id = Math.floor(Math.random() * 1000000);
         }
         let storageData = (_b = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName))) !== null && _b !== void 0 ? _b : __classPrivateFieldGet(this, _a, "m", _GlobalMeta_createStorageSection).call(this);
-        let storageDataValue = JSON.parse(storageData);
-        if (storageDataValue.length == 0) {
-            storageDataValue.push(questionData);
+        let storageSlidesData = JSON.parse(storageData);
+        if (storageSlidesData.length == 0) {
+            storageSlidesData.push(slideData);
         }
         else {
             let updated = false;
-            for (var i = 0; i < storageDataValue.length; i++) {
-                let qData = storageDataValue[i];
-                if (qData.meta.id == questionData.meta.id) {
-                    Object.assign(qData, questionData);
+            for (let i = 0; i < storageSlidesData.length; i++) {
+                let storageSlideData = storageSlidesData[i];
+                if (storageSlideData.meta.id == slideData.meta.id) {
+                    Object.assign(storageSlideData, slideData);
                     updated = true;
                     break;
                 }
             }
             if (!updated) {
-                storageDataValue.push(questionData);
+                storageSlidesData.push(slideData);
             }
         }
-        let localDataJson = JSON.stringify(storageDataValue);
+        let localDataJson = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
-        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, questionData.meta.id, questionData.meta.type);
+        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, slideData.meta.id, slideData.meta.type);
     }
-    static updateQuestion(questionData) {
-        if (questionData == null || questionData == undefined) {
+    static updateSlideData(slideData) {
+        if (slideData == null) {
             console.error('Значение questionData не может быть null');
             return;
         }
-        if (questionData.meta.id == undefined) {
+        if (slideData.meta.id == undefined) {
             console.error('Значение questionData.meta.id не может быть null');
             return;
         }
@@ -62,35 +60,37 @@ export class GlobalMeta {
             console.error('В localstorage не найдено значение для ' + __classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
             return;
         }
-        let storageDataValue = JSON.parse(storageData);
-        if (storageDataValue.length == 0) {
-            console.error(`Не удалось обновить данные для id: ${questionData.meta.id} - сущности отсутсвуют в массиве "${__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName)}"`);
+        let storageSlidesData = JSON.parse(storageData);
+        if (storageSlidesData.length == 0) {
+            console.error(`Не удалось обновить данные для id: ${slideData.meta.id} - сущности отсутсвуют в массиве "${__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName)}"`);
             return;
         }
         let updated = false;
-        for (var i = 0; i < storageDataValue.length; i++) {
-            let qData = storageDataValue[i];
-            if (qData.meta.id == questionData.meta.id) {
-                Object.assign(qData, questionData);
+        for (let i = 0; i < storageSlidesData.length; i++) {
+            let storageSlideData = storageSlidesData[i];
+            if (storageSlideData.meta.id == slideData.meta.id) {
+                Object.assign(storageSlideData, slideData);
                 updated = true;
                 break;
             }
         }
-        let localDataJson = JSON.stringify(storageDataValue);
+        let localDataJson = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
-        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateUpdatedEvent).call(this, questionData.meta.id, questionData.meta.type);
+        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateUpdatedEvent).call(this, slideData.meta.id, slideData.meta.type);
     }
-    static getSlide(id) {
+    static getSlideData(id) {
         let dataJson = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
         let data = JSON.parse(dataJson);
         let questionData = data.filter(x => x.meta.id == id)[0];
         return questionData;
     }
 }
-_a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateAddedEvent(questionId, type) {
-    __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, questionAddedEvent, { questionId, type });
-}, _GlobalMeta_generateUpdatedEvent = function _GlobalMeta_generateUpdatedEvent(questionId, type) {
-    __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, questionUpdatedEvent, { questionId, type });
+_a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateAddedEvent(slideId, type) {
+    let data = new EventData(slideId, type);
+    __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideAdded", data);
+}, _GlobalMeta_generateUpdatedEvent = function _GlobalMeta_generateUpdatedEvent(slideId, type) {
+    let data = new EventData(slideId, type);
+    __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideUpdated", data);
 }, _GlobalMeta_generateEventInternal = function _GlobalMeta_generateEventInternal(eventType, detail) {
     let event = new CustomEvent(eventType, { detail: detail });
     document.querySelector(globalMeta).dispatchEvent(event);
@@ -101,11 +101,17 @@ _a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateA
     return valueJson;
 };
 _GlobalMeta_storageSectionName = { value: 'Slides' };
-export class QuestionData {
+export class SlideData {
     constructor() {
         this.meta = new Meta();
     }
 }
 export class Meta {
 }
-//# sourceMappingURL=globalMeta.js.map
+export class EventData {
+    constructor(slideId, type) {
+        this.slideId = slideId;
+        this.type = type;
+    }
+}
+//# sourceMappingURL=GlobalMeta.js.map

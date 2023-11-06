@@ -1,29 +1,22 @@
-﻿//@ts-check
-
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import consts from "../../shared/constsJ.js";
 import BaseControl from "./BaseControl.js";
-import { getInputControl as getInputControlBase } from './getControl.js'
-
+import { getInputControl as getInputControlBase } from './getControl.js';
 export default class InputBaseControl extends BaseControl {
-    /**
-     * @type {string}
-     */
-    title
-
-    /**
-     * @type {string}
-     */
-    inputValue
-
-    /**
-     * @type {string}
-     */
-    placeholder
-
-    async getInputControl() {
-        this.title += consts.shared.asHeader;
-        this.inputValue += consts.shared.asHeader;
-
-        return await getInputControlBase(this.path, this);
+    getInputControl() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.title += consts.shared.asHeader;
+            this.inputValue += consts.shared.asHeader;
+            return yield getInputControlBase(this.path, this);
+        });
     }
 }
+//# sourceMappingURL=InputBaseControl.js.map

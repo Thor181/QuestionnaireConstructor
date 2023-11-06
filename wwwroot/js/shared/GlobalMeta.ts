@@ -1,7 +1,5 @@
 ﻿import * as consts from '../shared/constants.js';
 
-const questionAddedEvent: consts.events = 'QuestionAdded';
-const questionUpdatedEvent: consts.events = 'QuestionUpdated';
 const globalMeta: consts.selector = '#global-meta'
 
 export class GlobalMeta {
@@ -11,66 +9,65 @@ export class GlobalMeta {
 
         let dataJson: string = window.localStorage.getItem(this.#storageSectionName);
 
-        let data: Array<QuestionData> = JSON.parse(dataJson);
-
+        let data: Array<SlideData> = JSON.parse(dataJson);
+        
         for (var i = 0; i < data.length; i++) {
             
-            let item: QuestionData = data.filter(x => x.meta.order == i + 1)[0];
+            let item: SlideData = data.filter(x => x.meta.order == i + 1)[0];
             this.#generateAddedEvent(item.meta.id, item.meta.type);
         }
     }
 
-    static addOrUpdateQuestion(questionData: QuestionData) {
-
-        if (questionData == null || questionData == undefined) {
+    static addOrUpdateSlideData(slideData: SlideData) {
+        if (slideData == null) {
             console.error('Значение questionData не может быть null');
             return;
         }
 
-        if (questionData.meta.id == null) {
-            questionData.meta.id = Math.floor(Math.random() * 1000000);
+        if (slideData.meta.id == null) {
+            slideData.meta.id = Math.floor(Math.random() * 1000000);
         }
 
         let storageData: string = window.localStorage.getItem(this.#storageSectionName) ?? this.#createStorageSection();
 
-        let storageDataValue: Array<QuestionData> = JSON.parse(storageData);
+        let storageSlidesData: Array<SlideData> = JSON.parse(storageData);
 
-        if (storageDataValue.length == 0) {
-            storageDataValue.push(questionData);
+        if (storageSlidesData.length == 0) {
+            storageSlidesData.push(slideData);
         }
         else {
 
             let updated: boolean = false;
 
-            for (var i = 0; i < storageDataValue.length; i++) {
+            for (let i = 0; i < storageSlidesData.length; i++) {
 
-                let qData: QuestionData = storageDataValue[i];
+                let storageSlideData: SlideData = storageSlidesData[i];
 
-                if (qData.meta.id == questionData.meta.id) {
-                    Object.assign(qData, questionData);
+                if (storageSlideData.meta.id == slideData.meta.id) {
+                    Object.assign(storageSlideData, slideData);
                     updated = true;
                     break;
                 }
             }
 
             if (!updated) {
-                storageDataValue.push(questionData);
+                storageSlidesData.push(slideData);
             }
         }
 
-        let localDataJson: string = JSON.stringify(storageDataValue);
+        let localDataJson: string = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
 
-        this.#generateAddedEvent(questionData.meta.id, questionData.meta.type);
+        this.#generateAddedEvent(slideData.meta.id, slideData.meta.type);
     }
 
-    static updateQuestion(questionData: QuestionData) {
-        if (questionData == null || questionData == undefined) {
+    static updateSlideData(slideData: SlideData) {
+        if (slideData == null) {
             console.error('Значение questionData не может быть null')
             return;
         }
 
-        if (questionData.meta.id == undefined) {
+        if (slideData.meta.id == undefined) {
             console.error('Значение questionData.meta.id не может быть null')
             return;
         }
@@ -81,44 +78,48 @@ export class GlobalMeta {
             return;
         }
 
-        let storageDataValue: Array<QuestionData> = JSON.parse(storageData);
+        let storageSlidesData: Array<SlideData> = JSON.parse(storageData);
 
-        if (storageDataValue.length == 0) {
-            console.error(`Не удалось обновить данные для id: ${questionData.meta.id} - сущности отсутсвуют в массиве "${this.#storageSectionName}"`)
+        if (storageSlidesData.length == 0) {
+            console.error(`Не удалось обновить данные для id: ${slideData.meta.id} - сущности отсутсвуют в массиве "${this.#storageSectionName}"`)
             return;
         }
 
         let updated: boolean = false;
 
-        for (var i = 0; i < storageDataValue.length; i++) {
+        for (let i = 0; i < storageSlidesData.length; i++) {
 
-            let qData: QuestionData = storageDataValue[i];
+            let storageSlideData: SlideData = storageSlidesData[i];
 
-            if (qData.meta.id == questionData.meta.id) {
-                Object.assign(qData, questionData);
+            if (storageSlideData.meta.id == slideData.meta.id) {
+                Object.assign(storageSlideData, slideData);
                 updated = true;
                 break;
             }
         }
 
-        let localDataJson: string = JSON.stringify(storageDataValue);
+        let localDataJson: string = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
-
-        this.#generateUpdatedEvent(questionData.meta.id, questionData.meta.type);
+        
+        this.#generateUpdatedEvent(slideData.meta.id, slideData.meta.type);
     }
 
-    static #generateAddedEvent(questionId: number, type: string) {
-        this.#generateEventInternal(questionAddedEvent, { questionId, type })
+    //#region Event
+    static #generateAddedEvent(slideId: number, type: string) {
+        let data = new EventData(slideId, type);
+        this.#generateEventInternal("SlideAdded", data);
     }
 
-    static #generateUpdatedEvent(questionId: number, type: string) {
-        this.#generateEventInternal(questionUpdatedEvent, { questionId, type })
+    static #generateUpdatedEvent(slideId: number, type: string) {
+        let data = new EventData(slideId, type);
+        this.#generateEventInternal("SlideUpdated", data);
     }
 
-    static #generateEventInternal(eventType: string, detail: object) {
-        let event: CustomEvent<object> = new CustomEvent(eventType, { detail: detail });
+    static #generateEventInternal(eventType: consts.event, detail: EventData) {
+        let event: CustomEvent<EventData> = new CustomEvent(eventType, { detail: detail });
         document.querySelector(globalMeta).dispatchEvent(event);
     }
+    //#endregion
 
     static #createStorageSection(): string  {
         let value: [] = [];
@@ -127,26 +128,40 @@ export class GlobalMeta {
         return valueJson;
     }
 
-    static getSlide(id: number) {
+    static getSlideData(id: number) {
         let dataJson = window.localStorage.getItem(this.#storageSectionName);
 
-        let data: Array<QuestionData> = JSON.parse(dataJson);
+        let data: Array<SlideData> = JSON.parse(dataJson);
 
-        /** @type {QuestionData}*/
-        let questionData = data.filter(x => x.meta.id == id)[0];
+        let questionData: SlideData = data.filter(x => x.meta.id == id)[0];
 
         return questionData;
     }
 }
 
-export class QuestionData {
+type dataType = {
+    [key: string]: string
+}
+
+export class SlideData {
+    
     meta: Meta = new Meta();
-    data: object
+    data: dataType;
 }
 
 export class Meta {
     id: number;
     type: string;
     order: number;
+}
+
+export class EventData {
+    slideId: number;
+    type: string;
+
+    constructor(slideId: number, type: string) {
+        this.slideId = slideId;
+        this.type = type;
+    }
 }
 

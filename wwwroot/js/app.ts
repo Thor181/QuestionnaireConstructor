@@ -1,6 +1,6 @@
 ﻿import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js'
-import { GlobalMeta } from '../js/shared/globalMeta.js';
+import { GlobalMeta } from './shared/GlobalMeta.js';
 
 $(async function () {
 

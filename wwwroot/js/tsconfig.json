@@ -7,9 +7,9 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "allowJs":  true
   },
-  "include": [ "./*" ],
-  "exclude": ["node_modules"]
+  "include": [ "./*", "./**/*" ],
+  "exclude": ["node_modules", "./my.js"]
 }

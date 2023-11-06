@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js';
-import { GlobalMeta } from '../js/shared/globalMeta.js';
+import { GlobalMeta } from './shared/GlobalMeta.js';
 $(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let container = $('#right-sidebar-container');
