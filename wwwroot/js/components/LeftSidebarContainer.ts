@@ -3,14 +3,35 @@ import { SlideData } from '../shared/GlobalMeta.js';
 import IndexedSlide from './IndexedSlide.js';
 import SidebarItem from './SidebarItem.js';
 
-const leftContainer: consts.selector = '#left-sidebar-container';
+const leftContainerSelector: consts.selector = '#left-sidebar-container';
+const indexSelector: consts.selector = '[index]';
+const indexAttr: consts.attribute = 'index';
+const dataOrderMaxSelector: consts.selector = '[data-order-max]';
+const dataOrderMaxAttr: consts.attribute = 'data-order-max';
 
+const leftContainer = document.querySelector(leftContainerSelector);
+
+const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
+    const indexSpan = $(leftContainerSelector).find(indexSelector);
+
+    let i = 0;
+    while (i < indexSpan.length) {
+        let item = indexSpan.eq(i);
+        item.text(i + 1);
+        item.attr(indexAttr, i + 1);
+        i++;
+    }
+
+    leftContainer.setAttribute(dataOrderMaxAttr, i.toString());
+});
+
+leftSidebarMutationObserver.observe(leftContainer, { childList: true });
 
 export class LeftSidebarContainer {
 
 
     static async addIndexedSlide(slideData: SlideData) {
-        const leftSidebarContainer = $(leftContainer);
+        const leftSidebarContainer = $(leftContainerSelector);
 
         const slide = new IndexedSlide();
         slide.rendered.index = 0;
@@ -26,17 +47,9 @@ export class LeftSidebarContainer {
     }
 }
 
-////создание итемов (IndexedSlide) при событии QuestionAdded
+//
 //$(consts.selectors.globalMeta).on(consts.events.globalMeta__questionAdded, async function (e) {
 
-//    //@ts-ignore
-//    let slide = new IndexSlideNewControl('0', questionData.data.Title, consts.typeToImageMap[questionData.meta.type], questionData.meta.id, questionData.meta.order);
-//    let control = await slide.getControl();
-
-//    let leftSidebar = $(consts.selectors.leftSidebarId);
-//    let item = new SidebarItemControl();
-//    item.innerContent = control;
-//    leftSidebar.append(await item.getControl());
 
 //    //Сортировка
 //    let sidebarChildren = Array.from($(consts.selectors.leftSidebarId).children());

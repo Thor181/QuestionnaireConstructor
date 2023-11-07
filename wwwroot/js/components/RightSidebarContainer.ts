@@ -11,10 +11,10 @@ const dataOrderMax: consts.attribute = 'data-order-max';
 const globalMeta: consts.selector = "#global-meta";
 const dataSchemeNameAttr: consts.attribute = 'data-schemename';
 
-const leftSidebarContainer = document.querySelector(leftContainer);
 
 //Клик по Plus button в правом сайдбаре
 $(rightContainer).on('click', plusButton, async function () {
+    const leftSidebarContainer = document.querySelector(leftContainer);
     let schemeElement = $(this).closest(slideWrapper).find(dataSchemeName);
 
     let schemeName = schemeElement.attr(dataSchemeNameAttr);
@@ -32,5 +32,6 @@ $(rightContainer).on('click', plusButton, async function () {
 });
 
 export function getOrderMax() {
+    const leftSidebarContainer = document.querySelector(leftContainer);
     return Number(leftSidebarContainer.getAttribute(dataOrderMax));
 }

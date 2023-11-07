@@ -10,11 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import * as consts from '../shared/constants.js';
 import IndexedSlide from './IndexedSlide.js';
 import SidebarItem from './SidebarItem.js';
-const leftContainer = '#left-sidebar-container';
+const leftContainerSelector = '#left-sidebar-container';
+const indexSelector = '[index]';
+const indexAttr = 'index';
+const dataOrderMaxSelector = '[data-order-max]';
+const dataOrderMaxAttr = 'data-order-max';
+const leftContainer = document.querySelector(leftContainerSelector);
+const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
+    const indexSpan = $(leftContainerSelector).find(indexSelector);
+    let i = 0;
+    while (i < indexSpan.length) {
+        let item = indexSpan.eq(i);
+        item.text(i + 1);
+        item.attr(indexAttr, i + 1);
+        i++;
+    }
+    leftContainer.setAttribute(dataOrderMaxAttr, i.toString());
+});
+leftSidebarMutationObserver.observe(leftContainer, { childList: true });
 export class LeftSidebarContainer {
     static addIndexedSlide(slideData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const leftSidebarContainer = $(leftContainer);
+            const leftSidebarContainer = $(leftContainerSelector);
             const slide = new IndexedSlide();
             slide.rendered.index = 0;
             slide.rendered.imageModifier = consts.mapTypeToImageModifier(slideData.meta.type);

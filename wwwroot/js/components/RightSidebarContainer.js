@@ -17,9 +17,9 @@ const leftContainer = '#left-sidebar-container';
 const dataOrderMax = 'data-order-max';
 const globalMeta = "#global-meta";
 const dataSchemeNameAttr = 'data-schemename';
-const leftSidebarContainer = document.querySelector(leftContainer);
 $(rightContainer).on('click', plusButton, function () {
     return __awaiter(this, void 0, void 0, function* () {
+        const leftSidebarContainer = document.querySelector(leftContainer);
         let schemeElement = $(this).closest(slideWrapper).find(dataSchemeName);
         let schemeName = schemeElement.attr(dataSchemeNameAttr);
         let schemeContent = JSON.parse(schemeElement.html());
@@ -33,6 +33,7 @@ $(rightContainer).on('click', plusButton, function () {
     });
 });
 export function getOrderMax() {
+    const leftSidebarContainer = document.querySelector(leftContainer);
     return Number(leftSidebarContainer.getAttribute(dataOrderMax));
 }
 //# sourceMappingURL=RightSidebarContainer.js.map

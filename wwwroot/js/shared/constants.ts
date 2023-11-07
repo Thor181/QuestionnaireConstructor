@@ -8,16 +8,17 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/IndexedSlide.html'
     | ''
 
+type attribute = 'data-order-max'
+    | 'data-schemename'
+    | 'index'
+    | ''
+
 type selector = '#right-sidebar-container'
     | '.plus-button'
     | '.slide-wrapper'
     | `[${attribute}]`
     | '#left-sidebar-container'
     | '#global-meta'
-    | ''
-
-type attribute = 'data-order-max'
-    | 'data-schemename'
     | ''
 
 type event = 'SlideAdded'
