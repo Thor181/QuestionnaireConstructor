@@ -1,0 +1,1 @@
+{"version":3,"file":"SlideTunerCardGenerator.js","sourceRoot":"","sources":["SlideTunerCardGenerator.ts"],"names":[],"mappings":"AACA,OAAO,aAAa,MAAM,yBAAyB,CAAC;AAEpD,MAAM,sBAAsB,GAAoB,oBAAoB,CAAC;AAErE,MAAM,uBAAwB,SAAQ,aAAa;IAI/C,gBAAgB,CAAC,KAAa,EAAE,KAAa,EAAE,cAAsB,EAAE;IAEvE,CAAC;IAEO,wBAAwB;IAEhC,CAAC;CAEJ;AAED,eAAe,uBAAuB,CAAC"}

@@ -6,6 +6,7 @@
 type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/SidebarItem.html'
     | '/js/components/IndexedSlide.html'
+    | '/js/components/SlideTunerCardItem.html'
     | ''
 
 type attribute = 'data-order-max'
@@ -19,6 +20,7 @@ type selector = '#right-sidebar-container'
     | `[${attribute}]`
     | '#left-sidebar-container'
     | '#global-meta'
+    | '.slide-tuner__card'
     | ''
 
 type event = 'SlideAdded'
