@@ -10,18 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import * as consts from '../shared/constants.js';
 import { GlobalMeta } from '../shared/GlobalMeta.js';
 import IndexedSlide from './IndexedSlide.js';
+import IndexedSlideInterpretated from './IndexedSlideInterpretated.js';
 import SidebarItem from './SidebarItem.js';
+import SlideTunerCard from './SlideTunerCard.js';
 import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
 const leftContainerSelector = '#left-sidebar-container';
 const indexSelector = '[index]';
 const dataOrderMaxSelector = '[data-order-max]';
 const sidebarItemSelector = '.sidebar__item';
 const dataMetaIdSelector = '[data-meta-id]';
+const dataMetaOrderSelector = '[data-meta-order]';
 const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerItem = '.slide-tuner__item';
+const dataKindSelector = '[data-kind]';
+const globalMeta = '#global-meta';
 const indexAttr = 'index';
 const dataOrderMaxAttr = 'data-order-max';
 const dataMetaIdAttr = 'data-meta-id';
+const dataMetaOrderAttr = 'data-meta-order';
+const dataKindAttr = 'data-kind';
+const slideUpdatedEvent = 'SlideUpdated';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -44,28 +52,41 @@ export class LeftSidebarContainer {
             slide.rendered.imageModifier = consts.mapTypeToImageModifier(slideData.meta.type);
             slide.rendered.metaId = slideData.meta.id;
             slide.rendered.metaOrder = slideData.meta.order;
-            slide.rendered.title = slideData.data.title;
+            slide.rendered.title = slideData.data.Title;
             const sidebarItem = new SidebarItem();
             sidebarItem.rendered.innerContent = yield slide.render();
             leftSidebarContainer.append(yield sidebarItem.render());
+            let sidebarChildren = Array.from(leftSidebarContainer.children());
+            let sorted = sidebarChildren.sort(function (a, b) {
+                return $(a).find(dataMetaOrderSelector)[0].getAttribute(dataMetaOrderAttr) - $(b).find(dataMetaOrderSelector)[0].getAttribute(dataMetaOrderAttr);
+            });
+            sorted.forEach(x => leftSidebarContainer.append(x));
         });
     }
 }
 $(leftContainerSelector).on('click', sidebarItemSelector, function () {
     return __awaiter(this, void 0, void 0, function* () {
+        const inter = new IndexedSlideInterpretated($(this).children().first());
         const slideTunerCard = $(slideTunerCardSelector);
         slideTunerCard.children().remove(slideTunerItem);
-        const thisElement = $(this);
-        const generator = new SlideTunerCardGenerator();
-        const slideId = Number(thisElement.find(dataMetaIdSelector).attr(dataMetaIdAttr));
+        const slideId = inter.getMetaDataId();
         const slideData = GlobalMeta.getSlideData(slideId);
+        const generator = new SlideTunerCardGenerator();
         const data = slideData.data;
         for (let i in data) {
             yield generator.addTextComponent(i, data[i], i);
         }
         const renderedCardChildren = yield generator.render();
         slideTunerCard.append(renderedCardChildren);
-        slideTunerCard.find(dataMetaIdSelector).attr(dataMetaIdAttr, slideId);
+        SlideTunerCard.setDataMetaId(slideId);
+        inter.setSelectedStatus();
     });
+});
+$(globalMeta).on(slideUpdatedEvent, function (e) {
+    const detail = e.detail;
+    const data = GlobalMeta.getSlideData(detail.slideId);
+    let item = $(leftContainerSelector).find(`[${dataMetaIdAttr}='${detail.slideId}']`);
+    let titleElement = item.siblings().find(`[${dataKindAttr}='title']`);
+    titleElement.text(data.data.Title);
 });
 //# sourceMappingURL=LeftSidebarContainer.js.map

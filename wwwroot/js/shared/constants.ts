@@ -2,19 +2,22 @@
     | 'slide-wrapper__thumbnail-picture--question'
     | 'slide-wrapper__thumbnail-picture--yesno'
 
+type stateModifier = 'sidebar__item--selected'
+
 
 type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/SidebarItem.html'
     | '/js/components/IndexedSlide.html'
     | '/js/components/SlideTunerCardItem.html'
     | '/js/components/TextInput.html'
-    | ''
+    | '/js/components/Button.html'
 
 type attribute = 'data-order-max'
     | 'data-schemename'
     | 'index'
     | 'data-meta-id'
-    | ''
+    | 'data-meta-order'
+    | 'data-kind'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
@@ -26,14 +29,12 @@ type selector = '#right-sidebar-container'
     | '.slide-tuner__item'
     | '.sidebar__item'
     | '.text-input-wrap'
-    | ''
 
 type event = 'SlideAdded'
     | 'SlideUpdated'
-    | ''
+    | 'SlideRemoved'
 
 type componentType = 'text'
-    | ''
 
 
 const slideType = {
@@ -48,7 +49,8 @@ export {
     selector,
     attribute,
     event,
-    componentType
+    componentType, 
+    stateModifier
 }
 
 const map = new Map<string, imageModifier>();

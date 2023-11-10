@@ -21,6 +21,14 @@ $(function () {
         let sidebarItemControl = new SidebarItem();
         sidebarItemControl.rendered.innerContent = yield infoAvailableSlide.render();
         container.append(yield sidebarItemControl.render());
+        let questionAvailableSlide = new AvailableSlide();
+        questionAvailableSlide.rendered.title = 'Question slide';
+        questionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--question';
+        questionAvailableSlide.rendered.schemeName = 'question';
+        questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Button next":"", "Button previous":"" }';
+        let sidebarItemControl2 = new SidebarItem();
+        sidebarItemControl2.rendered.innerContent = yield questionAvailableSlide.render();
+        container.append(yield sidebarItemControl2.render());
         GlobalMeta.initialize();
     });
 });

@@ -20,7 +20,7 @@ export class GlobalMeta {
 
     static addOrUpdateSlideData(slideData: SlideData) {
         if (slideData == null) {
-            console.error('Значение questionData не может быть null');
+            console.error('questionData value cannot be null');
             return;
         }
 
@@ -62,28 +62,7 @@ export class GlobalMeta {
     }
 
     static updateSlideData(slideData: SlideData) {
-        if (slideData == null) {
-            console.error('Значение questionData не может быть null')
-            return;
-        }
-
-        if (slideData.meta.id == undefined) {
-            console.error('Значение questionData.meta.id не может быть null')
-            return;
-        }
-
-        let storageData: string = window.localStorage.getItem(this.#storageSectionName);
-        if (storageData == null) {
-            console.error('В localstorage не найдено значение для ' + this.#storageSectionName)
-            return;
-        }
-
-        let storageSlidesData: Array<SlideData> = JSON.parse(storageData);
-
-        if (storageSlidesData.length == 0) {
-            console.error(`Не удалось обновить данные для id: ${slideData.meta.id} - сущности отсутсвуют в массиве "${this.#storageSectionName}"`)
-            return;
-        }
+        const storageSlidesData = this.getStorageData(slideData);
 
         let updated: boolean = false;
 
@@ -104,6 +83,44 @@ export class GlobalMeta {
         this.#generateUpdatedEvent(slideData.meta.id, slideData.meta.type);
     }
 
+    static removeSlideData(slideData: SlideData) {
+        const storageSlidesData = this.getStorageData(slideData);
+
+        const filtered = storageSlidesData.filter(x => x.meta.id != slideData.meta.id);
+
+        let localDataJson: string = JSON.stringify(filtered);
+        window.localStorage.setItem(this.#storageSectionName, localDataJson);
+
+        this.#generateRemovedEvent(slideData.meta.id, slideData.meta.type);
+    }
+
+    private static getStorageData(slideData: SlideData): Array<SlideData> {
+        if (slideData == null) {
+            console.error('questionData value cannot be null')
+            return;
+        }
+
+        if (slideData.meta.id == null) {
+            console.error('questionData.meta.id cannot be null')
+            return;
+        }
+
+        let storageData: string = window.localStorage.getItem(this.#storageSectionName);
+        if (storageData == null) {
+            console.error('There is no section ' + this.#storageSectionName + ' in storage');
+            return;
+        }
+
+        let storageSlidesData: Array<SlideData> = JSON.parse(storageData);
+
+        if (storageSlidesData.length == 0) {
+            console.error(`There is not entity in array "${this.#storageSectionName} with id: ${slideData.meta.id}"`)
+            return;
+        }
+
+        return storageSlidesData;
+    }
+
     //#region Event
     static #generateAddedEvent(slideId: number, type: string) {
         let data = new EventData(slideId, type);
@@ -113,6 +130,11 @@ export class GlobalMeta {
     static #generateUpdatedEvent(slideId: number, type: string) {
         let data = new EventData(slideId, type);
         this.#generateEventInternal("SlideUpdated", data);
+    }
+
+    static #generateRemovedEvent(slideId: number, type: string) {
+        let data = new EventData(slideId, type);
+        this.#generateEventInternal("SlideRemoved", data);
     }
 
     static #generateEventInternal(eventType: consts.event, detail: EventData) {
@@ -128,12 +150,22 @@ export class GlobalMeta {
         return valueJson;
     }
 
-    static getSlideData(id: number) {
+    static getSlideData(id: number): SlideData {
         let dataJson = window.localStorage.getItem(this.#storageSectionName);
+
+        if (dataJson == null || dataJson == '') {
+            console.error("There is no " + this.#storageSectionName + " section in storage");
+            return;
+        }
 
         let data: Array<SlideData> = JSON.parse(dataJson);
 
         let questionData: SlideData = data.filter(x => x.meta.id == id)[0];
+
+        if (questionData == null) {
+            console.error('There is no data in storage with id: ' + id);
+            return;
+        }
 
         return questionData;
     }

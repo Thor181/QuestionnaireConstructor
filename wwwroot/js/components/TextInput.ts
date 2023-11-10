@@ -2,7 +2,7 @@
 
 class TextInput extends BaseComponent {
 
-    rendered: { title: string, inputValue: string, placeholder: string };
+    rendered: { title: string, inputValue: string, placeholder: string,  };
 
     constructor() {
         super();

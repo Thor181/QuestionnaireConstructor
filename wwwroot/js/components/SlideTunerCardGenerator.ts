@@ -31,6 +31,10 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.componentsOrder.push(textType);
     }
 
+    async addRemoveButton(title: string = 'Remove'): Promise<void> {
+
+    }
+
     async render(): Promise<string> {
         let reversedTextComponents = this.textComponents.reverse();
 

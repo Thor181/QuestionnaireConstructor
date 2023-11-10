@@ -1,0 +1,13 @@
+﻿.button {
+    color: #130E4AB2;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0px 16px 0px 20px;
+    border-radius: 12px;
+    border: 1px solid #EAE9EB;
+    height: 52px;
+    line-height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

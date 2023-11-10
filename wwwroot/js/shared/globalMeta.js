@@ -3,7 +3,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _a, _GlobalMeta_storageSectionName, _GlobalMeta_generateAddedEvent, _GlobalMeta_generateUpdatedEvent, _GlobalMeta_generateEventInternal, _GlobalMeta_createStorageSection;
+var _a, _GlobalMeta_storageSectionName, _GlobalMeta_generateAddedEvent, _GlobalMeta_generateUpdatedEvent, _GlobalMeta_generateRemovedEvent, _GlobalMeta_generateEventInternal, _GlobalMeta_createStorageSection;
 const globalMeta = '#global-meta';
 export class GlobalMeta {
     static initialize() {
@@ -17,7 +17,7 @@ export class GlobalMeta {
     static addOrUpdateSlideData(slideData) {
         var _b;
         if (slideData == null) {
-            console.error('Значение questionData не может быть null');
+            console.error('questionData value cannot be null');
             return;
         }
         if (slideData.meta.id == null) {
@@ -47,24 +47,7 @@ export class GlobalMeta {
         __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, slideData.meta.id, slideData.meta.type);
     }
     static updateSlideData(slideData) {
-        if (slideData == null) {
-            console.error('Значение questionData не может быть null');
-            return;
-        }
-        if (slideData.meta.id == undefined) {
-            console.error('Значение questionData.meta.id не может быть null');
-            return;
-        }
-        let storageData = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
-        if (storageData == null) {
-            console.error('В localstorage не найдено значение для ' + __classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
-            return;
-        }
-        let storageSlidesData = JSON.parse(storageData);
-        if (storageSlidesData.length == 0) {
-            console.error(`Не удалось обновить данные для id: ${slideData.meta.id} - сущности отсутсвуют в массиве "${__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName)}"`);
-            return;
-        }
+        const storageSlidesData = this.getStorageData(slideData);
         let updated = false;
         for (let i = 0; i < storageSlidesData.length; i++) {
             let storageSlideData = storageSlidesData[i];
@@ -78,10 +61,46 @@ export class GlobalMeta {
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
         __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateUpdatedEvent).call(this, slideData.meta.id, slideData.meta.type);
     }
+    static removeSlideData(slideData) {
+        const storageSlidesData = this.getStorageData(slideData);
+        const filtered = storageSlidesData.filter(x => x.meta.id != slideData.meta.id);
+        let localDataJson = JSON.stringify(filtered);
+        window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
+        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateRemovedEvent).call(this, slideData.meta.id, slideData.meta.type);
+    }
+    static getStorageData(slideData) {
+        if (slideData == null) {
+            console.error('questionData value cannot be null');
+            return;
+        }
+        if (slideData.meta.id == null) {
+            console.error('questionData.meta.id cannot be null');
+            return;
+        }
+        let storageData = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
+        if (storageData == null) {
+            console.error('There is no section ' + __classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName) + ' in storage');
+            return;
+        }
+        let storageSlidesData = JSON.parse(storageData);
+        if (storageSlidesData.length == 0) {
+            console.error(`There is not entity in array "${__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName)} with id: ${slideData.meta.id}"`);
+            return;
+        }
+        return storageSlidesData;
+    }
     static getSlideData(id) {
         let dataJson = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
+        if (dataJson == null || dataJson == '') {
+            console.error("There is no " + __classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName) + " section in storage");
+            return;
+        }
         let data = JSON.parse(dataJson);
         let questionData = data.filter(x => x.meta.id == id)[0];
+        if (questionData == null) {
+            console.error('There is no data in storage with id: ' + id);
+            return;
+        }
         return questionData;
     }
 }
@@ -91,6 +110,9 @@ _a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateA
 }, _GlobalMeta_generateUpdatedEvent = function _GlobalMeta_generateUpdatedEvent(slideId, type) {
     let data = new EventData(slideId, type);
     __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideUpdated", data);
+}, _GlobalMeta_generateRemovedEvent = function _GlobalMeta_generateRemovedEvent(slideId, type) {
+    let data = new EventData(slideId, type);
+    __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideRemoved", data);
 }, _GlobalMeta_generateEventInternal = function _GlobalMeta_generateEventInternal(eventType, detail) {
     let event = new CustomEvent(eventType, { detail: detail });
     document.querySelector(globalMeta).dispatchEvent(event);

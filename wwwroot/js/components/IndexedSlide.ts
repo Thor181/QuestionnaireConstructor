@@ -16,3 +16,4 @@ class IndexedSlide extends BaseComponent {
 }
 
 export default IndexedSlide; 
+
