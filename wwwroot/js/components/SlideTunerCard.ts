@@ -1,12 +1,15 @@
 ﻿import { GlobalMeta } from '../shared/GlobalMeta.js';
 import * as consts from '../shared/constants.js';
 import BaseComponent from './Base/BaseComponent.js';
+import { LeftSidebarContainer } from './LeftSidebarContainer.js';
 import TextInputInterpretated from './TextInputInterpretated.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
+const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
 const textInputSelector: consts.selector = '.text-input-wrap';
 const dataMetaIdSelector: consts.selector = '[data-meta-id]'
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
+const removebtnType: consts.componentType = 'removebtn';
 
 class SlideTunerCard extends BaseComponent {
 
@@ -19,6 +22,9 @@ class SlideTunerCard extends BaseComponent {
         $(slideTunerCardSelector).find(dataMetaIdSelector).attr(dataMetaIdAttr, id);
     }
 
+    static clear() {
+        $(slideTunerCardSelector).children(slideTunerCardItemSelector).remove();
+    }
 }
 
 export default SlideTunerCard;
@@ -33,4 +39,11 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
 
     storageSlideData.data[title] = value;
     GlobalMeta.updateSlideData(storageSlideData);
+});
+
+$(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType), function () {
+    const id = SlideTunerCard.getDataMetaId();
+    GlobalMeta.removeSlideDataById(id);
+    SlideTunerCard.clear();
+    LeftSidebarContainer.removeItem(id);
 });

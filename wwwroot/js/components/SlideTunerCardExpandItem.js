@@ -8,25 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import BaseComponent from "./Base/BaseComponent.js";
-const gappedStyleClass = "button--gapped";
-const removebtnType = "removebtn";
-class Button extends BaseComponent {
+class SlideTunerCardExpandItem extends BaseComponent {
     constructor() {
         super();
-        this.rendered = Object.create({ title: '', imagePath: '', classes: [], style: [] });
+        this.rendered = Object.create({});
+        this.rendered.innerContent = [];
     }
     render() {
         const _super = Object.create(null, {
             getControl: { get: () => super.getControl }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.rendered.imagePath != '') {
-                this.rendered.classes.push(gappedStyleClass);
-            }
-            const renderedInternal = Object.assign(Object.assign({}, this.rendered), { classes: this.rendered.classes.join(' '), style: this.rendered.style.join(' ') });
-            return yield _super.getControl.call(this, "/js/components/Button.html", Object.assign(Object.assign({}, renderedInternal), { dataType: removebtnType }));
+            const renderedInternal = { innerContent: this.rendered.innerContent.join('\n') };
+            return yield _super.getControl.call(this, "/js/components/SlideTunerCardExpandItem.html", renderedInternal);
         });
     }
 }
-export default Button;
-//# sourceMappingURL=Button.js.map
+export default SlideTunerCardExpandItem;
+//# sourceMappingURL=SlideTunerCardExpandItem.js.map

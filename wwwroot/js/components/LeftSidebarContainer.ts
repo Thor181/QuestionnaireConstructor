@@ -27,6 +27,10 @@ const dataKindAttr: consts.attribute = 'data-kind'
 
 const slideUpdatedEvent: consts.event = 'SlideUpdated';
 
+const textType: consts.componentType = 'text';
+const nextPrevButtonsType: consts.componentType = 'nextprevbuttons';
+const removebtnType: consts.componentType = 'removebtn';
+
 const leftContainer = document.querySelector(leftContainerSelector);
 
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
@@ -47,8 +51,7 @@ leftSidebarMutationObserver.observe(leftContainer, { childList: true });
 
 export class LeftSidebarContainer {
 
-
-    static async addIndexedSlide(slideData: SlideData) {
+    static async addIndexedSlide(slideData: SlideData): Promise<void> {
         const leftSidebarContainer = $(leftContainerSelector);
 
         const slide = new IndexedSlide();
@@ -71,23 +74,47 @@ export class LeftSidebarContainer {
         });
         sorted.forEach(x => leftSidebarContainer.append(x))
     }
+
+    static removeItem(id: number) {
+        let a = consts.combine('data-meta-id', id.toString());
+        $(leftContainerSelector).children(sidebarItemSelector).has(a).remove();
+    }
 }
 
 $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     const inter = new IndexedSlideInterpretated($(this).children().first());
 
     const slideTunerCard = $(slideTunerCardSelector);
-    slideTunerCard.children().remove(slideTunerItem);
+    SlideTunerCard.clear();
 
     const slideId = inter.getMetaDataId();
     const slideData = GlobalMeta.getSlideData(slideId);
 
     const generator = new SlideTunerCardGenerator();
     const data = slideData.data;
+    
+    for (let propName in data) {
+        //@ts-ignore
+        let type = consts.renderTypes[propName];
+        if (type == textType) {
+            await generator.addTextComponent(propName, data[propName], propName);
+        }
+        else if (type == nextPrevButtonsType) {
+            let buttonsInfo = data[propName];
 
-    for (let i in data) {
-        await generator.addTextComponent(i, data[i], i);
+            let nextBtnInfo = buttonsInfo[0];
+            let nextBtnTitle = Object.keys(nextBtnInfo)[0];
+            let nextBtn: consts.buttonConfig = { title: nextBtnTitle, inputValue: nextBtnTitle, placeholder: nextBtnTitle };
+
+            let prevBtnInfo = buttonsInfo[1];
+            let prevBtnTitle = Object.keys(prevBtnInfo)[0];
+            let prevBtn: consts.buttonConfig = { title: prevBtnTitle, inputValue: prevBtnTitle, placeholder: prevBtnTitle };
+
+            await generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
+        }
     }
+
+    await generator.addRemoveButton();
 
     const renderedCardChildren = await generator.render();
 

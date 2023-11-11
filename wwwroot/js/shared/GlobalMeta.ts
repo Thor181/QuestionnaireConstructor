@@ -1,4 +1,5 @@
-﻿import * as consts from '../shared/constants.js';
+﻿import { filter } from 'minimatch';
+import * as consts from '../shared/constants.js';
 
 const globalMeta: consts.selector = '#global-meta'
 
@@ -83,15 +84,30 @@ export class GlobalMeta {
         this.#generateUpdatedEvent(slideData.meta.id, slideData.meta.type);
     }
 
+    static removeSlideDataById(id: number) {
+        const slideData = this.getSlideData(id);
+        this.removeSlideData(slideData);
+    } 
+
     static removeSlideData(slideData: SlideData) {
         const storageSlidesData = this.getStorageData(slideData);
 
         const filtered = storageSlidesData.filter(x => x.meta.id != slideData.meta.id);
 
+        GlobalMeta.reorder(filtered);
+
         let localDataJson: string = JSON.stringify(filtered);
+
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
 
         this.#generateRemovedEvent(slideData.meta.id, slideData.meta.type);
+    }
+
+    static reorder(slidesData: Array<SlideData>) {
+        for (var i = 0; i < slidesData.length; i++) {
+            let item = slidesData[i];
+            item.meta.order = i + 1;
+        }
     }
 
     private static getStorageData(slideData: SlideData): Array<SlideData> {
@@ -166,7 +182,7 @@ export class GlobalMeta {
             console.error('There is no data in storage with id: ' + id);
             return;
         }
-
+        
         return questionData;
     }
 }

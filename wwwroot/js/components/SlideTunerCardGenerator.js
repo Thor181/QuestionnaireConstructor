@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import BaseComponent from "./Base/BaseComponent.js";
+import Button from './Button.js';
+import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const textType = 'text';
+const removebtnType = 'removebtn';
+const deleteImagePath = '/img/delete.svg';
 class SlideTunerCardGenerator extends BaseComponent {
     constructor() {
         super();
@@ -31,8 +35,32 @@ class SlideTunerCardGenerator extends BaseComponent {
             this.componentsOrder.push(textType);
         });
     }
-    addRemoveButton(title = 'Remove') {
+    addButtonsNextAndPrevious(nextBtnConfig, prevBtnConfig) {
         return __awaiter(this, void 0, void 0, function* () {
+            const nextBtn = new TextInput();
+            nextBtn.rendered = nextBtnConfig;
+            const renderedNextBtn = yield nextBtn.render();
+            const prevBtn = new TextInput();
+            prevBtn.rendered = prevBtnConfig;
+            const renderedPrevBtn = yield prevBtn.render();
+            const extendedItem = new SlideTunerCardExpandItem();
+            extendedItem.rendered.innerContent.push(renderedNextBtn);
+            extendedItem.rendered.innerContent.push(renderedPrevBtn);
+            const renderedItem = yield extendedItem.render();
+            this.textComponents.push(renderedItem);
+            this.componentsOrder.push(textType);
+        });
+    }
+    addRemoveButton(title = 'Delete') {
+        return __awaiter(this, void 0, void 0, function* () {
+            const button = new Button();
+            button.rendered.title = title;
+            button.rendered.imagePath = deleteImagePath;
+            const renderedButton = yield button.render();
+            const cardItem = this.createSlideTunerCardItem(renderedButton);
+            const renderedCardItem = yield cardItem.render();
+            this.textComponents.push(renderedCardItem);
+            this.componentsOrder.push(removebtnType);
         });
     }
     render() {
@@ -40,7 +68,7 @@ class SlideTunerCardGenerator extends BaseComponent {
             let reversedTextComponents = this.textComponents.reverse();
             let renderedComponent = '';
             this.componentsOrder.forEach(item => {
-                if (item == textType) {
+                if (1) {
                     renderedComponent += reversedTextComponents.pop();
                 }
             });

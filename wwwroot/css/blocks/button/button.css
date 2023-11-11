@@ -1,13 +1,20 @@
 ﻿.button {
-    color: #130E4AB2;
+    color: var(--text_color);
     font-size: 14px;
     font-weight: 600;
     padding: 0px 16px 0px 20px;
     border-radius: 12px;
-    border: 1px solid #EAE9EB;
+    border: 1px solid var(--gray_lightest);
     height: 52px;
     line-height: 52px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+    background-color: transparent;
+    transition: all .5s ease;
+    cursor: pointer;
 }
+
+    .button:hover {
+        background-color: var(--button_hover_color);
+    }

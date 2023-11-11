@@ -30,6 +30,9 @@ const dataMetaIdAttr = 'data-meta-id';
 const dataMetaOrderAttr = 'data-meta-order';
 const dataKindAttr = 'data-kind';
 const slideUpdatedEvent = 'SlideUpdated';
+const textType = 'text';
+const nextPrevButtonsType = 'nextprevbuttons';
+const removebtnType = 'removebtn';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -63,19 +66,37 @@ export class LeftSidebarContainer {
             sorted.forEach(x => leftSidebarContainer.append(x));
         });
     }
+    static removeItem(id) {
+        let a = consts.combine('data-meta-id', id.toString());
+        $(leftContainerSelector).children(sidebarItemSelector).has(a).remove();
+    }
 }
 $(leftContainerSelector).on('click', sidebarItemSelector, function () {
     return __awaiter(this, void 0, void 0, function* () {
         const inter = new IndexedSlideInterpretated($(this).children().first());
         const slideTunerCard = $(slideTunerCardSelector);
-        slideTunerCard.children().remove(slideTunerItem);
+        SlideTunerCard.clear();
         const slideId = inter.getMetaDataId();
         const slideData = GlobalMeta.getSlideData(slideId);
         const generator = new SlideTunerCardGenerator();
         const data = slideData.data;
-        for (let i in data) {
-            yield generator.addTextComponent(i, data[i], i);
+        for (let propName in data) {
+            let type = consts.renderTypes[propName];
+            if (type == textType) {
+                yield generator.addTextComponent(propName, data[propName], propName);
+            }
+            else if (type == nextPrevButtonsType) {
+                let buttonsInfo = data[propName];
+                let nextBtnInfo = buttonsInfo[0];
+                let nextBtnTitle = Object.keys(nextBtnInfo)[0];
+                let nextBtn = { title: nextBtnTitle, inputValue: nextBtnTitle, placeholder: nextBtnTitle };
+                let prevBtnInfo = buttonsInfo[1];
+                let prevBtnTitle = Object.keys(prevBtnInfo)[0];
+                let prevBtn = { title: prevBtnTitle, inputValue: prevBtnTitle, placeholder: prevBtnTitle };
+                yield generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
+            }
         }
+        yield generator.addRemoveButton();
         const renderedCardChildren = yield generator.render();
         slideTunerCard.append(renderedCardChildren);
         SlideTunerCard.setDataMetaId(slideId);

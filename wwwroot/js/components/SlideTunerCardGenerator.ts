@@ -1,10 +1,14 @@
 ﻿import * as consts from '../shared/constants.js'
 import BaseComponent from "./Base/BaseComponent.js";
+import Button from './Button.js';
+import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const textType: consts.componentType = 'text';
+const removebtnType: consts.componentType = 'removebtn';
+const deleteImagePath: consts.imagePath = '/img/delete.svg';
 
 class SlideTunerCardGenerator extends BaseComponent {
 
@@ -31,8 +35,37 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.componentsOrder.push(textType);
     }
 
-    async addRemoveButton(title: string = 'Remove'): Promise<void> {
+    async addButtonsNextAndPrevious(nextBtnConfig: consts.buttonConfig, prevBtnConfig: consts.buttonConfig): Promise<void> {
+        const nextBtn = new TextInput();
+        nextBtn.rendered = nextBtnConfig;
+        const renderedNextBtn = await nextBtn.render();
 
+        const prevBtn = new TextInput();
+        prevBtn.rendered = prevBtnConfig;
+        const renderedPrevBtn = await prevBtn.render();
+
+        const extendedItem = new SlideTunerCardExpandItem();
+
+        extendedItem.rendered.innerContent.push(renderedNextBtn);
+        extendedItem.rendered.innerContent.push(renderedPrevBtn);
+        const renderedItem = await extendedItem.render();
+
+        this.textComponents.push(renderedItem);
+        this.componentsOrder.push(textType);
+    }
+
+    async addRemoveButton(title: string = 'Delete'): Promise<void> {
+        const button = new Button();
+        button.rendered.title = title;
+        button.rendered.imagePath = deleteImagePath;
+
+        const renderedButton = await button.render();
+
+        const cardItem = this.createSlideTunerCardItem(renderedButton);
+        const renderedCardItem = await cardItem.render();
+
+        this.textComponents.push(renderedCardItem);
+        this.componentsOrder.push(removebtnType);
     }
 
     async render(): Promise<string> {
@@ -40,7 +73,7 @@ class SlideTunerCardGenerator extends BaseComponent {
 
         let renderedComponent = '';
         this.componentsOrder.forEach(item => {
-            if (item == textType) {
+            if (1) {
                 renderedComponent += reversedTextComponents.pop();
             }
         });

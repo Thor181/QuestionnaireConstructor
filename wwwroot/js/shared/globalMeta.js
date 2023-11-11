@@ -61,12 +61,23 @@ export class GlobalMeta {
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
         __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateUpdatedEvent).call(this, slideData.meta.id, slideData.meta.type);
     }
+    static removeSlideDataById(id) {
+        const slideData = this.getSlideData(id);
+        this.removeSlideData(slideData);
+    }
     static removeSlideData(slideData) {
         const storageSlidesData = this.getStorageData(slideData);
         const filtered = storageSlidesData.filter(x => x.meta.id != slideData.meta.id);
+        _a.reorder(filtered);
         let localDataJson = JSON.stringify(filtered);
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
         __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateRemovedEvent).call(this, slideData.meta.id, slideData.meta.type);
+    }
+    static reorder(slidesData) {
+        for (var i = 0; i < slidesData.length; i++) {
+            let item = slidesData[i];
+            item.meta.order = i + 1;
+        }
     }
     static getStorageData(slideData) {
         if (slideData == null) {
