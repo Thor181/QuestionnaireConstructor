@@ -3,12 +3,9 @@
   "Subtitle": "",
   "Infotitle": "",
   "Infotext": "",
-  "NextPrevButtons": [
-    {
-      "Button next": ""
-    },
-    {
-      "Button previous": ""
-    }
-  ]
+  "NextPrevButtons": {
+    "Button next": "",
+    "Button previous": ""
+  }
+
 }

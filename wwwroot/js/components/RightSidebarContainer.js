@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { GlobalMeta, SlideData } from '../shared/GlobalMeta.js';
 import generateRandomNumber from '../shared/random.js';
+import { LeftSidebarContainer } from './LeftSidebarContainer.js';
 const rightContainer = '#right-sidebar-container';
 const plusButton = '.plus-button';
 const slideWrapper = '.slide-wrapper';
@@ -19,21 +20,16 @@ const globalMeta = "#global-meta";
 const dataSchemeNameAttr = 'data-schemename';
 $(rightContainer).on('click', plusButton, function () {
     return __awaiter(this, void 0, void 0, function* () {
-        const leftSidebarContainer = document.querySelector(leftContainer);
         let schemeElement = $(this).closest(slideWrapper).find(dataSchemeName);
         let schemeName = schemeElement.attr(dataSchemeNameAttr);
         let schemeContent = JSON.parse(schemeElement.html());
-        let existingOrder = getOrderMax();
+        let existingOrder = LeftSidebarContainer.getOrderMax();
         let slideData = new SlideData();
         slideData.data = schemeContent;
-        slideData.meta.id = generateRandomNumber();
+        slideData.meta.id = generateRandomNumber(GlobalMeta.getIds());
         slideData.meta.type = schemeName;
         slideData.meta.order = existingOrder + 1;
         GlobalMeta.addOrUpdateSlideData(slideData);
     });
 });
-export function getOrderMax() {
-    const leftSidebarContainer = document.querySelector(leftContainer);
-    return Number(leftSidebarContainer.getAttribute(dataOrderMax));
-}
 //# sourceMappingURL=RightSidebarContainer.js.map

@@ -4,11 +4,17 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _a, _GlobalMeta_storageSectionName, _GlobalMeta_generateAddedEvent, _GlobalMeta_generateUpdatedEvent, _GlobalMeta_generateRemovedEvent, _GlobalMeta_generateEventInternal, _GlobalMeta_createStorageSection;
+import generateRandomNumber from './random.js';
+import { log } from './Logger.js';
 const globalMeta = '#global-meta';
 export class GlobalMeta {
     static initialize() {
         let dataJson = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
         let data = JSON.parse(dataJson);
+        if (data == null || (data === null || data === void 0 ? void 0 : data.length) == 0) {
+            log('warn', 'GlobalMeta: initialize is not completed - the data in the storage is empty');
+            return;
+        }
         for (var i = 0; i < data.length; i++) {
             let item = data.filter(x => x.meta.order == i + 1)[0];
             __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, item.meta.id, item.meta.type);
@@ -21,7 +27,7 @@ export class GlobalMeta {
             return;
         }
         if (slideData.meta.id == null) {
-            slideData.meta.id = Math.floor(Math.random() * 1000000);
+            slideData.meta.id = generateRandomNumber(_a.getIds());
         }
         let storageData = (_b = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName))) !== null && _b !== void 0 ? _b : __classPrivateFieldGet(this, _a, "m", _GlobalMeta_createStorageSection).call(this);
         let storageSlidesData = JSON.parse(storageData);
@@ -99,6 +105,15 @@ export class GlobalMeta {
             return;
         }
         return storageSlidesData;
+    }
+    static getIds() {
+        let items = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
+        let parsed = JSON.parse(items);
+        if (parsed == null || parsed.length == 0) {
+            return [];
+        }
+        let ids = parsed.map(x => x.meta.id);
+        return ids;
     }
     static getSlideData(id) {
         let dataJson = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));

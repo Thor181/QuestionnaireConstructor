@@ -24,6 +24,7 @@ const dataOrderMaxAttr: consts.attribute = 'data-order-max';
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const dataMetaOrderAttr: consts.attribute = 'data-meta-order';
 const dataKindAttr: consts.attribute = 'data-kind'
+const dataOrderMax: consts.attribute = 'data-order-max';
 
 const slideUpdatedEvent: consts.event = 'SlideUpdated';
 
@@ -79,6 +80,11 @@ export class LeftSidebarContainer {
         let a = consts.combine('data-meta-id', id.toString());
         $(leftContainerSelector).children(sidebarItemSelector).has(a).remove();
     }
+
+    static getOrderMax(): number {
+        const leftSidebarContainer = document.querySelector(leftContainerSelector);
+        return Number(leftSidebarContainer.getAttribute(dataOrderMax));
+    }
 }
 
 $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
@@ -94,21 +100,23 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     const data = slideData.data;
     
     for (let propName in data) {
-        //@ts-ignore
-        let type = consts.renderTypes[propName];
+        let type = consts.renderTypes.getValueByKey(propName);
         if (type == textType) {
             await generator.addTextComponent(propName, data[propName], propName);
         }
         else if (type == nextPrevButtonsType) {
             let buttonsInfo = data[propName];
 
-            let nextBtnInfo = buttonsInfo[0];
+            let nextBtnInfo = buttonsInfo[0]
+
             let nextBtnTitle = Object.keys(nextBtnInfo)[0];
-            let nextBtn: consts.buttonConfig = { title: nextBtnTitle, inputValue: nextBtnTitle, placeholder: nextBtnTitle };
+            //@ts-ignore
+            let nextBtn: consts.buttonConfig = { title: nextBtnTitle, inputValue: nextBtnInfo[nextBtnTitle], placeholder: nextBtnTitle };
 
             let prevBtnInfo = buttonsInfo[1];
             let prevBtnTitle = Object.keys(prevBtnInfo)[0];
-            let prevBtn: consts.buttonConfig = { title: prevBtnTitle, inputValue: prevBtnTitle, placeholder: prevBtnTitle };
+            //@ts-ignore
+            let prevBtn: consts.buttonConfig = { title: prevBtnTitle, inputValue: prevBtnInfo[prevBtnTitle], placeholder: prevBtnTitle };
 
             await generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
         }
@@ -131,7 +139,7 @@ $(globalMeta).on(slideUpdatedEvent, function (e) {
     const detail: EventData = e.detail;
     const data: SlideData = GlobalMeta.getSlideData(detail.slideId);
 
-    let item = $(leftContainerSelector).find(`[${dataMetaIdAttr}='${detail.slideId}']`)
-    let titleElement = item.siblings().find(`[${dataKindAttr}='title']`);
+    let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId))
+    let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
     titleElement.text(data.data.Title);
 });

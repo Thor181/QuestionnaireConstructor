@@ -53,7 +53,7 @@ $(consts.selectors.rightSidebarId).on('click', consts.selectors.plusButtonClass,
         let schemeContent = JSON.parse(schemeTag.html());
         let order = getOrderMax();
         let qData = new SlideData();
-        qData.meta.id = generateRandomNumber();
+        qData.meta.id = generateRandomNumber(GlobalMeta.getIds());
         qData.meta.type = schemeName;
         qData.data = schemeContent;
         qData.meta.order = order + 1;

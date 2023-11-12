@@ -1,5 +1,6 @@
-﻿import { filter } from 'minimatch';
-import * as consts from '../shared/constants.js';
+﻿import * as consts from '../shared/constants.js';
+import generateRandomNumber from './random.js';
+import { log } from './Logger.js';
 
 const globalMeta: consts.selector = '#global-meta'
 
@@ -11,9 +12,14 @@ export class GlobalMeta {
         let dataJson: string = window.localStorage.getItem(this.#storageSectionName);
 
         let data: Array<SlideData> = JSON.parse(dataJson);
-        
+
+        if (data == null || data?.length == 0) {
+            log('warn', 'GlobalMeta: initialize is not completed - the data in the storage is empty')
+            return;
+        }
+
         for (var i = 0; i < data.length; i++) {
-            
+
             let item: SlideData = data.filter(x => x.meta.order == i + 1)[0];
             this.#generateAddedEvent(item.meta.id, item.meta.type);
         }
@@ -26,7 +32,7 @@ export class GlobalMeta {
         }
 
         if (slideData.meta.id == null) {
-            slideData.meta.id = Math.floor(Math.random() * 1000000);
+            slideData.meta.id = generateRandomNumber(GlobalMeta.getIds());
         }
 
         let storageData: string = window.localStorage.getItem(this.#storageSectionName) ?? this.#createStorageSection();
@@ -80,14 +86,14 @@ export class GlobalMeta {
 
         let localDataJson: string = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
-        
+
         this.#generateUpdatedEvent(slideData.meta.id, slideData.meta.type);
     }
 
     static removeSlideDataById(id: number) {
         const slideData = this.getSlideData(id);
         this.removeSlideData(slideData);
-    } 
+    }
 
     static removeSlideData(slideData: SlideData) {
         const storageSlidesData = this.getStorageData(slideData);
@@ -137,6 +143,18 @@ export class GlobalMeta {
         return storageSlidesData;
     }
 
+    static getIds(): Array<number> {
+        let items = window.localStorage.getItem(this.#storageSectionName);
+        let parsed: Array<SlideData> = JSON.parse(items);
+
+        if (parsed == null || parsed.length == 0) {
+            return [];
+        }
+
+        let ids = parsed.map(x => x.meta.id);
+        return ids;
+    }
+
     //#region Event
     static #generateAddedEvent(slideId: number, type: string) {
         let data = new EventData(slideId, type);
@@ -159,7 +177,7 @@ export class GlobalMeta {
     }
     //#endregion
 
-    static #createStorageSection(): string  {
+    static #createStorageSection(): string {
         let value: [] = [];
         let valueJson: string = JSON.stringify(value);
         window.localStorage.setItem(this.#storageSectionName, valueJson);
@@ -182,7 +200,7 @@ export class GlobalMeta {
             console.error('There is no data in storage with id: ' + id);
             return;
         }
-        
+
         return questionData;
     }
 }
@@ -192,7 +210,7 @@ type dataType = {
 }
 
 export class SlideData {
-    
+
     meta: Meta = new Meta();
     data: dataType;
 }

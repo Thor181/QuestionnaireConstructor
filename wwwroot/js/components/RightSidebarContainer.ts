@@ -1,6 +1,7 @@
 ﻿import * as consts from '../shared/constants.js';
 import { EventData, GlobalMeta, SlideData } from '../shared/GlobalMeta.js';
 import generateRandomNumber from '../shared/random.js';
+import { LeftSidebarContainer } from './LeftSidebarContainer.js';
 
 const rightContainer: consts.selector = '#right-sidebar-container';
 const plusButton: consts.selector = '.plus-button';
@@ -11,27 +12,20 @@ const dataOrderMax: consts.attribute = 'data-order-max';
 const globalMeta: consts.selector = "#global-meta";
 const dataSchemeNameAttr: consts.attribute = 'data-schemename';
 
-
 //Клик по Plus button в правом сайдбаре
 $(rightContainer).on('click', plusButton, async function () {
-    const leftSidebarContainer = document.querySelector(leftContainer);
     let schemeElement = $(this).closest(slideWrapper).find(dataSchemeName);
 
     let schemeName = schemeElement.attr(dataSchemeNameAttr);
     let schemeContent = JSON.parse(schemeElement.html());
 
-    let existingOrder = getOrderMax();
+    let existingOrder = LeftSidebarContainer.getOrderMax();
 
     let slideData = new SlideData();
     slideData.data = schemeContent;
-    slideData.meta.id = generateRandomNumber();
+    slideData.meta.id = generateRandomNumber(GlobalMeta.getIds());
     slideData.meta.type = schemeName;
     slideData.meta.order = existingOrder + 1;
 
     GlobalMeta.addOrUpdateSlideData(slideData)
 });
-
-export function getOrderMax() {
-    const leftSidebarContainer = document.querySelector(leftContainer);
-    return Number(leftSidebarContainer.getAttribute(dataOrderMax));
-}

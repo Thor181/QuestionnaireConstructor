@@ -28,7 +28,15 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
     const inter = new TextInputInterpretated($(this));
     let title = inter.getTitle();
     let value = inter.getValue();
-    storageSlideData.data[title] = value;
+    let saveType = consts.saveDataTypes.getTypeByValue(title);
+    if (saveType == consts.availableSaveDataTypes.NextPrevButtons) {
+        let arr = storageSlideData.data.NextPrevButtons;
+        let a = arr.filter(x => Object.keys(x).find(y => y == title) != null)[0];
+        a[title] = value;
+    }
+    else {
+        storageSlideData.data[title] = value;
+    }
     GlobalMeta.updateSlideData(storageSlideData);
 });
 $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType), function () {

@@ -29,6 +29,7 @@ const dataOrderMaxAttr = 'data-order-max';
 const dataMetaIdAttr = 'data-meta-id';
 const dataMetaOrderAttr = 'data-meta-order';
 const dataKindAttr = 'data-kind';
+const dataOrderMax = 'data-order-max';
 const slideUpdatedEvent = 'SlideUpdated';
 const textType = 'text';
 const nextPrevButtonsType = 'nextprevbuttons';
@@ -70,6 +71,10 @@ export class LeftSidebarContainer {
         let a = consts.combine('data-meta-id', id.toString());
         $(leftContainerSelector).children(sidebarItemSelector).has(a).remove();
     }
+    static getOrderMax() {
+        const leftSidebarContainer = document.querySelector(leftContainerSelector);
+        return Number(leftSidebarContainer.getAttribute(dataOrderMax));
+    }
 }
 $(leftContainerSelector).on('click', sidebarItemSelector, function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -81,7 +86,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
         const generator = new SlideTunerCardGenerator();
         const data = slideData.data;
         for (let propName in data) {
-            let type = consts.renderTypes[propName];
+            let type = consts.renderTypes.getValueByKey(propName);
             if (type == textType) {
                 yield generator.addTextComponent(propName, data[propName], propName);
             }
@@ -89,10 +94,10 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                 let buttonsInfo = data[propName];
                 let nextBtnInfo = buttonsInfo[0];
                 let nextBtnTitle = Object.keys(nextBtnInfo)[0];
-                let nextBtn = { title: nextBtnTitle, inputValue: nextBtnTitle, placeholder: nextBtnTitle };
+                let nextBtn = { title: nextBtnTitle, inputValue: nextBtnInfo[nextBtnTitle], placeholder: nextBtnTitle };
                 let prevBtnInfo = buttonsInfo[1];
                 let prevBtnTitle = Object.keys(prevBtnInfo)[0];
-                let prevBtn = { title: prevBtnTitle, inputValue: prevBtnTitle, placeholder: prevBtnTitle };
+                let prevBtn = { title: prevBtnTitle, inputValue: prevBtnInfo[prevBtnTitle], placeholder: prevBtnTitle };
                 yield generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
             }
         }
@@ -106,8 +111,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
 $(globalMeta).on(slideUpdatedEvent, function (e) {
     const detail = e.detail;
     const data = GlobalMeta.getSlideData(detail.slideId);
-    let item = $(leftContainerSelector).find(`[${dataMetaIdAttr}='${detail.slideId}']`);
-    let titleElement = item.siblings().find(`[${dataKindAttr}='title']`);
+    let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId));
+    let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
     titleElement.text(data.data.Title);
 });
 //# sourceMappingURL=LeftSidebarContainer.js.map

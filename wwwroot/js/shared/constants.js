@@ -6,6 +6,24 @@ const renderTypes = {
     'Question': 'text',
     'Assistive text': 'text',
     'NextPrevButtons': 'nextprevbuttons',
+    getValueByKey(key) { return renderTypes[key]; },
+    getKeyByValue(value) { return Object.keys(renderTypes).find(x => renderTypes[x] === value); }
+};
+const availableSaveDataTypes = {
+    Text: 'Text',
+    NextPrevButtons: 'NextPrevButtons',
+};
+const saveDataTypes = {
+    [availableSaveDataTypes.Text]: ['Title'],
+    [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
+    getTypeByValue(value) {
+        for (let i in saveDataTypes) {
+            let data = saveDataTypes[i];
+            if (data.find(x => x === value) != null) {
+                return i;
+            }
+        }
+    }
 };
 const slideType = {
     info: 'info',
@@ -15,7 +33,7 @@ const slideType = {
 const combine = (attribute, value) => {
     return `[${attribute}='${value}']`;
 };
-export { combine, renderTypes };
+export { combine, renderTypes, saveDataTypes, availableSaveDataTypes };
 const map = new Map();
 map.set(slideType.info, "slide-wrapper__thumbnail-picture--info");
 map.set(slideType.question, "slide-wrapper__thumbnail-picture--question");
