@@ -34,6 +34,7 @@ const slideUpdatedEvent = 'SlideUpdated';
 const textType = 'text';
 const nextPrevButtonsType = 'nextprevbuttons';
 const removebtnType = 'removebtn';
+const buttonsType = 'buttons';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -99,6 +100,18 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                 let prevBtnTitle = Object.keys(prevBtnInfo)[0];
                 let prevBtn = { title: prevBtnTitle, inputValue: prevBtnInfo[prevBtnTitle], placeholder: prevBtnTitle };
                 yield generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
+            }
+            else if (type == buttonsType) {
+                let buttons = data[propName];
+                let buttonsConfigs = [];
+                for (var i = 0; i < buttons.length; i++) {
+                    let button = buttons[i];
+                    let buttonKeys = Object.keys(button);
+                    let notValueKey = buttonKeys.find(x => x != 'Value');
+                    let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey };
+                    buttonsConfigs.push(config);
+                }
+                yield generator.addButtons(buttonsConfigs, 'Variants');
             }
         }
         yield generator.addRemoveButton();

@@ -206,7 +206,7 @@ export class GlobalMeta {
 }
 
 type dataType = {
-    [key: string]: string
+    [key: string]: any
 }
 
 export class SlideData {

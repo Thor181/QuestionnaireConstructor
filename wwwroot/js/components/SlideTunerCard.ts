@@ -40,10 +40,10 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
     let saveType = consts.saveDataTypes.getTypeByValue(title);
 
     if (saveType == consts.availableSaveDataTypes.NextPrevButtons) {
-        let arr: [] = storageSlideData.data.NextPrevButtons;
-        let a = arr.filter(x => Object.keys(x).find(y => y == title) != null)[0];
-        a[title] = value;
-
+        let buttonsArray: [] = storageSlideData.data.NextPrevButtons;
+        let obj: object = buttonsArray.filter(x => Object.keys(x).find(y => y == title) != null)[0];
+        //@ts-ignore
+        obj[title] = value;
     }
     else {
         storageSlideData.data[title] = value;

@@ -31,6 +31,7 @@ const slideUpdatedEvent: consts.event = 'SlideUpdated';
 const textType: consts.componentType = 'text';
 const nextPrevButtonsType: consts.componentType = 'nextprevbuttons';
 const removebtnType: consts.componentType = 'removebtn';
+const buttonsType: consts.componentType = 'buttons';
 
 const leftContainer = document.querySelector(leftContainerSelector);
 
@@ -119,6 +120,20 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             let prevBtn: consts.buttonConfig = { title: prevBtnTitle, inputValue: prevBtnInfo[prevBtnTitle], placeholder: prevBtnTitle };
 
             await generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
+        }
+        else if (type == buttonsType) {
+            let buttons:[] = data[propName];
+            let buttonsConfigs: Array<consts.buttonConfig> = [];
+
+            for (var i = 0; i < buttons.length; i++) {
+                let button = buttons[i];
+                let buttonKeys = Object.keys(button);
+                let notValueKey = buttonKeys.find(x => x != 'Value');
+                let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey };
+                buttonsConfigs.push(config);
+            }
+
+            await generator.addButtons(buttonsConfigs, 'Variants');
         }
     }
 

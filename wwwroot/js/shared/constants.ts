@@ -15,6 +15,7 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/TextInput.html'
     | '/js/components/Button.html'
     | '/js/components/SlideTunerCardExpandItem.html'
+    | '/js/components/Fieldset.html'
 
 type imagePath = '/img/delete.svg'
 
@@ -44,6 +45,8 @@ type event = 'SlideAdded'
 type componentType = 'text'
     | 'removebtn'
     | 'nextprevbuttons'
+    | 'buttons'
+    | 'fieldset'
 
 const renderTypes = {
     'Title': 'text',
@@ -53,6 +56,8 @@ const renderTypes = {
     'Question': 'text',
     'Assistive text': 'text',
     'NextPrevButtons': 'nextprevbuttons',
+    'Buttons': 'buttons',
+
     //@ts-ignore
     getValueByKey(key: string) { return renderTypes[key]; },
 
@@ -66,13 +71,13 @@ const availableSaveDataTypes = {
 }
 
 const saveDataTypes = {
-    [availableSaveDataTypes.Text]: ['Title'],
+    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text'],
     [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
 
     getTypeByValue(value: string) {
 
         for (let i in saveDataTypes) {
-
+            //@ts-ignore
             let data: [] = saveDataTypes[i];
             if (data.find(x => x === value) != null) {
                 return i;

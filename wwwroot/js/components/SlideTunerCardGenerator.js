@@ -12,6 +12,7 @@ import Button from './Button.js';
 import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
+import Fieldset from './Fieldset.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const textType = 'text';
 const removebtnType = 'removebtn';
@@ -21,6 +22,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         super();
         this.componentsOrder = [];
         this.textComponents = [];
+        this.fieldsets = [];
     }
     addTextComponent(title, value, placeholder = '') {
         return __awaiter(this, void 0, void 0, function* () {
@@ -51,6 +53,32 @@ class SlideTunerCardGenerator extends BaseComponent {
             this.componentsOrder.push(textType);
         });
     }
+    addButtons(configs, fieldsetLegend) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let fieldset = yield this.addFieldset(fieldsetLegend);
+            for (var i = 0; i < configs.length; i++) {
+                let config = configs[i];
+                let button = new TextInput();
+                button.rendered.title = config.title;
+                button.rendered.inputValue = config.inputValue;
+                button.rendered.placeholder = config.placeholder;
+                let renderedButton = yield button.render();
+                fieldset.children.push(renderedButton);
+            }
+            let item = new SlideTunerCardItem();
+            item.rendered.innerContent = yield fieldset.render();
+            let renderedItem = yield item.render();
+            this.fieldsets.push(renderedItem);
+        });
+    }
+    addFieldset(legend) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let fieldset = new Fieldset();
+            fieldset.rendered.legend = legend;
+            this.componentsOrder.push('fieldset');
+            return fieldset;
+        });
+    }
     addRemoveButton(title = 'Delete') {
         return __awaiter(this, void 0, void 0, function* () {
             const button = new Button();
@@ -66,9 +94,13 @@ class SlideTunerCardGenerator extends BaseComponent {
     render() {
         return __awaiter(this, void 0, void 0, function* () {
             let reversedTextComponents = this.textComponents.reverse();
+            let reversedFieldsets = this.fieldsets.reverse();
             let renderedComponent = '';
             this.componentsOrder.forEach(item => {
-                if (1) {
+                if (item == 'fieldset') {
+                    renderedComponent += reversedFieldsets.pop();
+                }
+                else {
                     renderedComponent += reversedTextComponents.pop();
                 }
             });

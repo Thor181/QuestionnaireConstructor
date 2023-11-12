@@ -4,6 +4,7 @@ import Button from './Button.js';
 import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
+import Fieldset from './Fieldset.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const textType: consts.componentType = 'text';
@@ -16,10 +17,13 @@ class SlideTunerCardGenerator extends BaseComponent {
 
     componentsOrder: Array<consts.componentType>;
 
+    fieldsets: Array<string>;
+
     constructor() {
         super();
         this.componentsOrder = [];
         this.textComponents = [];
+        this.fieldsets = [];
     }
 
     async addTextComponent(title: string, value: string, placeholder: string = ''): Promise<void> {
@@ -54,6 +58,32 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.componentsOrder.push(textType);
     }
 
+    async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string) {
+
+        let fieldset = await this.addFieldset(fieldsetLegend);
+        for (var i = 0; i < configs.length; i++) {
+            let config = configs[i];
+            let button = new TextInput();
+            button.rendered.title = config.title;
+            button.rendered.inputValue = config.inputValue;
+            button.rendered.placeholder = config.placeholder;
+            let renderedButton = await button.render();
+            fieldset.children.push(renderedButton);
+        }
+
+        let item = new SlideTunerCardItem();
+        item.rendered.innerContent = await fieldset.render();
+        let renderedItem = await item.render();
+        this.fieldsets.push(renderedItem);
+    }
+
+    async addFieldset(legend: string): Promise<Fieldset> {
+        let fieldset = new Fieldset();
+        fieldset.rendered.legend = legend;
+        this.componentsOrder.push('fieldset');
+        return fieldset;
+    }
+
     async addRemoveButton(title: string = 'Delete'): Promise<void> {
         const button = new Button();
         button.rendered.title = title;
@@ -70,10 +100,14 @@ class SlideTunerCardGenerator extends BaseComponent {
 
     async render(): Promise<string> {
         let reversedTextComponents = this.textComponents.reverse();
+        let reversedFieldsets = this.fieldsets.reverse();
 
         let renderedComponent = '';
         this.componentsOrder.forEach(item => {
-            if (1) {
+            if (item == 'fieldset') {
+                renderedComponent += reversedFieldsets.pop();
+            }
+            else {
                 renderedComponent += reversedTextComponents.pop();
             }
         });

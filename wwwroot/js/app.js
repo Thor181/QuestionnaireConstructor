@@ -25,7 +25,7 @@ $(function () {
         questionAvailableSlide.rendered.title = 'Question slide';
         questionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--question';
         questionAvailableSlide.rendered.schemeName = 'question';
-        questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Button next":"", "Button previous":"" }';
+        questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Yes": "Yes", "Value": 1}, {"No": "No", "Value": 2} ], "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
         let sidebarItemControl2 = new SidebarItem();
         sidebarItemControl2.rendered.innerContent = yield questionAvailableSlide.render();
         container.append(yield sidebarItemControl2.render());

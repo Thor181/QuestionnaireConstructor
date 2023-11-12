@@ -6,6 +6,7 @@ const renderTypes = {
     'Question': 'text',
     'Assistive text': 'text',
     'NextPrevButtons': 'nextprevbuttons',
+    'Buttons': 'buttons',
     getValueByKey(key) { return renderTypes[key]; },
     getKeyByValue(value) { return Object.keys(renderTypes).find(x => renderTypes[x] === value); }
 };
@@ -14,7 +15,7 @@ const availableSaveDataTypes = {
     NextPrevButtons: 'NextPrevButtons',
 };
 const saveDataTypes = {
-    [availableSaveDataTypes.Text]: ['Title'],
+    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text'],
     [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
     getTypeByValue(value) {
         for (let i in saveDataTypes) {
