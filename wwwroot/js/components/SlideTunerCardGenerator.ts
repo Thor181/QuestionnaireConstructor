@@ -41,11 +41,11 @@ class SlideTunerCardGenerator extends BaseComponent {
 
     async addButtonsNextAndPrevious(nextBtnConfig: consts.buttonConfig, prevBtnConfig: consts.buttonConfig): Promise<void> {
         const nextBtn = new TextInput();
-        nextBtn.rendered = nextBtnConfig;
+        nextBtn.rendered = { ...nextBtnConfig, childFor: '' };
         const renderedNextBtn = await nextBtn.render();
 
         const prevBtn = new TextInput();
-        prevBtn.rendered = prevBtnConfig;
+        prevBtn.rendered = { ...prevBtnConfig, childFor: ''};
         const renderedPrevBtn = await prevBtn.render();
 
         const extendedItem = new SlideTunerCardExpandItem();
@@ -60,7 +60,7 @@ class SlideTunerCardGenerator extends BaseComponent {
 
     async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string) {
 
-        let fieldset = await this.addFieldset(fieldsetLegend);
+        let fieldset = await this.addFieldset(fieldsetLegend, 'Buttons');
         for (var i = 0; i < configs.length; i++) {
             let config = configs[i];
             let button = new TextInput();
@@ -77,9 +77,10 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.fieldsets.push(renderedItem);
     }
 
-    async addFieldset(legend: string): Promise<Fieldset> {
+    async addFieldset(legend: string, topLevel: string): Promise<Fieldset> {
         let fieldset = new Fieldset();
         fieldset.rendered.legend = legend;
+        fieldset.rendered.topLevel = topLevel;
         this.componentsOrder.push('fieldset');
         return fieldset;
     }

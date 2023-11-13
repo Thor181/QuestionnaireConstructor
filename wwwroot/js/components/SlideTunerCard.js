@@ -34,8 +34,14 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
         let obj = buttonsArray.filter(x => Object.keys(x).find(y => y == title) != null)[0];
         obj[title] = value;
     }
-    else {
+    else if (saveType == consts.availableSaveDataTypes.Text) {
         storageSlideData.data[title] = value;
+    }
+    else {
+        let topLevel = inter.getChildFor();
+        let btns = storageSlideData.data[topLevel];
+        let obj = btns.filter(x => Object.keys(x).find(y => y == title) != null)[0];
+        obj[title] = value;
     }
     GlobalMeta.updateSlideData(storageSlideData);
 });

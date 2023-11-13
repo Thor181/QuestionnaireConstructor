@@ -40,10 +40,10 @@ class SlideTunerCardGenerator extends BaseComponent {
     addButtonsNextAndPrevious(nextBtnConfig, prevBtnConfig) {
         return __awaiter(this, void 0, void 0, function* () {
             const nextBtn = new TextInput();
-            nextBtn.rendered = nextBtnConfig;
+            nextBtn.rendered = Object.assign(Object.assign({}, nextBtnConfig), { childFor: '' });
             const renderedNextBtn = yield nextBtn.render();
             const prevBtn = new TextInput();
-            prevBtn.rendered = prevBtnConfig;
+            prevBtn.rendered = Object.assign(Object.assign({}, prevBtnConfig), { childFor: '' });
             const renderedPrevBtn = yield prevBtn.render();
             const extendedItem = new SlideTunerCardExpandItem();
             extendedItem.rendered.innerContent.push(renderedNextBtn);
@@ -55,7 +55,7 @@ class SlideTunerCardGenerator extends BaseComponent {
     }
     addButtons(configs, fieldsetLegend) {
         return __awaiter(this, void 0, void 0, function* () {
-            let fieldset = yield this.addFieldset(fieldsetLegend);
+            let fieldset = yield this.addFieldset(fieldsetLegend, 'Buttons');
             for (var i = 0; i < configs.length; i++) {
                 let config = configs[i];
                 let button = new TextInput();
@@ -71,10 +71,11 @@ class SlideTunerCardGenerator extends BaseComponent {
             this.fieldsets.push(renderedItem);
         });
     }
-    addFieldset(legend) {
+    addFieldset(legend, topLevel) {
         return __awaiter(this, void 0, void 0, function* () {
             let fieldset = new Fieldset();
             fieldset.rendered.legend = legend;
+            fieldset.rendered.topLevel = topLevel;
             this.componentsOrder.push('fieldset');
             return fieldset;
         });
