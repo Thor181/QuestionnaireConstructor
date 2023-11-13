@@ -12,7 +12,7 @@ class AvailableSlide extends BaseComponent {
 
     async render(): Promise<string> {
         return await super.getControl("/js/components/AvailableSlide.html", this.rendered);
-    }
+    } 
 }
 
 export default AvailableSlide;

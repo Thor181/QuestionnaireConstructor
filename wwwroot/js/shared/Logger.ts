@@ -1,4 +1,5 @@
-﻿type logLevel = 'log' | 'warn' | 'error'
+﻿
+type logLevel = 'log' | 'warn' | 'error';
 
 const log = (level: logLevel, message: string | object) => {
 

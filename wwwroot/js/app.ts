@@ -1,11 +1,12 @@
-﻿import { availableParallelism } from 'os';
-import AvailableSlide from './components/AvailableSlide.js';
-import SidebarItem from './components/SidebarItem.js'
-import { GlobalMeta } from './shared/GlobalMeta.js';
+﻿
+import AvailableSlide from './components/AvailableSlide';
+import SidebarItem from './components/SidebarItem'
+import { GlobalMeta } from './shared/GlobalMeta';
+import { log } from './shared/Logger';
+
 
 $(async function () {
 
-    
     let container = $('#right-sidebar-container');
 
     let infoAvailableSlide = new AvailableSlide();
@@ -40,6 +41,10 @@ $(async function () {
     sidebarItemControl3.rendered.innerContent = await multiSelectionAvailableSlide.render();
 
     container.append(await sidebarItemControl3.render());
+
+    log('warn', "aaaaa")
+    log('warn', "bye")
+
 
     GlobalMeta.initialize();
 });
