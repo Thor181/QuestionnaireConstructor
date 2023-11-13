@@ -1,8 +1,9 @@
-﻿import { reverse } from "dns/promises"
+﻿import { log } from "./Logger.js"
 
 type imageModifier = 'slide-wrapper__thumbnail-picture--info'
     | 'slide-wrapper__thumbnail-picture--question'
     | 'slide-wrapper__thumbnail-picture--yesno'
+    | 'slide-wrapper__thumbnail-picture--multi'
 
 type stateModifier = 'sidebar__item--selected'
 
@@ -26,6 +27,7 @@ type attribute = 'data-order-max'
     | 'data-meta-order'
     | 'data-kind'
     | 'data-type'
+    | 'child-for'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
@@ -68,17 +70,23 @@ const renderTypes = {
 const availableSaveDataTypes = {
     Text: 'Text',
     NextPrevButtons: 'NextPrevButtons',
+    Buttons: 'Buttons'
 }
 
 const saveDataTypes = {
     [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text'],
     [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
+    [availableSaveDataTypes.Buttons]: [''],
 
     getTypeByValue(value: string) {
 
         for (let i in saveDataTypes) {
+            if (i == saveDataTypes.getTypeByValue.name)
+                continue;
+
             //@ts-ignore
             let data: [] = saveDataTypes[i];
+
             if (data.find(x => x === value) != null) {
                 return i;
             }
@@ -88,11 +96,7 @@ const saveDataTypes = {
 
 type buttonConfig = { title: string, inputValue: string, placeholder: string };
 
-const slideType = {
-    info: 'info',
-    question: 'question',
-    yesno: 'yesno',
-}
+
 
 const combine = (attribute: attribute, value: string) => {
     return `[${attribute}='${value}']`
@@ -115,12 +119,25 @@ export {
     availableSaveDataTypes
 }
 
+const slideType = {
+    info: 'info',
+    question: 'question',
+    yesno: 'yesno',
+    multiselect: 'multiselect'
+}
+
 const map = new Map<string, imageModifier>();
 map.set(slideType.info, "slide-wrapper__thumbnail-picture--info");
 map.set(slideType.question, "slide-wrapper__thumbnail-picture--question");
 map.set(slideType.yesno, "slide-wrapper__thumbnail-picture--yesno");
+map.set(slideType.multiselect, "slide-wrapper__thumbnail-picture--multi");
 
 export function mapTypeToImageModifier(type: string): imageModifier {
-    return map.get(type);
+    let t = map.get(type);
+
+    if (t == null)
+        log("warn", "Type " + type + " not found in imageModifier map");
+
+    return t;
 }
 
