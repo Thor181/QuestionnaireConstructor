@@ -7,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import BaseComponent from "./Base/BaseComponent.js";
+import BaseComponent, { replaceAll } from "./Base/BaseComponent.js";
 class Fieldset extends BaseComponent {
     constructor() {
         super();
-        this.rendered = Object.create({ innerContent: '', legend: '' });
+        this.rendered = Object.create({ innerContent: '', legend: '', topLevel: '' });
         this.children = [];
     }
     render() {
@@ -20,7 +20,9 @@ class Fieldset extends BaseComponent {
         });
         return __awaiter(this, void 0, void 0, function* () {
             let innerContent = this.rendered.innerContent + this.children.join(' ');
-            return yield _super.getControl.call(this, "/js/components/Fieldset.html", { innerContent: innerContent, legend: this.rendered.legend });
+            innerContent = replaceAll(innerContent, '{{childFor}}', this.rendered.topLevel);
+            let renderInternal = Object.assign(Object.assign({}, this.rendered), { innerContent: innerContent });
+            return yield _super.getControl.call(this, "/js/components/Fieldset.html", renderInternal);
         });
     }
 }
