@@ -29,16 +29,13 @@
 
 
 
-.content-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: start;
-}
-
 .fieldset {
     border-radius: 8px;
     border: 1px solid lightgray;
+}
+.image {
+    width: 100%;
+    height: 100%;
 }
 .header {
     border-bottom: 1px solid var(--gray_lightest);
@@ -46,10 +43,6 @@
     z-index: 3;
 }
  
-.image {
-    width: 100%;
-    height: 100%;
-}
 .input-title {
     width: 100%;
     cursor: text;
@@ -121,13 +114,14 @@
     box-sizing: border-box;
 }
 
-.button--gapped {
-    gap: 10px;
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
 }
 
-.fieldset__innerContent {
-    display: flex;
-    flex-direction: column;
+.button--gapped {
     gap: 10px;
 }
 
@@ -135,6 +129,12 @@
     color: gray;
 
 }
+.fieldset__innerContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .image--half-size {
     width: 50%;
     height: 50%;
@@ -233,6 +233,10 @@
 }
 .slide-wrapper__thumbnail-picture--info {
     background: url(/img/other/info.svg) no-repeat center center;
+}
+
+.slide-wrapper__thumbnail-picture--multi {
+    background: url(/img/other/multiselect.svg) no-repeat center center;
 }
 
 .slide-wrapper__thumbnail-picture--question {
