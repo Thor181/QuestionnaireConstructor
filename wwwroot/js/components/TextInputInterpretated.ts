@@ -1,4 +1,9 @@
-﻿class TextInputInterpretated {
+﻿import * as consts from '../shared/constants.js';
+
+const childForSelector: consts.selector = '[child-for]';
+const childForAttr: consts.attribute = 'child-for';
+
+class TextInputInterpretated {
 
     private element: JQuery<any>;
 
@@ -17,11 +22,17 @@
     }
 
     getTitle(): string {
-        return this.element.find('[data-kind="title"]').text();
+        let attr = consts.combine('data-kind', 'title')
+        return this.element.find(attr).text();
     }
 
     getValue(): string {
+        let attr = consts.combine('data-kind', 'value')
         return String(this.element.find('[data-kind="value"]').val());
+    }
+
+    getChildFor(): string {
+        return this.element.find(childForSelector).attr(childForAttr);
     }
 }
 
