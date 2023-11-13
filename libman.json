@@ -3,13 +3,41 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "cdnjs",
       "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/",
       "files": [
         "jquery.min.js",
         "jquery.js",
         "jquery.min.map"
+      ]
+    },
+    {
+      "library": "crypto-js@4.2.0",
+      "destination": "wwwroot/lib/crypto-js/",
+      "files": [
+        "crypto-js.min.js"
+      ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "js-guid@1.0.2",
+      "destination": "wwwroot/lib/js-guid/",
+      "files": [
+        "dist/guid.constants.d.ts",
+        "dist/guid.constants.js",
+        "dist/guid.constants.min.js",
+        "dist/guid.d.ts",
+        "dist/guid.helpers.d.ts",
+        "dist/guid.helpers.js",
+        "dist/guid.helpers.min.js",
+        "dist/guid.interface.d.ts",
+        "dist/guid.interface.js",
+        "dist/guid.interface.min.js",
+        "dist/guid.js",
+        "dist/guid.min.js",
+        "dist/index.d.ts",
+        "dist/index.js",
+        "dist/index.min.js"
       ]
     }
   ]

@@ -13,6 +13,8 @@ import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
 import Fieldset from './Fieldset.js';
+import TextInputRemovable from './TextInputRemovable.js';
+import { Guid } from '../../lib/js-guid/dist/guid.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const textType = 'text';
 const removebtnType = 'removebtn';
@@ -58,7 +60,15 @@ class SlideTunerCardGenerator extends BaseComponent {
             let fieldset = yield this.addFieldset(fieldsetLegend, 'Buttons');
             for (var i = 0; i < configs.length; i++) {
                 let config = configs[i];
-                let button = new TextInput();
+                let button;
+                if (config.removable == true) {
+                    let btn = new TextInputRemovable();
+                    btn.removeFor = Guid.newGuid().toString();
+                    button = btn;
+                }
+                else {
+                    button = new TextInput();
+                }
                 button.rendered.title = config.title;
                 button.rendered.inputValue = config.inputValue;
                 button.rendered.placeholder = config.placeholder;

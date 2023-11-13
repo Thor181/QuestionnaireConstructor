@@ -5,6 +5,10 @@ import SlideTunerCardExpandItem from './SlideTunerCardExpandItem.js';
 import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
 import Fieldset from './Fieldset.js';
+import TextInputBase from './Base/TextInputBase.js';
+import TextInputRemovable from './TextInputRemovable.js';
+import {Guid } from '../../lib/js-guid/dist/guid.js'
+
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const textType: consts.componentType = 'text';
@@ -45,7 +49,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         const renderedNextBtn = await nextBtn.render();
 
         const prevBtn = new TextInput();
-        prevBtn.rendered = { ...prevBtnConfig, childFor: ''};
+        prevBtn.rendered = { ...prevBtnConfig, childFor: '' };
         const renderedPrevBtn = await prevBtn.render();
 
         const extendedItem = new SlideTunerCardExpandItem();
@@ -63,7 +67,18 @@ class SlideTunerCardGenerator extends BaseComponent {
         let fieldset = await this.addFieldset(fieldsetLegend, 'Buttons');
         for (var i = 0; i < configs.length; i++) {
             let config = configs[i];
-            let button = new TextInput();
+
+            let button: TextInputBase;
+
+            if (config.removable == true) {
+                let btn = new TextInputRemovable(); 
+                btn.removeFor = Guid.newGuid().toString();
+                button = btn;
+            }
+            else {
+                button = new TextInput();
+            }
+
             button.rendered.title = config.title;
             button.rendered.inputValue = config.inputValue;
             button.rendered.placeholder = config.placeholder;

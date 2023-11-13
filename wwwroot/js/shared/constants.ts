@@ -17,6 +17,7 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/Button.html'
     | '/js/components/SlideTunerCardExpandItem.html'
     | '/js/components/Fieldset.html'
+    | '/js/components/TextInputRemovable.html'
 
 type imagePath = '/img/delete.svg'
 
@@ -94,9 +95,7 @@ const saveDataTypes = {
     }
 }
 
-type buttonConfig = { title: string, inputValue: string, placeholder: string };
-
-
+type buttonConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
 
 const combine = (attribute: attribute, value: string) => {
     return `[${attribute}='${value}']`

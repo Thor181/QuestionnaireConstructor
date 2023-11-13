@@ -129,7 +129,10 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
                 let button = buttons[i];
                 let buttonKeys = Object.keys(button);
                 let notValueKey = buttonKeys.find(x => x != 'Value');
-                let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey };
+
+                let removable = data.Multiselect == true;
+
+                let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable};
                 buttonsConfigs.push(config);
             }
 

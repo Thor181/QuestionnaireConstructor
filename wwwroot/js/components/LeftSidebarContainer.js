@@ -108,7 +108,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     let button = buttons[i];
                     let buttonKeys = Object.keys(button);
                     let notValueKey = buttonKeys.find(x => x != 'Value');
-                    let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey };
+                    let removable = data.Multiselect == true;
+                    let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                     buttonsConfigs.push(config);
                 }
                 yield generator.addButtons(buttonsConfigs, 'Variants');

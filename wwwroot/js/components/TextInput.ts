@@ -1,18 +1,11 @@
 ﻿import BaseComponent from "./Base/BaseComponent.js";
+import TextInputBase from "./Base/TextInputBase.js";
 
-class TextInput extends BaseComponent {
-
-    rendered: { title: string, inputValue: string, placeholder: string, childFor: string  };
-
+class TextInput extends TextInputBase {
     constructor() {
-        super();
+        super("/js/components/TextInput.html");
         this.rendered = Object.create({});
     }
-
-    async render(): Promise<string> {
-        return await super.getControl("/js/components/TextInput.html", this.rendered);
-    }
-
 }
 
 export default TextInput;

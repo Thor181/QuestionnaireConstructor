@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="%2a%2a\**" />
     <Compile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Content Remove="%2a%2a\**" />
     <Content Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <EmbeddedResource Remove="%2a%2a\**" />
     <EmbeddedResource Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <None Remove="%2a%2a\**" />
     <None Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <TypeScriptCompile Remove="%2a%2a\**" />
     <TypeScriptCompile Remove="wwwroot\js\blocks\indexed-slide\**" />
   </ItemGroup>
 
@@ -67,10 +72,6 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>
