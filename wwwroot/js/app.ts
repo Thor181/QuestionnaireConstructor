@@ -1,8 +1,7 @@
-﻿import { availableParallelism } from 'os';
-import AvailableSlide from './components/AvailableSlide.js';
+﻿import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js'
 import { GlobalMeta } from './shared/GlobalMeta.js';
-
+ 
 $(async function () {
 
     

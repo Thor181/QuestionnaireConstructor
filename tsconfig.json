@@ -1,0 +1,20 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "ES6",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node"
+
+  },
+  "include": [
+    "./wwwroot/js/**/*.ts",
+    "./wwwroot/js/*.ts"
+  ],
+  "exclude": ["./node_modules/", "./wwwroot/lib/"]
+}

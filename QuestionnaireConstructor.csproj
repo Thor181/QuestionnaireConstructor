@@ -16,6 +16,7 @@
     <None Remove="%2a%2a\**" />
     <None Remove="wwwroot\js\blocks\indexed-slide\**" />
     <TypeScriptCompile Remove="%2a%2a\**" />
+    <TypeScriptCompile Remove="node_modules\**" />
     <TypeScriptCompile Remove="wwwroot\js\blocks\indexed-slide\**" />
   </ItemGroup>
 
