@@ -58,7 +58,6 @@ $(slideTunerCardSelector).on('click', removeForSelector, function () {
     let removeForId = $(this).attr(removeForAttr);
     const id = SlideTunerCard.getDataMetaId();
     let slideData = GlobalMeta.getSlideData(id);
-    slideData.data.Buttons = slideData.data.Buttons.filter(x => x[0] != 'Variant1');
     GlobalMeta.updateSlideData(slideData);
     $(consts.combine('removable', removeForId)).remove();
 });
