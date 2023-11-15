@@ -7,10 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import AvailableSlide from './components/AvailableSlide';
-import SidebarItem from './components/SidebarItem';
-import { GlobalMeta } from './shared/GlobalMeta';
-import { log } from './shared/Logger';
+import AvailableSlide from './components/AvailableSlide.js';
+import SidebarItem from './components/SidebarItem.js';
+import { GlobalMeta } from './shared/GlobalMeta.js';
 $(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let container = $('#right-sidebar-container');
@@ -38,9 +37,13 @@ $(function () {
         let sidebarItemControl3 = new SidebarItem();
         sidebarItemControl3.rendered.innerContent = yield multiSelectionAvailableSlide.render();
         container.append(yield sidebarItemControl3.render());
-        log('warn', "aaaaa");
-        log('warn', "bye");
+        console.log(getShortGuid());
+        console.log(getShortGuid());
+        console.log(getShortGuid());
         GlobalMeta.initialize();
     });
 });
+export function getShortGuid() {
+    return ''.toString().split('-')[0];
+}
 //# sourceMappingURL=app.js.map

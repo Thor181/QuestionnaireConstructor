@@ -1,4 +1,4 @@
-﻿import BaseComponent from "./Base/BaseComponent.js";
+﻿import { getShortGuid } from "../app.js";
 import TextInputBase from "./Base/TextInputBase.js";
 
 class TextInputRemovable extends TextInputBase {
@@ -12,7 +12,7 @@ class TextInputRemovable extends TextInputBase {
 
     /**@override */
     async render(): Promise<string> {
-        let renderedInternal = { ...this.rendered, removeFor: this.removeFor };
+        let renderedInternal = { ...this.rendered, removeFor: getShortGuid() };
         return await super.getControl(this.path, renderedInternal);
     }
 }

@@ -12,13 +12,6 @@
       ]
     },
     {
-      "library": "crypto-js@4.2.0",
-      "destination": "wwwroot/lib/crypto-js/",
-      "files": [
-        "crypto-js.min.js"
-      ]
-    },
-    {
       "provider": "jsdelivr",
       "library": "js-guid@1.0.2",
       "destination": "wwwroot/lib/js-guid/",

@@ -1,9 +1,7 @@
 ﻿
-import AvailableSlide from './components/AvailableSlide';
-import SidebarItem from './components/SidebarItem'
-import { GlobalMeta } from './shared/GlobalMeta';
-import { log } from './shared/Logger';
-
+import AvailableSlide from './components/AvailableSlide.js';
+import SidebarItem from './components/SidebarItem.js'
+import { GlobalMeta } from './shared/GlobalMeta.js';
 
 $(async function () {
 
@@ -42,9 +40,14 @@ $(async function () {
 
     container.append(await sidebarItemControl3.render());
 
-    log('warn', "aaaaa")
-    log('warn', "bye")
-
+    console.log(getShortGuid())
+    console.log(getShortGuid())
+    console.log(getShortGuid())
 
     GlobalMeta.initialize();
 });
+
+
+export function getShortGuid() {
+    return ''.toString().split('-')[0];
+}

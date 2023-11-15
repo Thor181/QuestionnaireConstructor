@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { getShortGuid } from "../app.js";
 import TextInputBase from "./Base/TextInputBase.js";
 class TextInputRemovable extends TextInputBase {
     constructor() {
@@ -18,7 +19,7 @@ class TextInputRemovable extends TextInputBase {
             getControl: { get: () => super.getControl }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            let renderedInternal = Object.assign(Object.assign({}, this.rendered), { removeFor: this.removeFor });
+            let renderedInternal = Object.assign(Object.assign({}, this.rendered), { removeFor: getShortGuid() });
             return yield _super.getControl.call(this, this.path, renderedInternal);
         });
     }
