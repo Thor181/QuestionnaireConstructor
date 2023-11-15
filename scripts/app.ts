@@ -3,8 +3,6 @@ import SidebarItem from './components/SidebarItem.js'
 import { GlobalMeta } from './shared/GlobalMeta.js';
  
 $(async function () {
-
-    
     let container = $('#right-sidebar-container');
 
     let infoAvailableSlide = new AvailableSlide();

@@ -8,16 +8,16 @@
 
   <ItemGroup>
     <Compile Remove="%2a%2a\**" />
-    <Compile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Compile Remove="scripts\blocks\indexed-slide\**" />
     <Content Remove="%2a%2a\**" />
-    <Content Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Content Remove="scripts\blocks\indexed-slide\**" />
     <EmbeddedResource Remove="%2a%2a\**" />
-    <EmbeddedResource Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <EmbeddedResource Remove="scripts\blocks\indexed-slide\**" />
     <None Remove="%2a%2a\**" />
-    <None Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <None Remove="scripts\blocks\indexed-slide\**" />
     <TypeScriptCompile Remove="%2a%2a\**" />
     <TypeScriptCompile Remove="node_modules\**" />
-    <TypeScriptCompile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <TypeScriptCompile Remove="scripts\blocks\indexed-slide\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +27,97 @@
 
   <ItemGroup>
     <Content Include="gulpfile.js" />
+    <Content Include="scripts\app.js" />
+    <Content Include="scripts\app.js.map" />
+    <Content Include="scripts\blocks\base\BaseControl.js" />
+    <Content Include="scripts\blocks\base\BaseControl.js.map" />
+    <Content Include="scripts\blocks\base\BaseNewControl.js" />
+    <Content Include="scripts\blocks\base\BaseNewControl.js.map" />
+    <Content Include="scripts\blocks\base\ContainerControl.js" />
+    <Content Include="scripts\blocks\base\ContainerControl.js.map" />
+    <Content Include="scripts\blocks\base\ControlBuilder.js" />
+    <Content Include="scripts\blocks\base\ControlBuilder.js.map" />
+    <Content Include="scripts\blocks\base\getControl.js" />
+    <Content Include="scripts\blocks\base\getControl.js.map" />
+    <Content Include="scripts\blocks\base\IndexedSlideNewControl.js" />
+    <Content Include="scripts\blocks\base\IndexedSlideNewControl.js.map" />
+    <Content Include="scripts\blocks\base\InputBaseControl.js" />
+    <Content Include="scripts\blocks\base\InputBaseControl.js.map" />
+    <Content Include="scripts\blocks\base\NodeControl.js" />
+    <Content Include="scripts\blocks\base\NodeControl.js.map" />
+    <Content Include="scripts\blocks\base\SchemedControl.js" />
+    <Content Include="scripts\blocks\base\SchemedControl.js.map" />
+    <Content Include="scripts\blocks\base\SlideControl.js" />
+    <Content Include="scripts\blocks\base\SlideControl.js.map" />
+    <Content Include="scripts\blocks\input-title\input-title.js" />
+    <Content Include="scripts\blocks\input-title\input-title.js.map" />
+    <Content Include="scripts\blocks\sidebar\__container\sidebar__container.js" />
+    <Content Include="scripts\blocks\sidebar\__container\sidebar__container.js.map" />
+    <Content Include="scripts\blocks\sidebar\__item\sidebar__item-control.js" />
+    <Content Include="scripts\blocks\sidebar\__item\sidebar__item-control.js.map" />
+    <Content Include="scripts\blocks\slide-tuner\__card\slide-tuner__card.js" />
+    <Content Include="scripts\blocks\slide-tuner\__card\slide-tuner__card.js.map" />
+    <Content Include="scripts\blocks\slide-tuner\__item\slide-tuner__item.js" />
+    <Content Include="scripts\blocks\slide-tuner\__item\slide-tuner__item.js.map" />
+    <Content Include="scripts\blocks\slide-wrapper\slide-wrapper.js" />
+    <Content Include="scripts\blocks\slide-wrapper\slide-wrapper.js.map" />
+    <Content Include="scripts\components\AvailableSlide.html" />
+    <Content Include="scripts\components\AvailableSlide.js" />
+    <Content Include="scripts\components\AvailableSlide.js.map" />
+    <Content Include="scripts\components\Base\BaseComponent.js" />
+    <Content Include="scripts\components\Base\BaseComponent.js.map" />
+    <Content Include="scripts\components\Base\TextInputBase.js" />
+    <Content Include="scripts\components\Base\TextInputBase.js.map" />
+    <Content Include="scripts\components\Button.html" />
+    <Content Include="scripts\components\Button.js" />
+    <Content Include="scripts\components\Button.js.map" />
+    <Content Include="scripts\components\Fieldset.html" />
+    <Content Include="scripts\components\Fieldset.js" />
+    <Content Include="scripts\components\Fieldset.js.map" />
+    <Content Include="scripts\components\GlobalMetaComponent.js" />
+    <Content Include="scripts\components\GlobalMetaComponent.js.map" />
+    <Content Include="scripts\components\IndexedSlide.html" />
+    <Content Include="scripts\components\IndexedSlide.js" />
+    <Content Include="scripts\components\IndexedSlide.js.map" />
+    <Content Include="scripts\components\IndexedSlideInterpretated.js" />
+    <Content Include="scripts\components\IndexedSlideInterpretated.js.map" />
+    <Content Include="scripts\components\LeftSidebarContainer.js" />
+    <Content Include="scripts\components\LeftSidebarContainer.js.map" />
+    <Content Include="scripts\components\RightSidebarContainer.js" />
+    <Content Include="scripts\components\RightSidebarContainer.js.map" />
+    <Content Include="scripts\components\SidebarContainer.js" />
+    <Content Include="scripts\components\SidebarContainer.js.map" />
+    <Content Include="scripts\components\SidebarItem.html" />
+    <Content Include="scripts\components\SidebarItem.js" />
+    <Content Include="scripts\components\SidebarItem.js.map" />
+    <Content Include="scripts\components\SlideTunerCard.js" />
+    <Content Include="scripts\components\SlideTunerCard.js.map" />
+    <Content Include="scripts\components\SlideTunerCardExpandItem.html" />
+    <Content Include="scripts\components\SlideTunerCardExpandItem.js" />
+    <Content Include="scripts\components\SlideTunerCardExpandItem.js.map" />
+    <Content Include="scripts\components\SlideTunerCardGenerator.js" />
+    <Content Include="scripts\components\SlideTunerCardGenerator.js.map" />
+    <Content Include="scripts\components\SlideTunerCardItem.html" />
+    <Content Include="scripts\components\SlideTunerCardItem.js" />
+    <Content Include="scripts\components\SlideTunerCardItem.js.map" />
+    <Content Include="scripts\components\TextInput.html" />
+    <Content Include="scripts\components\TextInput.js" />
+    <Content Include="scripts\components\TextInput.js.map" />
+    <Content Include="scripts\components\TextInputInterpretated.js" />
+    <Content Include="scripts\components\TextInputInterpretated.js.map" />
+    <Content Include="scripts\components\TextInputRemovable.html" />
+    <Content Include="scripts\components\TextInputRemovable.js" />
+    <Content Include="scripts\components\TextInputRemovable.js.map" />
+    <Content Include="scripts\shared\constants.js" />
+    <Content Include="scripts\shared\constants.js.map" />
+    <Content Include="scripts\shared\constsJ.js" />
+    <Content Include="scripts\shared\constsJ.js.map" />
+    <Content Include="scripts\shared\globalMeta.js" />
+    <Content Include="scripts\shared\globalMeta.js.map" />
+    <Content Include="scripts\shared\Logger.js" />
+    <Content Include="scripts\shared\Logger.js.map" />
+    <Content Include="scripts\shared\random.js" />
+    <Content Include="scripts\shared\random.js.map" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,8 +153,6 @@
     <None Include="wwwroot\img\save.svg" />
     <None Include="wwwroot\img\search.svg" />
     <None Include="wwwroot\img\up.svg" />
-    <None Include="wwwroot\js\blocks\slide-tuner\__card\slide-tuner__card.js" />
-    <None Include="wwwroot\js\shared\constsJ.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +162,10 @@
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>

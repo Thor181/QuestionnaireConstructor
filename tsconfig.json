@@ -13,8 +13,8 @@
 
   },
   "include": [
-    "./wwwroot/js/**/*.ts",
-    "./wwwroot/js/*.ts"
+    "./scripts/**/*.ts",
+    "./scripts/*.ts"
   ],
   "exclude": ["./node_modules/", "./wwwroot/lib/"]
 }
