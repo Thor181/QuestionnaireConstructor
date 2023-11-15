@@ -7,7 +7,6 @@ import TextInput from './TextInput.js';
 import Fieldset from './Fieldset.js';
 import TextInputBase from './Base/TextInputBase.js';
 import TextInputRemovable from './TextInputRemovable.js';
-import {Guid } from '../../lib/js-guid/dist/guid.js'
 
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
@@ -72,7 +71,7 @@ class SlideTunerCardGenerator extends BaseComponent {
 
             if (config.removable == true) {
                 let btn = new TextInputRemovable(); 
-                btn.removeFor = Guid.newGuid().toString();
+                btn.removeFor = '';
                 button = btn;
             }
             else {
