@@ -14,6 +14,7 @@ import SlideTunerCardItem from './SlideTunerCardItem.js';
 import TextInput from './TextInput.js';
 import Fieldset from './Fieldset.js';
 import TextInputRemovable from './TextInputRemovable.js';
+import generateShortUniq from '../shared/guid.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const textType = 'text';
 const removebtnType = 'removebtn';
@@ -62,7 +63,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 let button;
                 if (config.removable == true) {
                     let btn = new TextInputRemovable();
-                    btn.removeFor = '';
+                    btn.removeFor = generateShortUniq();
                     button = btn;
                 }
                 else {

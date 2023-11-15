@@ -122,7 +122,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             await generator.addButtonsNextAndPrevious(nextBtn, prevBtn);
         }
         else if (type == buttonsType) {
-            let buttons:[] = data[propName];
+            let buttons: [] = data[propName];
             let buttonsConfigs: Array<consts.buttonConfig> = [];
 
             for (var i = 0; i < buttons.length; i++) {

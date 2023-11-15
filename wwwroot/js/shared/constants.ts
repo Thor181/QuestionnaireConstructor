@@ -29,6 +29,8 @@ type attribute = 'data-order-max'
     | 'data-kind'
     | 'data-type'
     | 'child-for'
+    | 'remove-for'
+    | 'removable'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'

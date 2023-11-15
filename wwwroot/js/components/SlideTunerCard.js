@@ -7,7 +7,10 @@ const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerCardItemSelector = '.slide-tuner__item';
 const textInputSelector = '.text-input-wrap';
 const dataMetaIdSelector = '[data-meta-id]';
+const removeForSelector = '[remove-for]';
+const removableSelector = '[removable]';
 const dataMetaIdAttr = 'data-meta-id';
+const removeForAttr = 'remove-for';
 const removebtnType = 'removebtn';
 class SlideTunerCard extends BaseComponent {
     static getDataMetaId() {
@@ -50,5 +53,13 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
     GlobalMeta.removeSlideDataById(id);
     SlideTunerCard.clear();
     LeftSidebarContainer.removeItem(id);
+});
+$(slideTunerCardSelector).on('click', removeForSelector, function () {
+    let removeForId = $(this).attr(removeForAttr);
+    const id = SlideTunerCard.getDataMetaId();
+    let slideData = GlobalMeta.getSlideData(id);
+    slideData.data.Buttons = slideData.data.Buttons.filter(x => x[0] != 'Variant1');
+    GlobalMeta.updateSlideData(slideData);
+    $(consts.combine('removable', removeForId)).remove();
 });
 //# sourceMappingURL=SlideTunerCard.js.map

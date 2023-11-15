@@ -1,6 +1,7 @@
 ﻿import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js'
 import { GlobalMeta } from './shared/GlobalMeta.js';
+import generateShortUniq from './shared/guid.js';
  
 $(async function () {
 
@@ -33,12 +34,13 @@ $(async function () {
     multiSelectionAvailableSlide.rendered.title = 'Multi selection slide';
     multiSelectionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--multi';
     multiSelectionAvailableSlide.rendered.schemeName = 'multiselect';
-    multiSelectionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant1": "Variant1", "Value": 1}], "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }], "Multiselect": true }';
+    multiSelectionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant1": "Variant1", "Value": 1},{"Variant2": "Variant1", "Value": 2},{"Variant3": "Variant1", "Value": 3}], "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }], "Multiselect": true }';
 
     let sidebarItemControl3 = new SidebarItem();
     sidebarItemControl3.rendered.innerContent = await multiSelectionAvailableSlide.render();
 
     container.append(await sidebarItemControl3.render());
-
+    console.log(generateShortUniq());
     GlobalMeta.initialize();
 });
+

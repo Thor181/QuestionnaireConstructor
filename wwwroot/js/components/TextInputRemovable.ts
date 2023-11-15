@@ -1,5 +1,4 @@
-﻿import BaseComponent from "./Base/BaseComponent.js";
-import TextInputBase from "./Base/TextInputBase.js";
+﻿import TextInputBase from "./Base/TextInputBase.js";
 
 class TextInputRemovable extends TextInputBase {
 

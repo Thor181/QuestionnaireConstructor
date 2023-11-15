@@ -2,13 +2,18 @@
 import * as consts from '../shared/constants.js';
 import BaseComponent from './Base/BaseComponent.js';
 import { LeftSidebarContainer } from './LeftSidebarContainer.js';
+import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
 import TextInputInterpretated from './TextInputInterpretated.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
 const textInputSelector: consts.selector = '.text-input-wrap';
 const dataMetaIdSelector: consts.selector = '[data-meta-id]'
+const removeForSelector: consts.selector = '[remove-for]';
+const removableSelector: consts.selector = '[removable]';
+
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
+const removeForAttr: consts.attribute = 'remove-for';
 const removebtnType: consts.componentType = 'removebtn';
 
 class SlideTunerCard extends BaseComponent {
@@ -64,4 +69,14 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
     GlobalMeta.removeSlideDataById(id);
     SlideTunerCard.clear();
     LeftSidebarContainer.removeItem(id);
+});
+
+$(slideTunerCardSelector).on('click', removeForSelector, function () {
+    let removeForId = $(this).attr(removeForAttr);
+    const id = SlideTunerCard.getDataMetaId();
+    let slideData = GlobalMeta.getSlideData(id);
+    slideData.data.Buttons = slideData.data.Buttons.filter(x => x[0] != 'Variant1');
+
+    GlobalMeta.updateSlideData(slideData);
+    $(consts.combine('removable', removeForId)).remove();
 });
