@@ -9,8 +9,10 @@ const textInputSelector = '.text-input-wrap';
 const dataMetaIdSelector = '[data-meta-id]';
 const removeForSelector = '[remove-for]';
 const removableSelector = '[removable]';
+const topLevelSelector = '[top-level]';
 const dataMetaIdAttr = 'data-meta-id';
 const removeForAttr = 'remove-for';
+const topLevelAttr = 'top-level';
 const removebtnType = 'removebtn';
 class SlideTunerCard extends BaseComponent {
     static getDataMetaId() {
@@ -55,10 +57,15 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
     LeftSidebarContainer.removeItem(id);
 });
 $(slideTunerCardSelector).on('click', removeForSelector, function () {
-    let removeForId = $(this).attr(removeForAttr);
     const id = SlideTunerCard.getDataMetaId();
     let slideData = GlobalMeta.getSlideData(id);
+    let topLevelFieldset = $(this).parents(topLevelSelector);
+    let title = $(this).parent().siblings(consts.combine('data-kind', 'title')).text();
+    let topLevel = topLevelFieldset.attr(topLevelAttr);
+    let buttons = slideData.data[topLevel];
+    slideData.data[topLevel] = buttons.filter(x => x[title] == null);
     GlobalMeta.updateSlideData(slideData);
+    let removeForId = $(this).attr(removeForAttr);
     $(consts.combine('removable', removeForId)).remove();
 });
 //# sourceMappingURL=SlideTunerCard.js.map

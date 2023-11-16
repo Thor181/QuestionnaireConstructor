@@ -22,6 +22,9 @@ class Fieldset extends BaseComponent {
             let innerContent = this.rendered.innerContent + this.children.join(' ');
             innerContent = replaceAll(innerContent, '{{childFor}}', this.rendered.topLevel);
             let renderInternal = Object.assign(Object.assign({}, this.rendered), { innerContent: innerContent });
+            if (this.addButton != null) {
+                renderInternal.innerContent += yield this.addButton.render();
+            }
             return yield _super.getControl.call(this, "/js/components/Fieldset.html", renderInternal);
         });
     }

@@ -31,17 +31,18 @@ type attribute = 'data-order-max'
     | 'child-for'
     | 'remove-for'
     | 'removable'
+    | 'top-level'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
     | '.slide-wrapper'
-    | `[${attribute}]`
     | '#left-sidebar-container'
     | '#global-meta'
     | '.slide-tuner__card'
     | '.slide-tuner__item'
     | '.sidebar__item'
     | '.text-input-wrap'
+    | `[${attribute}]`
 
 type event = 'SlideAdded'
     | 'SlideUpdated'

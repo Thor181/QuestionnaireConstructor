@@ -1,4 +1,5 @@
-﻿import { GlobalMeta } from '../shared/GlobalMeta.js';
+﻿import { todo } from 'node:test';
+import { GlobalMeta } from '../shared/GlobalMeta.js';
 import * as consts from '../shared/constants.js';
 import BaseComponent from './Base/BaseComponent.js';
 import { LeftSidebarContainer } from './LeftSidebarContainer.js';
@@ -11,9 +12,12 @@ const textInputSelector: consts.selector = '.text-input-wrap';
 const dataMetaIdSelector: consts.selector = '[data-meta-id]'
 const removeForSelector: consts.selector = '[remove-for]';
 const removableSelector: consts.selector = '[removable]';
+const topLevelSelector: consts.selector = '[top-level]';
 
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const removeForAttr: consts.attribute = 'remove-for';
+const topLevelAttr: consts.attribute = 'top-level';
+
 const removebtnType: consts.componentType = 'removebtn';
 
 class SlideTunerCard extends BaseComponent {
@@ -72,11 +76,19 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
 });
 
 $(slideTunerCardSelector).on('click', removeForSelector, function () {
-    let removeForId = $(this).attr(removeForAttr);
+
     const id = SlideTunerCard.getDataMetaId();
     let slideData = GlobalMeta.getSlideData(id);
-    //TODO: remove slide from globalMeta
+  
+    let topLevelFieldset = $(this).parents(topLevelSelector);
+
+    let title = $(this).parent().siblings(consts.combine('data-kind', 'title')).text();
+    let topLevel = topLevelFieldset.attr(topLevelAttr);
+    let buttons:[] = slideData.data[topLevel];
+    slideData.data[topLevel] = buttons.filter(x => x[title] == null);
 
     GlobalMeta.updateSlideData(slideData);
+
+    let removeForId = $(this).attr(removeForAttr);
     $(consts.combine('removable', removeForId)).remove();
 });

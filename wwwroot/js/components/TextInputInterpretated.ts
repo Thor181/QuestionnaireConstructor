@@ -11,7 +11,7 @@ class TextInputInterpretated {
 
         if (element.attr('data-type') == null) {
 
-            element = element.parent('[data-type]');
+            element = element.parents('[data-type]');
 
             if (element.attr('data-type') == null) {
                 throw new Error('element must have "data-type" attribute');
