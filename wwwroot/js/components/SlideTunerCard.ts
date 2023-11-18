@@ -5,6 +5,9 @@ import BaseComponent from './Base/BaseComponent.js';
 import { LeftSidebarContainer } from './LeftSidebarContainer.js';
 import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
 import TextInputInterpretated from './TextInputInterpretated.js';
+import Button from './Button.js';
+import TextInputRemovable from './TextInputRemovable.js';
+import generateShortUniq from '../shared/guid.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
@@ -19,6 +22,9 @@ const removeForAttr: consts.attribute = 'remove-for';
 const topLevelAttr: consts.attribute = 'top-level';
 
 const removebtnType: consts.componentType = 'removebtn';
+const addbtnType: consts.componentType = 'addbtn';
+
+const addImagePath: consts.imagePath = '/img/add.svg';
 
 class SlideTunerCard extends BaseComponent {
 
@@ -60,9 +66,22 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
     else {
         let topLevel = inter.getChildFor();
         let btns: [] = storageSlideData.data[topLevel];
+
+
         let obj: object = btns.filter(x => Object.keys(x).find(y => y == title) != null)[0];
-        //@ts-ignore
-        obj[title] = value;
+
+        if (obj != null) {
+            //@ts-ignore
+            obj[title] = value;
+        }
+        else {
+            let count = $(removableSelector).length;
+            let newPropTitle = `Variant ${count}`;
+            let newObject = { [newPropTitle]: value, Value: count };
+
+            //@ts-ignore
+            btns.push(newObject);
+        }
     }
 
     GlobalMeta.updateSlideData(storageSlideData);
@@ -73,6 +92,20 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
     GlobalMeta.removeSlideDataById(id);
     SlideTunerCard.clear();
     LeftSidebarContainer.removeItem(id);
+});
+
+$(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), async function () {
+    const id = SlideTunerCard.getDataMetaId();
+
+    let count = $(this).parents('.fieldset__innerContent').children(consts.combine('data-type', 'text')).length;
+    let btn = new TextInputRemovable();
+    btn.removeFor = generateShortUniq();
+    btn.rendered.title = `Variant ${count + 1}`;
+    btn.rendered.inputValue = '';
+    btn.rendered.placeholder = `Variant ${count + 1}`;
+    btn.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
+
+    $(this).before(await btn.render())
 });
 
 $(slideTunerCardSelector).on('click', removeForSelector, function () {

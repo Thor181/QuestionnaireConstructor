@@ -8,12 +8,14 @@ import Fieldset from './Fieldset.js';
 import TextInputBase from './Base/TextInputBase.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
+import { config } from 'process';
 
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const textType: consts.componentType = 'text';
 const removebtnType: consts.componentType = 'removebtn';
 const deleteImagePath: consts.imagePath = '/img/delete.svg';
+const addImagePath: consts.imagePath = '/img/add.svg'
 
 class SlideTunerCardGenerator extends BaseComponent {
 
@@ -62,7 +64,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.componentsOrder.push(textType);
     }
 
-    async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string) {
+    async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string, canAdd: boolean) {
 
         let fieldset = await this.addFieldset(fieldsetLegend, 'Buttons');
         for (var i = 0; i < configs.length; i++) {
@@ -86,6 +88,15 @@ class SlideTunerCardGenerator extends BaseComponent {
             fieldset.children.push(renderedButton);
         }
 
+        if (canAdd) {
+            var button_add = new Button();
+            button_add.rendered.title = 'Add variant';
+            button_add.rendered.imagePath = addImagePath;
+            button_add.dataType = 'addbtn';
+
+            fieldset.rendered.button_add = await button_add.render();
+        }
+
         let item = new SlideTunerCardItem();
         item.rendered.innerContent = await fieldset.render();
         let renderedItem = await item.render();
@@ -104,6 +115,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         const button = new Button();
         button.rendered.title = title;
         button.rendered.imagePath = deleteImagePath;
+        button.dataType = 'removebtn';
 
         const renderedButton = await button.render();
 

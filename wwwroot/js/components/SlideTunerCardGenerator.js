@@ -19,6 +19,7 @@ const slideTunerCardSelector = '.slide-tuner__card';
 const textType = 'text';
 const removebtnType = 'removebtn';
 const deleteImagePath = '/img/delete.svg';
+const addImagePath = '/img/add.svg';
 class SlideTunerCardGenerator extends BaseComponent {
     constructor() {
         super();
@@ -55,7 +56,7 @@ class SlideTunerCardGenerator extends BaseComponent {
             this.componentsOrder.push(textType);
         });
     }
-    addButtons(configs, fieldsetLegend) {
+    addButtons(configs, fieldsetLegend, canAdd) {
         return __awaiter(this, void 0, void 0, function* () {
             let fieldset = yield this.addFieldset(fieldsetLegend, 'Buttons');
             for (var i = 0; i < configs.length; i++) {
@@ -74,6 +75,13 @@ class SlideTunerCardGenerator extends BaseComponent {
                 button.rendered.placeholder = config.placeholder;
                 let renderedButton = yield button.render();
                 fieldset.children.push(renderedButton);
+            }
+            if (canAdd) {
+                var button_add = new Button();
+                button_add.rendered.title = 'Add variant';
+                button_add.rendered.imagePath = addImagePath;
+                button_add.dataType = 'addbtn';
+                fieldset.rendered.button_add = yield button_add.render();
             }
             let item = new SlideTunerCardItem();
             item.rendered.innerContent = yield fieldset.render();
@@ -95,6 +103,7 @@ class SlideTunerCardGenerator extends BaseComponent {
             const button = new Button();
             button.rendered.title = title;
             button.rendered.imagePath = deleteImagePath;
+            button.dataType = 'removebtn';
             const renderedButton = yield button.render();
             const cardItem = this.createSlideTunerCardItem(renderedButton);
             const renderedCardItem = yield cardItem.render();

@@ -20,6 +20,7 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/TextInputRemovable.html'
 
 type imagePath = '/img/delete.svg'
+    | '/img/add.svg'
 
 type attribute = 'data-order-max'
     | 'data-schemename'
@@ -53,6 +54,7 @@ type componentType = 'text'
     | 'nextprevbuttons'
     | 'buttons'
     | 'fieldset'
+    | 'addbtn'
 
 const renderTypes = {
     'Title': 'text',

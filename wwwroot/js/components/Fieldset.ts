@@ -3,7 +3,7 @@ import Button from "./Button.js";
 
 class Fieldset extends BaseComponent {
 
-    rendered: { innerContent: string, legend: string, topLevel: string, addButton: string }
+    rendered: { innerContent: string, legend: string, topLevel: string, button_add: string }
     //TODO: add addButton
     children: Array<string>;
 
@@ -20,8 +20,8 @@ class Fieldset extends BaseComponent {
 
         let renderInternal = { ...this.rendered, innerContent: innerContent };
 
-        if (this.addButton != null) {
-            renderInternal.innerContent += await this.addButton.render();
+        if (this.rendered.button_add != null && this.rendered.button_add.length > 0) {
+            renderInternal.innerContent += await this.rendered.button_add;
         }
 
         return await super.getControl("/js/components/Fieldset.html", renderInternal);

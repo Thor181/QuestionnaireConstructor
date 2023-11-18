@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import BaseComponent from "./Base/BaseComponent.js";
 const gappedStyleClass = "button--gapped";
-const removebtnType = "removebtn";
 class Button extends BaseComponent {
     constructor() {
         super();
@@ -24,7 +23,7 @@ class Button extends BaseComponent {
                 this.rendered.classes.push(gappedStyleClass);
             }
             const renderedInternal = Object.assign(Object.assign({}, this.rendered), { classes: this.rendered.classes.join(' '), style: this.rendered.style.join(' ') });
-            return yield _super.getControl.call(this, "/js/components/Button.html", Object.assign(Object.assign({}, renderedInternal), { dataType: removebtnType }));
+            return yield _super.getControl.call(this, "/js/components/Button.html", Object.assign(Object.assign({}, renderedInternal), { dataType: this.dataType }));
         });
     }
 }

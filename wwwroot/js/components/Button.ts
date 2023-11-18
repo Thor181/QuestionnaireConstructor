@@ -2,15 +2,17 @@
 import * as consts from '../shared/constants.js'
 
 const gappedStyleClass: consts.styleModifier = "button--gapped";
-const removebtnType: consts.componentType = "removebtn";
+
+type btnType = Extract<consts.componentType, "addbtn" | "removebtn">
 
 class Button extends BaseComponent {
 
     rendered: { title: string, imagePath: string, classes: Array<string>, style: Array<string> };
+    dataType: btnType
 
     constructor() {
         super();
-        this.rendered = Object.create({title: '', imagePath: '', classes: [], style: []});
+        this.rendered = Object.create({ title: '', imagePath: '', classes: [], style: [] });
     }
 
     async render(): Promise<string> {
@@ -25,7 +27,7 @@ class Button extends BaseComponent {
             style: this.rendered.style.join(' ')
         }
 
-        return await super.getControl("/js/components/Button.html", { ...renderedInternal, dataType: removebtnType } );
+        return await super.getControl("/js/components/Button.html", { ...renderedInternal, dataType: this.dataType } );
     }
 
 }
