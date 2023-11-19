@@ -18,6 +18,7 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/SlideTunerCardExpandItem.html'
     | '/js/components/Fieldset.html'
     | '/js/components/TextInputRemovable.html'
+    | '/js/components/ToggleSwitch.html'
 
 type imagePath = '/img/delete.svg'
     | '/img/add.svg'
@@ -34,6 +35,7 @@ type attribute = 'data-order-max'
     | 'removable'
     | 'top-level'
     | 'meta-value'
+    | 'data-meta-title'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
@@ -58,6 +60,7 @@ type componentType = 'text'
     | 'fieldset'
     | 'addbtn'
     | 'multiselect'
+    | 'toggleswitch'
 
 const renderTypes = {
     'Title': 'text',
@@ -68,6 +71,7 @@ const renderTypes = {
     'Assistive text': 'text',
     'NextPrevButtons': 'nextprevbuttons',
     'Buttons': 'buttons',
+    'Single select': 'toggleswitch',
 
     //@ts-ignore
     getValueByKey(key: string) { return renderTypes[key]; },

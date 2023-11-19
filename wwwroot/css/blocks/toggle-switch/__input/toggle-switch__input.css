@@ -1,0 +1,17 @@
+﻿:root {
+    --toggle-switch-input__translateX: calc(var(--toggle-switch_width) - 26px)
+}
+
+.toggle-switch__input:checked + .toggle-switch__slider { 
+    background-color: var(--main_blue);
+}
+
+.toggle-switch__input:focus + .toggle-switch__slider {
+    box-shadow: 0 0 1px var(--main_blue);
+}
+
+.toggle-switch__input:checked + .toggle-switch__slider:before {
+    -webkit-transform: translateX(var(--toggle-switch-input__translateX));
+    -ms-transform: translateX(var(--toggle-switch-input__translateX));
+    transform: translateX(var(--toggle-switch-input__translateX));
+}

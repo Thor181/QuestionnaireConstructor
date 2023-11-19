@@ -8,6 +8,7 @@ const renderTypes = {
     'Assistive text': 'text',
     'NextPrevButtons': 'nextprevbuttons',
     'Buttons': 'buttons',
+    'Single select': 'toggleswitch',
     getValueByKey(key) { return renderTypes[key]; },
     getKeyByValue(value) { return Object.keys(renderTypes).find(x => renderTypes[x] === value); }
 };

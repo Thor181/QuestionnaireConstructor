@@ -23,13 +23,16 @@ const removeForSelector = '[remove-for]';
 const removableSelector = '[removable]';
 const topLevelSelector = '[top-level]';
 const fieldsetInnerContentSelector = '.fieldset__innerContent';
+const dataMetaTitleSelector = '[data-meta-title]';
 const dataMetaIdAttr = 'data-meta-id';
 const removeForAttr = 'remove-for';
 const topLevelAttr = 'top-level';
 const metaValueAttr = 'meta-value';
+const dataMetaTitleAttribute = 'data-meta-title';
 const removebtnType = 'removebtn';
 const addbtnType = 'addbtn';
 const textType = 'text';
+const toggleswitchType = 'toggleswitch';
 const addImagePath = '/img/add.svg';
 class SlideTunerCard extends BaseComponent {
     static getDataMetaId() {
@@ -99,6 +102,13 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), f
         btn.rendered.metaValue = count + 1;
         $(this).before(yield btn.render());
     });
+});
+$(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect'), function () {
+    const id = SlideTunerCard.getDataMetaId();
+    const slideData = GlobalMeta.getSlideData(id);
+    const metaTitle = $(this).parents(dataMetaTitleSelector).attr(dataMetaTitleAttribute);
+    slideData.data[metaTitle] = $(this).is(':checked');
+    GlobalMeta.updateSlideData(slideData);
 });
 function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element) => {

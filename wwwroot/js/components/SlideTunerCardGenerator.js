@@ -15,9 +15,7 @@ import TextInput from './TextInput.js';
 import Fieldset from './Fieldset.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
-const slideTunerCardSelector = '.slide-tuner__card';
-const textType = 'text';
-const removebtnType = 'removebtn';
+import ToggleSwitch from './ToggleSwitch.js';
 const deleteImagePath = '/img/delete.svg';
 const addImagePath = '/img/add.svg';
 class SlideTunerCardGenerator extends BaseComponent {
@@ -37,7 +35,7 @@ class SlideTunerCardGenerator extends BaseComponent {
             const cardItem = this.createSlideTunerCardItem(renderedItem);
             const renderedCardItem = yield cardItem.render();
             this.textComponents.push(renderedCardItem);
-            this.componentsOrder.push(textType);
+            this.componentsOrder.push('text');
         });
     }
     addButtonsNextAndPrevious(nextBtnConfig, prevBtnConfig) {
@@ -53,7 +51,7 @@ class SlideTunerCardGenerator extends BaseComponent {
             extendedItem.rendered.innerContent.push(renderedPrevBtn);
             const renderedItem = yield extendedItem.render();
             this.textComponents.push(renderedItem);
-            this.componentsOrder.push(textType);
+            this.componentsOrder.push('text');
         });
     }
     addButtons(configs, fieldsetLegend, canAdd) {
@@ -109,7 +107,18 @@ class SlideTunerCardGenerator extends BaseComponent {
             const cardItem = this.createSlideTunerCardItem(renderedButton);
             const renderedCardItem = yield cardItem.render();
             this.textComponents.push(renderedCardItem);
-            this.componentsOrder.push(removebtnType);
+            this.componentsOrder.push('removebtn');
+        });
+    }
+    addToggleSwitch(config) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const toggleSwitch = new ToggleSwitch();
+            toggleSwitch.rendered = config;
+            const rendered = yield toggleSwitch.render();
+            const cardItem = this.createSlideTunerCardItem(rendered);
+            const renderedCardItem = yield cardItem.render();
+            this.textComponents.push(renderedCardItem);
+            this.componentsOrder.push('toggleswitch');
         });
     }
     render() {

@@ -8,16 +8,16 @@
 
   <ItemGroup>
     <Compile Remove="%2a%2a\**" />
-    <Compile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Compile Remove="wwwroot\js\blocks\**" />
     <Content Remove="%2a%2a\**" />
-    <Content Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <Content Remove="wwwroot\js\blocks\**" />
     <EmbeddedResource Remove="%2a%2a\**" />
-    <EmbeddedResource Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <EmbeddedResource Remove="wwwroot\js\blocks\**" />
     <None Remove="%2a%2a\**" />
-    <None Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <None Remove="wwwroot\js\blocks\**" />
     <TypeScriptCompile Remove="%2a%2a\**" />
     <TypeScriptCompile Remove="node_modules\**" />
-    <TypeScriptCompile Remove="wwwroot\js\blocks\indexed-slide\**" />
+    <TypeScriptCompile Remove="wwwroot\js\blocks\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,8 +62,6 @@
     <None Include="wwwroot\img\save.svg" />
     <None Include="wwwroot\img\search.svg" />
     <None Include="wwwroot\img\up.svg" />
-    <None Include="wwwroot\js\blocks\slide-tuner\__card\slide-tuner__card.js" />
-    <None Include="wwwroot\js\shared\constsJ.js" />
   </ItemGroup>
 
   <ItemGroup>

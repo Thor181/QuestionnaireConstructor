@@ -5,6 +5,7 @@ import IndexedSlideInterpretated from './IndexedSlideInterpretated.js';
 import SidebarItem from './SidebarItem.js';
 import SlideTunerCard, { waitFieldsetInnerContent } from './SlideTunerCard.js';
 import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
+import { toggleSwitchRendered } from './ToggleSwitch.js';
 
 const leftContainerSelector: consts.selector = '#left-sidebar-container';
 const indexSelector: consts.selector = '[index]';
@@ -33,6 +34,7 @@ const nextPrevButtonsType: consts.componentType = 'nextprevbuttons';
 const removebtnType: consts.componentType = 'removebtn';
 const buttonsType: consts.componentType = 'buttons';
 const multiselectType: consts.componentType = 'multiselect';
+const toggleSwitchType: consts.componentType = 'toggleswitch';
 
 const leftContainer = document.querySelector(leftContainerSelector);
 
@@ -105,6 +107,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     
     for (let propName in data) {
         let type = consts.renderTypes.getValueByKey(propName);
+
         if (type == textType) {
             await generator.addTextComponent(propName, data[propName], propName);
         }
@@ -135,11 +138,23 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
                 let removable = slideData.meta.type == multiselectType && i > 0;
 
-                let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable};
+                let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                 buttonsConfigs.push(config);
             }
 
             await generator.addButtons(buttonsConfigs, 'Variants', slideData.meta.type == multiselectType);
+        }
+        else if (type == toggleSwitchType) {
+            let propValue = data[propName];
+            
+            let config: toggleSwitchRendered = {
+                title: propName,
+                dataMetaTitle: propName,
+                dataType: 'toggleswitch',
+                dataKind: 'singleselect',
+                checked: propValue == true ? 'checked' : ''
+            }
+            generator.addToggleSwitch(config);
         }
     }
 

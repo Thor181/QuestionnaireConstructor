@@ -9,11 +9,9 @@ import TextInputBase from './Base/TextInputBase.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import { config } from 'process';
+import ToggleSwitch, { toggleSwitchRendered } from './ToggleSwitch.js';
 
 
-const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
-const textType: consts.componentType = 'text';
-const removebtnType: consts.componentType = 'removebtn';
 const deleteImagePath: consts.imagePath = '/img/delete.svg';
 const addImagePath: consts.imagePath = '/img/add.svg'
 
@@ -42,7 +40,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         const renderedCardItem = await cardItem.render();
 
         this.textComponents.push(renderedCardItem);
-        this.componentsOrder.push(textType);
+        this.componentsOrder.push('text');
     }
 
     async addButtonsNextAndPrevious(nextBtnConfig: consts.buttonConfig, prevBtnConfig: consts.buttonConfig): Promise<void> {
@@ -61,7 +59,7 @@ class SlideTunerCardGenerator extends BaseComponent {
         const renderedItem = await extendedItem.render();
 
         this.textComponents.push(renderedItem);
-        this.componentsOrder.push(textType);
+        this.componentsOrder.push('text');
     }
 
     async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string, canAdd: boolean) {
@@ -124,7 +122,19 @@ class SlideTunerCardGenerator extends BaseComponent {
         const renderedCardItem = await cardItem.render();
 
         this.textComponents.push(renderedCardItem);
-        this.componentsOrder.push(removebtnType);
+        this.componentsOrder.push('removebtn');
+    }
+
+    async addToggleSwitch(config: toggleSwitchRendered) {
+        const toggleSwitch = new ToggleSwitch();
+        toggleSwitch.rendered = config;
+        const rendered = await toggleSwitch.render();
+
+        const cardItem = this.createSlideTunerCardItem(rendered);
+        const renderedCardItem = await cardItem.render();
+
+        this.textComponents.push(renderedCardItem);
+        this.componentsOrder.push('toggleswitch')
     }
 
     async render(): Promise<string> {

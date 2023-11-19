@@ -36,6 +36,7 @@ const nextPrevButtonsType = 'nextprevbuttons';
 const removebtnType = 'removebtn';
 const buttonsType = 'buttons';
 const multiselectType = 'multiselect';
+const toggleSwitchType = 'toggleswitch';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -115,6 +116,17 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     buttonsConfigs.push(config);
                 }
                 yield generator.addButtons(buttonsConfigs, 'Variants', slideData.meta.type == multiselectType);
+            }
+            else if (type == toggleSwitchType) {
+                let propValue = data[propName];
+                let config = {
+                    title: propName,
+                    dataMetaTitle: propName,
+                    dataType: 'toggleswitch',
+                    dataKind: 'singleselect',
+                    checked: propValue == true ? 'checked' : ''
+                };
+                generator.addToggleSwitch(config);
             }
         }
         yield generator.addRemoveButton();

@@ -6,6 +6,7 @@
   "NextPrevButtons": {
     "Button next": "",
     "Button previous": ""
-  }
+  },
+  "CanUserMultiselect": true
 
 }
