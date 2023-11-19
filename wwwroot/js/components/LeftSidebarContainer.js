@@ -37,6 +37,7 @@ const removebtnType = 'removebtn';
 const buttonsType = 'buttons';
 const multiselectType = 'multiselect';
 const toggleSwitchType = 'toggleswitch';
+const imageselectType = 'imageselection';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -107,15 +108,17 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
             else if (type == buttonsType) {
                 let buttons = data[propName];
                 let buttonsConfigs = [];
+                let isRemovable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
+                let isAddable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
                 for (var i = 0; i < buttons.length; i++) {
                     let button = buttons[i];
                     let buttonKeys = Object.keys(button);
                     let notValueKey = buttonKeys.find(x => x != 'Value');
-                    let removable = slideData.meta.type == multiselectType && i > 0;
+                    let removable = isRemovable && i > 0;
                     let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                     buttonsConfigs.push(config);
                 }
-                yield generator.addButtons(buttonsConfigs, 'Variants', slideData.meta.type == multiselectType);
+                yield generator.addButtons(buttonsConfigs, 'Variants', isAddable);
             }
             else if (type == toggleSwitchType) {
                 let propValue = data[propName];

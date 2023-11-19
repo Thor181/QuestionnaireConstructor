@@ -35,6 +35,7 @@ const removebtnType: consts.componentType = 'removebtn';
 const buttonsType: consts.componentType = 'buttons';
 const multiselectType: consts.componentType = 'multiselect';
 const toggleSwitchType: consts.componentType = 'toggleswitch';
+const imageselectType: consts.componentType = 'imageselection';
 
 const leftContainer = document.querySelector(leftContainerSelector);
 
@@ -131,18 +132,21 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             let buttons: [] = data[propName];
             let buttonsConfigs: Array<consts.buttonConfig> = [];
 
+            let isRemovable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
+            let isAddable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
+
             for (var i = 0; i < buttons.length; i++) {
                 let button = buttons[i];
                 let buttonKeys = Object.keys(button);
                 let notValueKey = buttonKeys.find(x => x != 'Value');
 
-                let removable = slideData.meta.type == multiselectType && i > 0;
+                let removable = isRemovable && i > 0;
 
                 let config: consts.buttonConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                 buttonsConfigs.push(config);
             }
 
-            await generator.addButtons(buttonsConfigs, 'Variants', slideData.meta.type == multiselectType);
+            await generator.addButtons(buttonsConfigs, 'Variants', isAddable);
         }
         else if (type == toggleSwitchType) {
             let propValue = data[propName];

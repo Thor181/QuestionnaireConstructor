@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js';
 import { GlobalMeta } from './shared/GlobalMeta.js';
-import generateShortUniq from './shared/guid.js';
 $(function () {
     return __awaiter(this, void 0, void 0, function* () {
         let container = $('#right-sidebar-container');
@@ -38,7 +37,14 @@ $(function () {
         let sidebarItemControl3 = new SidebarItem();
         sidebarItemControl3.rendered.innerContent = yield multiSelectionAvailableSlide.render();
         container.append(yield sidebarItemControl3.render());
-        console.log(generateShortUniq());
+        let imageSelectionAvilableSlide = new AvailableSlide();
+        imageSelectionAvilableSlide.rendered.title = 'Image selection slide';
+        imageSelectionAvilableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--image';
+        imageSelectionAvilableSlide.rendered.schemeName = 'imageselection';
+        imageSelectionAvilableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1, "Image": ""},{"Variant 2": "Variant1", "Value": 2, "Image": ""},{"Variant 3": "Variant1", "Value": 3, "Image": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
+        let sidebarItemControl4 = new SidebarItem();
+        sidebarItemControl4.rendered.innerContent = yield imageSelectionAvilableSlide.render();
+        container.append(yield sidebarItemControl4.render());
         GlobalMeta.initialize();
     });
 });

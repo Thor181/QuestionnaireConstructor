@@ -40,7 +40,18 @@ $(async function () {
     sidebarItemControl3.rendered.innerContent = await multiSelectionAvailableSlide.render();
 
     container.append(await sidebarItemControl3.render());
-    console.log(generateShortUniq());
+
+    let imageSelectionAvilableSlide = new AvailableSlide();
+    imageSelectionAvilableSlide.rendered.title = 'Image selection slide';
+    imageSelectionAvilableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--image';
+    imageSelectionAvilableSlide.rendered.schemeName = 'imageselection';
+    imageSelectionAvilableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1, "Image": ""},{"Variant 2": "Variant1", "Value": 2, "Image": ""},{"Variant 3": "Variant1", "Value": 3, "Image": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }'
+
+    let sidebarItemControl4 = new SidebarItem();
+    sidebarItemControl4.rendered.innerContent = await imageSelectionAvilableSlide.render();
+
+    container.append(await sidebarItemControl4.render());
+
     GlobalMeta.initialize();
 });
 
