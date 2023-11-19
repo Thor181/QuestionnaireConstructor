@@ -33,6 +33,7 @@ type attribute = 'data-order-max'
     | 'remove-for'
     | 'removable'
     | 'top-level'
+    | 'meta-value'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
@@ -42,6 +43,7 @@ type selector = '#right-sidebar-container'
     | '.slide-tuner__card'
     | '.slide-tuner__item'
     | '.sidebar__item'
+    | '.fieldset__innerContent'
     | '.text-input-wrap'
     | `[${attribute}]`
 
@@ -55,6 +57,7 @@ type componentType = 'text'
     | 'buttons'
     | 'fieldset'
     | 'addbtn'
+    | 'multiselect'
 
 const renderTypes = {
     'Title': 'text',

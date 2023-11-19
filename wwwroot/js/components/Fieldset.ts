@@ -4,7 +4,7 @@ import Button from "./Button.js";
 class Fieldset extends BaseComponent {
 
     rendered: { innerContent: string, legend: string, topLevel: string, button_add: string }
-    //TODO: add addButton
+   
     children: Array<string>;
 
     constructor() {

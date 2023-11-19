@@ -8,6 +8,7 @@ import TextInputInterpretated from './TextInputInterpretated.js';
 import Button from './Button.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
+import waitForElm from '../shared/waitforelm.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
@@ -16,13 +17,16 @@ const dataMetaIdSelector: consts.selector = '[data-meta-id]'
 const removeForSelector: consts.selector = '[remove-for]';
 const removableSelector: consts.selector = '[removable]';
 const topLevelSelector: consts.selector = '[top-level]';
+const fieldsetInnerContentSelector: consts.selector = '.fieldset__innerContent';
 
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const removeForAttr: consts.attribute = 'remove-for';
 const topLevelAttr: consts.attribute = 'top-level';
+const metaValueAttr: consts.attribute = 'meta-value';
 
 const removebtnType: consts.componentType = 'removebtn';
 const addbtnType: consts.componentType = 'addbtn';
+const textType: consts.componentType = 'text';
 
 const addImagePath: consts.imagePath = '/img/add.svg';
 
@@ -64,24 +68,50 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
         storageSlideData.data[title] = value;
     }
     else {
+
         let topLevel = inter.getChildFor();
-        let btns: [] = storageSlideData.data[topLevel];
+        let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
+        let children = innerContent.children(consts.combine('data-type', textType));
+        let count = children.length;
 
+        let newButtons = []
 
-        let obj: object = btns.filter(x => Object.keys(x).find(y => y == title) != null)[0];
+        for (var i = 0; i < count; i++) {
+            let child = children.eq(i);
+            let newTitle = 'Variant ' + (i + 1);
+            let oldTitle = child.find(consts.combine('data-kind', 'title')).text();
+            child.find(consts.combine('data-kind', 'title')).text(newTitle);
+            let valueEl = child.find(consts.combine('data-kind', 'value'));
+            valueEl.attr('placeholder', newTitle);
+            valueEl.attr(metaValueAttr, i + 1);
+            let value = valueEl.val();
 
-        if (obj != null) {
-            //@ts-ignore
-            obj[title] = value;
+            newButtons.push({ [newTitle]: value, Value: i + 1 });
         }
-        else {
-            let count = $(removableSelector).length;
-            let newPropTitle = `Variant ${count}`;
-            let newObject = { [newPropTitle]: value, Value: count };
 
-            //@ts-ignore
-            btns.push(newObject);
-        }
+        storageSlideData.data[topLevel] = newButtons;
+
+        //------------------------------------------------
+
+        //let topLevel = inter.getChildFor();
+        //let btns: [] = storageSlideData.data[topLevel];
+
+
+        //let obj: object = btns.filter(x => Object.keys(x).find(y => y == title) != null)[0];
+
+        //if (obj != null) {
+        //    //@ts-ignore
+        //    obj[title] = value;
+        //}
+        //else {
+        //    let count = $(this).parents(fieldsetInnerContentSelector).children(consts.combine('data-type', 'text')).length;
+
+        //    let newPropTitle = `Variant ${count}`;
+        //    let newObject = { [newPropTitle]: value, Value: count };
+
+        //    //@ts-ignore
+        //    btns.push(newObject);
+        //}
     }
 
     GlobalMeta.updateSlideData(storageSlideData);
@@ -97,27 +127,70 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType)
 $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), async function () {
     const id = SlideTunerCard.getDataMetaId();
 
-    let count = $(this).parents('.fieldset__innerContent').children(consts.combine('data-type', 'text')).length;
+    let count = $(this).parents(fieldsetInnerContentSelector).children(consts.combine('data-type', 'text')).length;
     let btn = new TextInputRemovable();
     btn.removeFor = generateShortUniq();
     btn.rendered.title = `Variant ${count + 1}`;
     btn.rendered.inputValue = '';
     btn.rendered.placeholder = `Variant ${count + 1}`;
     btn.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
+    btn.rendered.metaValue = count + 1;
 
     $(this).before(await btn.render())
 });
+
+//waitFieldsetInnerContent();
+
+function waitFieldsetInnerContent() {
+    waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
+        let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
+            let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
+            let children = innerContent.children(consts.combine('data-type', textType));
+            let count = children.length;
+
+            let newButtons = []
+
+            for (var i = 0; i < count; i++) {
+                let child = children.eq(i);
+                let newTitle = 'Variant ' + (i + 1);
+                let oldTitle = child.find(consts.combine('data-kind', 'title')).text();
+                child.find(consts.combine('data-kind', 'title')).text(newTitle);
+                let valueEl = child.find(consts.combine('data-kind', 'value'));
+                valueEl.attr('placeholder', newTitle);
+                valueEl.attr(metaValueAttr, i + 1);
+                let value = valueEl.val();
+
+                newButtons.push({ [newTitle]: value, Value: i + 1 });
+            }
+
+            let id = SlideTunerCard.getDataMetaId();
+            let slideData = GlobalMeta.getSlideData(id);
+            slideData.data['Buttons'] = newButtons;
+
+            GlobalMeta.updateSlideData(slideData);
+
+        });
+        waitForElm(fieldsetInnerContentSelector).then(() => {
+            let innerContent = document.querySelector(fieldsetInnerContentSelector);
+            fieldsetInnerContentMutationObserver.observe(innerContent, { childList: true });
+        })
+
+    });
+
+}
+
+export { waitFieldsetInnerContent };
 
 $(slideTunerCardSelector).on('click', removeForSelector, function () {
 
     const id = SlideTunerCard.getDataMetaId();
     let slideData = GlobalMeta.getSlideData(id);
-  
+
     let topLevelFieldset = $(this).parents(topLevelSelector);
 
     let title = $(this).parent().siblings(consts.combine('data-kind', 'title')).text();
     let topLevel = topLevelFieldset.attr(topLevelAttr);
-    let buttons:[] = slideData.data[topLevel];
+    let buttons: [] = slideData.data[topLevel];
     slideData.data[topLevel] = buttons.filter(x => x[title] == null);
 
     GlobalMeta.updateSlideData(slideData);

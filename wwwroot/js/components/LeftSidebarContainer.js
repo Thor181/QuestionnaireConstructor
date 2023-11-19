@@ -12,7 +12,7 @@ import { GlobalMeta } from '../shared/GlobalMeta.js';
 import IndexedSlide from './IndexedSlide.js';
 import IndexedSlideInterpretated from './IndexedSlideInterpretated.js';
 import SidebarItem from './SidebarItem.js';
-import SlideTunerCard from './SlideTunerCard.js';
+import SlideTunerCard, { waitFieldsetInnerContent } from './SlideTunerCard.js';
 import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
 const leftContainerSelector = '#left-sidebar-container';
 const indexSelector = '[index]';
@@ -35,6 +35,7 @@ const textType = 'text';
 const nextPrevButtonsType = 'nextprevbuttons';
 const removebtnType = 'removebtn';
 const buttonsType = 'buttons';
+const multiselectType = 'multiselect';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -79,6 +80,7 @@ export class LeftSidebarContainer {
 }
 $(leftContainerSelector).on('click', sidebarItemSelector, function () {
     return __awaiter(this, void 0, void 0, function* () {
+        waitFieldsetInnerContent();
         const inter = new IndexedSlideInterpretated($(this).children().first());
         const slideTunerCard = $(slideTunerCardSelector);
         SlideTunerCard.clear();
@@ -108,11 +110,11 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     let button = buttons[i];
                     let buttonKeys = Object.keys(button);
                     let notValueKey = buttonKeys.find(x => x != 'Value');
-                    let removable = data.Multiselect == true && i > 0;
+                    let removable = slideData.meta.type == multiselectType && i > 0;
                     let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                     buttonsConfigs.push(config);
                 }
-                yield generator.addButtons(buttonsConfigs, 'Variants', data.Multiselect);
+                yield generator.addButtons(buttonsConfigs, 'Variants', slideData.meta.type == multiselectType);
             }
         }
         yield generator.addRemoveButton();

@@ -4,7 +4,7 @@ import BaseComponent from "./BaseComponent.js";
 class TextInputBase extends BaseComponent {
 
     /**@virtual */
-    rendered: { title: string, inputValue: string, placeholder: string, childFor: string };
+    rendered: { title: string, inputValue: string, placeholder: string, childFor: string, metaValue: number };
 
     protected path: componentPath;
 

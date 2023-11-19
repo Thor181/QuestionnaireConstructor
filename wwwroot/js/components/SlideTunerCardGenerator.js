@@ -43,10 +43,10 @@ class SlideTunerCardGenerator extends BaseComponent {
     addButtonsNextAndPrevious(nextBtnConfig, prevBtnConfig) {
         return __awaiter(this, void 0, void 0, function* () {
             const nextBtn = new TextInput();
-            nextBtn.rendered = Object.assign(Object.assign({}, nextBtnConfig), { childFor: '' });
+            nextBtn.rendered = Object.assign(Object.assign({}, nextBtnConfig), { childFor: '', metaValue: 1 });
             const renderedNextBtn = yield nextBtn.render();
             const prevBtn = new TextInput();
-            prevBtn.rendered = Object.assign(Object.assign({}, prevBtnConfig), { childFor: '' });
+            prevBtn.rendered = Object.assign(Object.assign({}, prevBtnConfig), { childFor: '', metaValue: 0 });
             const renderedPrevBtn = yield prevBtn.render();
             const extendedItem = new SlideTunerCardExpandItem();
             extendedItem.rendered.innerContent.push(renderedNextBtn);
@@ -73,6 +73,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 button.rendered.title = config.title;
                 button.rendered.inputValue = config.inputValue;
                 button.rendered.placeholder = config.placeholder;
+                button.rendered.metaValue = i + 1;
                 let renderedButton = yield button.render();
                 fieldset.children.push(renderedButton);
             }

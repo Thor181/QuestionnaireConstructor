@@ -37,8 +37,12 @@
 }
 
 .fieldset {
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid lightgray;
+}
+.image {
+    width: 100%;
+    height: 100%;
 }
 .header {
     border-bottom: 1px solid var(--gray_lightest);
@@ -46,10 +50,6 @@
     z-index: 3;
 }
  
-.image {
-    width: 100%;
-    height: 100%;
-}
 .input-title {
     width: 100%;
     cursor: text;
@@ -136,14 +136,6 @@
     color: gray;
 
 }
-.image--half-size {
-    width: 50%;
-    height: 50%;
-}
-.image--third-size {
-    width: 30%;
-    height: 30%;
-}
 .input-title__title {
     display: block;
     font-size: 14px;
@@ -152,6 +144,14 @@
     margin: 0;
 }
 
+.image--half-size {
+    width: 50%;
+    height: 50%;
+}
+.image--third-size {
+    width: 30%;
+    height: 30%;
+}
 .sidebar__container {
     overflow: hidden auto;
     height: calc(100vh - 76px);
