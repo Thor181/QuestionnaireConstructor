@@ -45,6 +45,11 @@ class SlideTunerCard extends BaseComponent {
     static clear() {
         $(slideTunerCardSelector).children(slideTunerCardItemSelector).remove();
     }
+    render() {
+        return __awaiter(this, void 0, void 0, function* () {
+            throw new Error('Method not implemented.');
+        });
+    }
 }
 export default SlideTunerCard;
 $(slideTunerCardSelector).on('change', textInputSelector, function () {
@@ -116,6 +121,7 @@ function waitFieldsetInnerContent() {
             let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
             let children = innerContent.children(consts.combine('data-type', textType));
             let count = children.length;
+            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
             let newButtons = [];
             for (var i = 0; i < count; i++) {
                 let child = children.eq(i);
@@ -130,7 +136,7 @@ function waitFieldsetInnerContent() {
             }
             let id = SlideTunerCard.getDataMetaId();
             let slideData = GlobalMeta.getSlideData(id);
-            slideData.data['Buttons'] = newButtons;
+            slideData.data[topLevel] = newButtons;
             GlobalMeta.updateSlideData(slideData);
         });
         waitForElm(fieldsetInnerContentSelector).then(() => {

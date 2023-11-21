@@ -3,8 +3,9 @@ import Button from "./Button.js";
 
 class Fieldset extends BaseComponent {
 
+    components: { [key: string]: BaseComponent; };
     rendered: { innerContent: string, legend: string, topLevel: string, button_add: string }
-   
+
     children: Array<string>;
 
     constructor() {
@@ -12,7 +13,7 @@ class Fieldset extends BaseComponent {
         this.rendered = Object.create({ innerContent: '', legend: '', topLevel: '' });
         this.children = [];
     }
-    
+
     async render(): Promise<string> {
         let innerContent = this.rendered.innerContent + this.children.join(' ');
 

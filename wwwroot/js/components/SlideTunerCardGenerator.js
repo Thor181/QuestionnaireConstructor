@@ -16,6 +16,7 @@ import Fieldset from './Fieldset.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import ToggleSwitch from './ToggleSwitch.js';
+import ImageSelect from './ImageSelect.js';
 const deleteImagePath = '/img/delete.svg';
 const addImagePath = '/img/add.svg';
 class SlideTunerCardGenerator extends BaseComponent {
@@ -52,6 +53,44 @@ class SlideTunerCardGenerator extends BaseComponent {
             const renderedItem = yield extendedItem.render();
             this.textComponents.push(renderedItem);
             this.componentsOrder.push('text');
+        });
+    }
+    addImageSelectFields(configs, fieldsetLegend, canAdd) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let fieldset = yield this.addFieldset(fieldsetLegend, fieldsetLegend);
+            for (var i = 0; i < configs.length; i++) {
+                let config = configs[i];
+                let textInput;
+                let removeFor = generateShortUniq();
+                if (config.removable == true) {
+                    let inputRemovable = new TextInputRemovable();
+                    inputRemovable.removeFor = removeFor;
+                    textInput = inputRemovable;
+                }
+                else {
+                    textInput = new TextInput();
+                }
+                textInput.rendered.title = config.title;
+                textInput.rendered.inputValue = config.inputValue;
+                textInput.rendered.placeholder = config.placeholder;
+                textInput.rendered.metaValue = i + 1;
+                let imageSelect = new ImageSelect();
+                imageSelect.components.TextInput = textInput;
+                imageSelect.rendered.removeFor = removeFor;
+                let renderedImageSelect = yield imageSelect.render();
+                fieldset.children.push(renderedImageSelect);
+            }
+            if (canAdd) {
+                var button_add = new Button();
+                button_add.rendered.title = 'Add variant';
+                button_add.rendered.imagePath = addImagePath;
+                button_add.dataType = 'addImageBtn';
+                fieldset.rendered.button_add = yield button_add.render();
+            }
+            let item = new SlideTunerCardItem();
+            item.rendered.innerContent = yield fieldset.render();
+            let renderedItem = yield item.render();
+            this.fieldsets.push(renderedItem);
         });
     }
     addButtons(configs, fieldsetLegend, canAdd) {

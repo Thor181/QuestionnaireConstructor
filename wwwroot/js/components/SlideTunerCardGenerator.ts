@@ -8,14 +8,18 @@ import Fieldset from './Fieldset.js';
 import TextInputBase from './Base/TextInputBase.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
-import { config } from 'process';
+import { config, config } from 'process';
 import ToggleSwitch, { toggleSwitchRendered } from './ToggleSwitch.js';
+import ImageSelect from './ImageSelect.js';
 
 
 const deleteImagePath: consts.imagePath = '/img/delete.svg';
 const addImagePath: consts.imagePath = '/img/add.svg'
 
 class SlideTunerCardGenerator extends BaseComponent {
+
+    components: { [key: string]: BaseComponent; };
+    rendered: { [key: string]: any; };
 
     textComponents: Array<string>;
 
@@ -62,10 +66,57 @@ class SlideTunerCardGenerator extends BaseComponent {
         this.componentsOrder.push('text');
     }
 
+    async addImageSelectFields(configs: Array<consts.imageSelectConfig>, fieldsetLegend: string, canAdd: boolean) {
+        let fieldset = await this.addFieldset(fieldsetLegend, fieldsetLegend);
+
+        for (var i = 0; i < configs.length; i++) {
+            let config = configs[i];
+
+            let textInput: TextInputBase;
+
+            let removeFor = generateShortUniq();
+            if (config.removable == true) {
+                let inputRemovable = new TextInputRemovable();
+                inputRemovable.removeFor = removeFor;
+                textInput = inputRemovable;
+            }
+            else {
+                textInput = new TextInput();
+            }
+
+            textInput.rendered.title = config.title;
+            textInput.rendered.inputValue = config.inputValue;
+            textInput.rendered.placeholder = config.placeholder;
+            textInput.rendered.metaValue = i + 1;
+
+            let imageSelect = new ImageSelect();
+            imageSelect.components.TextInput = textInput;
+            imageSelect.rendered.removeFor = removeFor;
+
+            let renderedImageSelect = await imageSelect.render();
+            fieldset.children.push(renderedImageSelect);
+        }
+
+        if (canAdd) {
+            var button_add = new Button();
+            button_add.rendered.title = 'Add variant';
+            button_add.rendered.imagePath = addImagePath;
+            button_add.dataType = 'addImageBtn';
+
+            fieldset.rendered.button_add = await button_add.render();
+        }
+
+        let item = new SlideTunerCardItem();
+        item.rendered.innerContent = await fieldset.render();
+        let renderedItem = await item.render();
+        this.fieldsets.push(renderedItem);
+    }
+
     async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string, canAdd: boolean) {
 
         let fieldset = await this.addFieldset(fieldsetLegend, 'Buttons');
         for (var i = 0; i < configs.length; i++) {
+
             let config = configs[i];
 
             let button: TextInputBase;

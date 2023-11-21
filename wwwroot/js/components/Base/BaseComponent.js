@@ -12,9 +12,14 @@ class BaseComponent {
         return __awaiter(this, void 0, void 0, function* () {
             let response = yield fetch(path);
             if (response.ok) {
+                for (var i in this.components) {
+                    let component = this.components[i];
+                    parameters = Object.assign(Object.assign({}, parameters), { [i]: yield component.render() });
+                }
                 let control = yield response.text();
                 if (parameters != undefined) {
                     for (let key in parameters) {
+                        control = replaceAll(control, `[[${key}]]`, parameters[key]);
                         control = replaceAll(control, `{{${key}}}`, parameters[key]);
                     }
                 }

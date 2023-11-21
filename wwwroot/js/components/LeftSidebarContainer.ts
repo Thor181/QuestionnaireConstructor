@@ -17,6 +17,7 @@ const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerItem: consts.selector = '.slide-tuner__item';
 const dataKindSelector: consts.selector = '[data-kind]';
 
+const imageButtonsRenderType = consts.renderTypes.ImageButtons;
 
 const globalMeta: consts.selector = '#global-meta';
 
@@ -146,11 +147,32 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
                 buttonsConfigs.push(config);
             }
 
-            await generator.addButtons(buttonsConfigs, 'Variants', isAddable);
+            await generator.addButtons(buttonsConfigs, propName, isAddable);
+        }
+        else if (type == imageButtonsRenderType) {
+            let buttons: [] = data[propName];
+            let buttonsConfigs: Array<consts.imageSelectConfig> = [];
+
+            let isRemovable = slideData.meta.type == imageselectType;
+            let isAddable = slideData.meta.type == imageselectType;
+
+            for (var i = 0; i < buttons.length; i++) {
+                let button = buttons[i];
+                let buttonKeys = Object.keys(button);
+                let notValueKey = buttonKeys.find(x => x != 'Value');
+
+                let removable = isRemovable && i > 0;
+
+                let config: consts.imageSelectConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
+                buttonsConfigs.push(config);
+            }
+
+            await generator.addImageSelectFields(buttonsConfigs, propName, isAddable);
+
         }
         else if (type == toggleSwitchType) {
             let propValue = data[propName];
-            
+
             let config: toggleSwitchRendered = {
                 title: propName,
                 dataMetaTitle: propName,
@@ -158,8 +180,10 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
                 dataKind: 'singleselect',
                 checked: propValue == true ? 'checked' : ''
             }
+
             generator.addToggleSwitch(config);
         }
+        
     }
 
     await generator.addRemoveButton();

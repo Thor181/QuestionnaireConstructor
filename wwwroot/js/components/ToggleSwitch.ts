@@ -2,19 +2,30 @@
 import { isNullOrEmpty } from "../shared/utils.js";
 import BaseComponent from "./Base/BaseComponent.js";
 import * as consts from '../shared/constants.js'
+import Button from "./Button.js";
 
-type checked = 'checked' | '';
-type toggleSwitchRendered = { id?: string, title: string, dataMetaTitle: string, dataType: consts.componentType, dataKind: string, checked: checked }
+type toggleSwitchRendered = {
+    id?: string,
+    title: string,
+    dataMetaTitle: string,
+    dataType: consts.componentType,
+    dataKind: string,
+    checked: 'checked' | ''
+}
 
 class ToggleSwitch extends BaseComponent {
 
+    components: { [key: string]: BaseComponent; };
     rendered: toggleSwitchRendered
 
     constructor() {
         super();
-        this.rendered = Object.create({ });
+        this.rendered = Object.create({});
     }
 
+    /**
+     * @override
+     */
     async render(): Promise<string> {
 
         if (isNullOrEmpty(this.rendered.id)) {

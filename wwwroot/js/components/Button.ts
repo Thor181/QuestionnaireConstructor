@@ -3,10 +3,11 @@ import * as consts from '../shared/constants.js'
 
 const gappedStyleClass: consts.styleModifier = "button--gapped";
 
-type btnType = Extract<consts.componentType, "addbtn" | "removebtn">
+type btnType = Extract<consts.componentType, "addbtn" | "removebtn" | "addImageBtn">
 
 class Button extends BaseComponent {
 
+    components: { [key: string]: BaseComponent; };
     rendered: { title: string, imagePath: string, classes: Array<string>, style: Array<string> };
     dataType: btnType
 
@@ -27,7 +28,7 @@ class Button extends BaseComponent {
             style: this.rendered.style.join(' ')
         }
 
-        return await super.getControl("/js/components/Button.html", { ...renderedInternal, dataType: this.dataType } );
+        return await super.getControl("/js/components/Button.html", { ...renderedInternal, dataType: this.dataType });
     }
 
 }

@@ -1,16 +1,29 @@
 ﻿import { componentPath } from "../../shared/constants";
 
-class BaseComponent {
+abstract class BaseComponent {
 
-    protected async getControl(path: componentPath, parameters: any) {
+    abstract rendered: { [key: string]: any };
+    abstract components: { [key: string]: BaseComponent };
+
+    /**@virtual */
+    abstract render(): Promise<string>;
+
+    protected async getControl(path: componentPath, parameters: { [key: string]: any }) {
 
         let response = await fetch(path);
         if (response.ok) {
+
+            for (var i in this.components) {
+                let component = this.components[i]
+                parameters = { ...parameters, [i]: await component.render() };
+            }
 
             let control = await response.text();
 
             if (parameters != undefined) {
                 for (let key in parameters) {
+
+                    control = replaceAll(control, `[[${key}]]`, parameters[key]);
                     control = replaceAll(control, `{{${key}}}`, parameters[key]);
                 }
             }

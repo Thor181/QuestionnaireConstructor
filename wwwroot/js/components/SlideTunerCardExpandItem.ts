@@ -2,6 +2,7 @@
 
 class SlideTunerCardExpandItem extends BaseComponent {
 
+    components: { [key: string]: BaseComponent; };
     rendered: { innerContent: Array<string> }
 
     constructor() {

@@ -20,6 +20,8 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/Fieldset.html'
     | '/js/components/TextInputRemovable.html'
     | '/js/components/ToggleSwitch.html'
+    | '/js/components/ImageSelect.html'
+
 
 type imagePath = '/img/delete.svg'
     | '/img/add.svg'
@@ -63,6 +65,8 @@ type componentType = 'text'
     | 'multiselect'
     | 'toggleswitch'
     | 'imageselection'
+    | 'addImageBtn'
+
 
 const renderTypes = {
     'Title': 'text',
@@ -74,6 +78,7 @@ const renderTypes = {
     'NextPrevButtons': 'nextprevbuttons',
     'Buttons': 'buttons',
     'Single select': 'toggleswitch',
+    'ImageButtons': 'imagebuttons',
 
     //@ts-ignore
     getValueByKey(key: string) { return renderTypes[key]; },
@@ -110,6 +115,7 @@ const saveDataTypes = {
 }
 
 type buttonConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
+type imageSelectConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
 
 const combine = (attribute: attribute, value: string) => {
     return `[${attribute}='${value}']`
@@ -129,7 +135,8 @@ export {
     buttonConfig,
     renderTypes,
     saveDataTypes,
-    availableSaveDataTypes
+    availableSaveDataTypes,
+    imageSelectConfig
 }
 
 const slideType = {

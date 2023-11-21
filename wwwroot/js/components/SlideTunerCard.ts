@@ -35,6 +35,9 @@ const addImagePath: consts.imagePath = '/img/add.svg';
 
 class SlideTunerCard extends BaseComponent {
 
+    components: { [key: string]: BaseComponent; };
+    rendered: { [key: string]: any; };
+
     static getDataMetaId(): number {
         const id = Number($(slideTunerCardSelector).find(dataMetaIdSelector).attr(dataMetaIdAttr));
         return id;
@@ -46,6 +49,10 @@ class SlideTunerCard extends BaseComponent {
 
     static clear() {
         $(slideTunerCardSelector).children(slideTunerCardItemSelector).remove();
+    }
+
+    async render(): Promise<string> {
+        throw new Error('Method not implemented.');
     }
 }
 
@@ -130,10 +137,12 @@ $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect
 
 function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
+
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
             let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
             let children = innerContent.children(consts.combine('data-type', textType));
             let count = children.length;
+            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
 
             let newButtons = []
 
@@ -152,7 +161,7 @@ function waitFieldsetInnerContent() {
 
             let id = SlideTunerCard.getDataMetaId();
             let slideData = GlobalMeta.getSlideData(id);
-            slideData.data['Buttons'] = newButtons;
+            slideData.data[topLevel] = newButtons;
 
             GlobalMeta.updateSlideData(slideData);
 

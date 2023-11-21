@@ -3,7 +3,7 @@ import BaseComponent from "./BaseComponent.js";
 
 class TextInputBase extends BaseComponent {
 
-    /**@virtual */
+    components: { [key: string]: BaseComponent; };
     rendered: { title: string, inputValue: string, placeholder: string, childFor: string, metaValue: number };
 
     protected path: componentPath;
@@ -13,7 +13,9 @@ class TextInputBase extends BaseComponent {
         this.path = path;
     }
 
-    /**@virtual */
+    /**
+     * @override
+     */
     async render(): Promise<string> {
         return await super.getControl(this.path, this.rendered);
     }

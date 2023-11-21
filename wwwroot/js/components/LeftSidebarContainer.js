@@ -23,6 +23,7 @@ const dataMetaOrderSelector = '[data-meta-order]';
 const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerItem = '.slide-tuner__item';
 const dataKindSelector = '[data-kind]';
+const imageButtonsRenderType = consts.renderTypes.ImageButtons;
 const globalMeta = '#global-meta';
 const indexAttr = 'index';
 const dataOrderMaxAttr = 'data-order-max';
@@ -118,7 +119,22 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
                     buttonsConfigs.push(config);
                 }
-                yield generator.addButtons(buttonsConfigs, 'Variants', isAddable);
+                yield generator.addButtons(buttonsConfigs, propName, isAddable);
+            }
+            else if (type == imageButtonsRenderType) {
+                let buttons = data[propName];
+                let buttonsConfigs = [];
+                let isRemovable = slideData.meta.type == imageselectType;
+                let isAddable = slideData.meta.type == imageselectType;
+                for (var i = 0; i < buttons.length; i++) {
+                    let button = buttons[i];
+                    let buttonKeys = Object.keys(button);
+                    let notValueKey = buttonKeys.find(x => x != 'Value');
+                    let removable = isRemovable && i > 0;
+                    let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
+                    buttonsConfigs.push(config);
+                }
+                yield generator.addImageSelectFields(buttonsConfigs, propName, isAddable);
             }
             else if (type == toggleSwitchType) {
                 let propValue = data[propName];
