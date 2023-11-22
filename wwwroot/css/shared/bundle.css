@@ -19,13 +19,6 @@
         background-color: var(--button_hover_color);
     }
 
-.content-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: start;
-}
-
 .main-grid-container {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
@@ -36,24 +29,47 @@
 
 
 
+.container-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
 .fieldset {
     border-radius: 12px;
     border: 1px solid lightgray;
 }
+.content-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+}
+
 .header {
     border-bottom: 1px solid var(--gray_lightest);
     background: white;
     z-index: 3;
 }
  
+.hovered-image--download {
+    width: 32px;
+    height: 32px;
+    background: url(../../../img/download.svg) no-repeat center center;
+}
+
 .image {
     width: 100%;
     height: 100%;
 }
-.input-title {
-    width: 100%;
-    cursor: text;
+.input-file {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
 }
+
 
 .plus-button {
     width: 100%;
@@ -68,6 +84,10 @@
         background-color: var(--main_blue);
     }
 
+.input-title {
+    width: 100%;
+    cursor: text;
+}
 .sidebar {
     width: 270px;
     background-color: white;
@@ -141,23 +161,17 @@
     height: 0;
 }
 
-.toggle-switch-label {
-    cursor: pointer;
-}
-
 .toggle-switch-wrapper {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.button--gapped {
-    gap: 10px;
+.toggle-switch-label {
+    cursor: pointer;
 }
 
-.fieldset__innerContent {
-    display: flex;
-    flex-direction: column;
+.button--gapped {
     gap: 10px;
 }
 
@@ -173,14 +187,39 @@
     width: 30%;
     height: 30%;
 }
-.input-title__title {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    padding-bottom: 12px;
-    margin: 0;
+.fieldset__innerContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
+.input-file__wrapper {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+    width: 100%;
+    height: 72px;
+    border: 1px solid var(--gray_lightest);
+    border-radius: 8px;  
+    cursor: pointer;
+}
+
+    .input-file__wrapper:hover {
+        border: 1px solid var(--main_blue);
+        background-color: #F4F6FF;
+    }
+
+        .input-file__wrapper:hover * {
+            color: var(--main_blue) !important;
+        }
+
+        .input-file__wrapper:hover .hovered-image--download {
+            background: url(../../../img/downloadhover.svg) no-repeat center center; 
+        }
+.input-file__base-input {
+    display: none;
+}
 .sidebar__container {
     overflow: hidden auto;
     height: calc(100vh - 76px);
@@ -191,6 +230,14 @@
     justify-content: start;
     align-items: center;
 }
+.input-title__title {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 12px;
+    margin: 0;
+}
+
 .sidebar__item--selected {
     background-color: var(--background-selected-color);
 }
@@ -243,21 +290,6 @@
     align-items: center;
 }
 
-.slide-wrapper__thumbnail {
-    flex-shrink: 1;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    border: 1px solid var(--gray_lightest);
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    background-color: white;
-}
-
 :root {
     --toggle-switch-input__translateX: calc(var(--toggle-switch_width) - 26px)
 }
@@ -274,6 +306,21 @@
     -webkit-transform: translateX(var(--toggle-switch-input__translateX));
     -ms-transform: translateX(var(--toggle-switch-input__translateX));
     transform: translateX(var(--toggle-switch-input__translateX));
+}
+
+.slide-wrapper__thumbnail {
+    flex-shrink: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--gray_lightest);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
 }
 
 :root {
@@ -417,6 +464,7 @@
 :root {
     --background_gray: #f8fafb;
     --main_blue: #274ADC;
+    --main_blue_low-opacity: #274adc38;
     --main_blue-light: #677edd;
     --main_blue-lightest: #acbaf3;
     --gray_lightest: #EAE9EB;

@@ -79,6 +79,7 @@ const renderTypes = {
     'Buttons': 'buttons',
     'Single select': 'toggleswitch',
     'ImageButtons': 'imagebuttons',
+    'InputFile': 'inputfile',
 
     //@ts-ignore
     getValueByKey(key: string) { return renderTypes[key]; },

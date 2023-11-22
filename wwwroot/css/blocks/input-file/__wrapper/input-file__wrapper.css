@@ -1,0 +1,24 @@
+﻿.input-file__wrapper {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+    width: 100%;
+    height: 72px;
+    border: 1px solid var(--gray_lightest);
+    border-radius: 8px;  
+    cursor: pointer;
+}
+
+    .input-file__wrapper:hover {
+        border: 1px solid var(--main_blue);
+        background-color: #F4F6FF;
+    }
+
+        .input-file__wrapper:hover * {
+            color: var(--main_blue) !important;
+        }
+
+        .input-file__wrapper:hover .hovered-image--download {
+            background: url(../../../img/downloadhover.svg) no-repeat center center; 
+        }

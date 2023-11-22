@@ -1,5 +1,12 @@
 ﻿
-<div class="input-title" data-type="text" removable="{{removeFor}}">
+<div class="input-file" removable="{{removeFor}}" data-type="{{dataType}}">
     [[TextInput]]
-    <input type="file" />
+    <label class="input-file__wrapper"  for="{{fileInputId}}">
+        <input class="input-file__base-input" id="{{fileInputId}}" type="file" />
+        <span class="container-center">
+            <span class="hovered-image--download"></span>
+            <!-- <img src="../../img/download.svg" /> -->
+            <span style="color: #130E4AB2">{{selectTitle}}</span>
+        </span>
+    </label>
 </div>

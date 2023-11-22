@@ -10,6 +10,7 @@ const renderTypes = {
     'Buttons': 'buttons',
     'Single select': 'toggleswitch',
     'ImageButtons': 'imagebuttons',
+    'InputFile': 'inputfile',
     getValueByKey(key) { return renderTypes[key]; },
     getKeyByValue(value) { return Object.keys(renderTypes).find(x => renderTypes[x] === value); }
 };

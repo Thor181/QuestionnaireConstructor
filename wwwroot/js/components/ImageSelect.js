@@ -7,7 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import generateShortUniq from "../shared/guid.js";
+import { isNullOrEmpty } from "../shared/utils.js";
 import BaseComponent from "./Base/BaseComponent.js";
+import * as consts from '../shared/constants.js';
+const inputFileType = consts.renderTypes.InputFile;
 class ImageSelect extends BaseComponent {
     constructor() {
         super();
@@ -19,6 +23,15 @@ class ImageSelect extends BaseComponent {
             getControl: { get: () => super.getControl }
         });
         return __awaiter(this, void 0, void 0, function* () {
+            if (isNullOrEmpty(this.rendered.fileInputId)) {
+                this.rendered.fileInputId = generateShortUniq();
+            }
+            if (isNullOrEmpty(this.rendered.selectTitle)) {
+                this.rendered.selectTitle = 'Add image';
+            }
+            if (isNullOrEmpty(this.rendered.dataType)) {
+                this.rendered.dataType = inputFileType;
+            }
             return yield _super.getControl.call(this, "/js/components/ImageSelect.html", this.rendered);
         });
     }

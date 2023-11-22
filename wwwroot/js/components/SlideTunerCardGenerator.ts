@@ -8,7 +8,6 @@ import Fieldset from './Fieldset.js';
 import TextInputBase from './Base/TextInputBase.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
-import { config, config } from 'process';
 import ToggleSwitch, { toggleSwitchRendered } from './ToggleSwitch.js';
 import ImageSelect from './ImageSelect.js';
 

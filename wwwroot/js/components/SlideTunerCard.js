@@ -15,6 +15,7 @@ import TextInputInterpretated from './TextInputInterpretated.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import waitForElm from '../shared/waitforelm.js';
+import ImageSelect from './ImageSelect.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerCardItemSelector = '.slide-tuner__item';
 const textInputSelector = '.text-input-wrap';
@@ -33,6 +34,8 @@ const removebtnType = 'removebtn';
 const addbtnType = 'addbtn';
 const textType = 'text';
 const toggleswitchType = 'toggleswitch';
+const addImageBtnType = 'addImageBtn';
+const inputfileType = consts.renderTypes.InputFile;
 const addImagePath = '/img/add.svg';
 class SlideTunerCard extends BaseComponent {
     static getDataMetaId() {
@@ -108,6 +111,23 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), f
         $(this).before(yield btn.render());
     });
 });
+$(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnType), function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        let count = $(this).parents(fieldsetInnerContentSelector).children(consts.combine('data-type', inputfileType)).length;
+        let removeFor = generateShortUniq();
+        let inputRemovable = new TextInputRemovable();
+        inputRemovable.removeFor = removeFor;
+        inputRemovable.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
+        inputRemovable.rendered.inputValue = '';
+        inputRemovable.rendered.metaValue = count + 1;
+        inputRemovable.rendered.placeholder = `Variant ${count + 1}`;
+        inputRemovable.rendered.title = `Variant ${count + 1}`;
+        let imageSelect = new ImageSelect();
+        imageSelect.rendered.removeFor = removeFor;
+        imageSelect.components.TextInput = inputRemovable;
+        $(this).before(yield imageSelect.render());
+    });
+});
 $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect'), function () {
     const id = SlideTunerCard.getDataMetaId();
     const slideData = GlobalMeta.getSlideData(id);
@@ -119,9 +139,9 @@ function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element) => {
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
             let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
+            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
             let children = innerContent.children(consts.combine('data-type', textType));
             let count = children.length;
-            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
             let newButtons = [];
             for (var i = 0; i < count; i++) {
                 let child = children.eq(i);

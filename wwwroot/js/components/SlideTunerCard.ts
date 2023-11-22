@@ -1,4 +1,4 @@
-﻿import { todo } from 'node:test';
+﻿
 import { GlobalMeta } from '../shared/GlobalMeta.js';
 import * as consts from '../shared/constants.js';
 import BaseComponent from './Base/BaseComponent.js';
@@ -9,6 +9,8 @@ import Button from './Button.js';
 import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import waitForElm from '../shared/waitforelm.js';
+import ImageSelect from './ImageSelect.js';
+import TextInputBase from './Base/TextInputBase.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
@@ -30,6 +32,9 @@ const removebtnType: consts.componentType = 'removebtn';
 const addbtnType: consts.componentType = 'addbtn';
 const textType: consts.componentType = 'text';
 const toggleswitchType: consts.componentType = 'toggleswitch';
+const addImageBtnType: consts.componentType = 'addImageBtn';
+
+const inputfileType = consts.renderTypes.InputFile;
 
 const addImagePath: consts.imagePath = '/img/add.svg';
 
@@ -127,6 +132,27 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), a
     $(this).before(await btn.render())
 });
 
+$(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnType), async function () {
+    let count = $(this).parents(fieldsetInnerContentSelector).children(consts.combine('data-type', inputfileType)).length;
+
+    let removeFor = generateShortUniq();
+
+    let inputRemovable = new TextInputRemovable();
+    inputRemovable.removeFor = removeFor;
+    inputRemovable.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
+    inputRemovable.rendered.inputValue = '';
+    inputRemovable.rendered.metaValue = count + 1;
+    inputRemovable.rendered.placeholder = `Variant ${count + 1}`;
+    inputRemovable.rendered.title = `Variant ${count + 1}`;
+
+    let imageSelect = new ImageSelect();
+    imageSelect.rendered.removeFor = removeFor;
+
+    imageSelect.components.TextInput = inputRemovable;
+
+    $(this).before(await imageSelect.render());
+});
+
 $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect'), function () {
     const id = SlideTunerCard.getDataMetaId();
     const slideData = GlobalMeta.getSlideData(id);
@@ -139,10 +165,14 @@ function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
+
+            //let topLevel = $('fieldset ' + topLevelSelector).first().attr(topLevelAttr);
+            //TODO: исправить баг с неправильным отображением имени поля: - создать поле для ввода Varian 5, удалить Variant 4
             let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
+            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
+
             let children = innerContent.children(consts.combine('data-type', textType));
             let count = children.length;
-            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
 
             let newButtons = []
 

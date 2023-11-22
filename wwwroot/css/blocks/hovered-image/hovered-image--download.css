@@ -1,0 +1,5 @@
+﻿.hovered-image--download {
+    width: 32px;
+    height: 32px;
+    background: url(../../../img/download.svg) no-repeat center center;
+}
