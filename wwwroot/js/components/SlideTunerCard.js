@@ -25,11 +25,14 @@ const removableSelector = '[removable]';
 const topLevelSelector = '[top-level]';
 const fieldsetInnerContentSelector = '.fieldset__innerContent';
 const dataMetaTitleSelector = '[data-meta-title]';
+const dataTypeSelector = '[data-type]';
+const fieldsetSelector = '.fieldset';
 const dataMetaIdAttr = 'data-meta-id';
 const removeForAttr = 'remove-for';
 const topLevelAttr = 'top-level';
 const metaValueAttr = 'meta-value';
 const dataMetaTitleAttribute = 'data-meta-title';
+const dataTypeAttr = 'data-type';
 const removebtnType = 'removebtn';
 const addbtnType = 'addbtn';
 const textType = 'text';
@@ -73,7 +76,7 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
     else {
         let topLevel = inter.getChildFor();
         let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
-        let children = innerContent.children(consts.combine('data-type', textType));
+        let children = innerContent.children(dataTypeSelector).not('button');
         let count = children.length;
         let newButtons = [];
         for (var i = 0; i < count; i++) {
@@ -85,7 +88,11 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
             valueEl.attr('placeholder', newTitle);
             valueEl.attr(metaValueAttr, i + 1);
             let value = valueEl.val();
-            newButtons.push({ [newTitle]: value, Value: i + 1 });
+            let newObj = { [newTitle]: value, Value: i + 1 };
+            if (topLevel == consts.renderTypes.getKeyByValue('imagebuttons')) {
+                newObj = Object.assign(Object.assign({}, newObj), { imagepath: '' });
+            }
+            newButtons.push(newObj);
         }
         storageSlideData.data[topLevel] = newButtons;
     }
@@ -138,9 +145,10 @@ $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect
 function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element) => {
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
-            let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
-            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
-            let children = innerContent.children(consts.combine('data-type', textType));
+            let fieldset = $(fieldsetSelector + topLevelSelector);
+            let topLevel = fieldset.attr(topLevelAttr);
+            let innerContent = fieldset.children(fieldsetInnerContentSelector);
+            let children = innerContent.children(dataTypeSelector).not('button');
             let count = children.length;
             let newButtons = [];
             for (var i = 0; i < count; i++) {

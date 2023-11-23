@@ -1,11 +1,12 @@
 ﻿
 <div class="input-file" removable="{{removeFor}}" data-type="{{dataType}}">
     [[TextInput]]
-    <label class="input-file__wrapper"  for="{{fileInputId}}">
-        <input class="input-file__base-input" id="{{fileInputId}}" type="file" />
+    <label class="input-file__wrapper" for="{{fileInputId}}">
+        <form action="/template/foo" enctype="multipart/form-data">
+            <input formenctype="multipart/form-data" class="input-file__base-input" id="{{fileInputId}}" type="file" accept="image/*" />
+        </form>
         <span class="container-center">
             <span class="hovered-image--download"></span>
-            <!-- <img src="../../img/download.svg" /> -->
             <span style="color: #130E4AB2">{{selectTitle}}</span>
         </span>
     </label>

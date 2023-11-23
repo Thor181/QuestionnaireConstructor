@@ -1,4 +1,5 @@
-﻿import * as consts from '../shared/constants.js';
+﻿import { read } from 'fs';
+import * as consts from '../shared/constants.js';
 import { GlobalMeta, SlideData } from '../shared/GlobalMeta.js';
 import IndexedSlide from './IndexedSlide.js';
 import IndexedSlideInterpretated from './IndexedSlideInterpretated.js';
@@ -96,6 +97,11 @@ export class LeftSidebarContainer {
 $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     waitFieldsetInnerContent();
 
+    document.querySelectorAll('.input-file__base-input').forEach(x => {
+        x.removeEventListener('change', () => { });
+    })
+
+
     const inter = new IndexedSlideInterpretated($(this).children().first());
 
     const slideTunerCard = $(slideTunerCardSelector);
@@ -106,7 +112,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
     const generator = new SlideTunerCardGenerator();
     const data = slideData.data;
-    
+
     for (let propName in data) {
         let type = consts.renderTypes.getValueByKey(propName);
 
@@ -183,7 +189,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
             generator.addToggleSwitch(config);
         }
-        
+
     }
 
     await generator.addRemoveButton();
@@ -195,6 +201,27 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     SlideTunerCard.setDataMetaId(slideId);
 
     inter.setSelectedStatus();
+
+    document.querySelectorAll('.input-file__base-input').forEach(x => {
+        x.addEventListener('change', function () {
+            //@ts-ignore
+            if (x.files.length == 1) {
+                //@ts-ignore
+                let file = x.files[0];
+                //let url = URL.createObjectURL(file)
+                //console.log(url)
+                //@ts-ignore
+                x.parentElement.submit();
+                //let reader = new FileReader();
+                //reader.readAsText(file);
+                //reader.onload = function () {
+                //    console.log(reader.result)
+
+                //    fetch('/template/foo?src=' + reader.result);
+                //}
+            }
+        })
+    })
 
 });
 

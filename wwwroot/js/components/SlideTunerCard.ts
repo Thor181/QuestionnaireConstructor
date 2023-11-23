@@ -21,12 +21,15 @@ const removableSelector: consts.selector = '[removable]';
 const topLevelSelector: consts.selector = '[top-level]';
 const fieldsetInnerContentSelector: consts.selector = '.fieldset__innerContent';
 const dataMetaTitleSelector: consts.selector = '[data-meta-title]';
+const dataTypeSelector: consts.selector = '[data-type]';
+const fieldsetSelector: consts.selector = '.fieldset';
 
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const removeForAttr: consts.attribute = 'remove-for';
 const topLevelAttr: consts.attribute = 'top-level';
 const metaValueAttr: consts.attribute = 'meta-value';
 const dataMetaTitleAttribute: consts.attribute = 'data-meta-title';
+const dataTypeAttr: consts.attribute = 'data-type';
 
 const removebtnType: consts.componentType = 'removebtn';
 const addbtnType: consts.componentType = 'addbtn';
@@ -86,10 +89,11 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
 
         let topLevel = inter.getChildFor();
         let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
-        let children = innerContent.children(consts.combine('data-type', textType));
+        //let children = innerContent.children(consts.combine('data-type', textType));
+        let children = innerContent.children(dataTypeSelector).not('button');
         let count = children.length;
 
-        let newButtons = []
+        let newButtons = [];
 
         for (var i = 0; i < count; i++) {
             let child = children.eq(i);
@@ -101,7 +105,13 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
             valueEl.attr(metaValueAttr, i + 1);
             let value = valueEl.val();
 
-            newButtons.push({ [newTitle]: value, Value: i + 1 });
+            let newObj = { [newTitle]: value, Value: i + 1 }
+
+            if (topLevel == consts.renderTypes.getKeyByValue('imagebuttons')) {
+                newObj = { ...newObj, imagepath: '' };
+            }
+
+            newButtons.push(newObj);
         }
 
         storageSlideData.data[topLevel] = newButtons;
@@ -109,6 +119,8 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
 
     GlobalMeta.updateSlideData(storageSlideData);
 });
+
+
 
 $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType), function () {
     const id = SlideTunerCard.getDataMetaId();
@@ -165,13 +177,14 @@ function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
-
-            //let topLevel = $('fieldset ' + topLevelSelector).first().attr(topLevelAttr);
             //TODO: исправить баг с неправильным отображением имени поля: - создать поле для ввода Varian 5, удалить Variant 4
-            let innerContent = $(consts.combine('top-level', consts.availableSaveDataTypes.Buttons)).find(fieldsetInnerContentSelector).first();
-            let topLevel = $(fieldsetInnerContentSelector).attr(topLevelAttr);
 
-            let children = innerContent.children(consts.combine('data-type', textType));
+            let fieldset = $(fieldsetSelector + topLevelSelector);
+            let topLevel = fieldset.attr(topLevelAttr);
+
+            let innerContent = fieldset.children(fieldsetInnerContentSelector);
+
+            let children = innerContent.children(dataTypeSelector).not('button');
             let count = children.length;
 
             let newButtons = []

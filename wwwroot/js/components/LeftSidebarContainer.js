@@ -84,6 +84,9 @@ export class LeftSidebarContainer {
 $(leftContainerSelector).on('click', sidebarItemSelector, function () {
     return __awaiter(this, void 0, void 0, function* () {
         waitFieldsetInnerContent();
+        document.querySelectorAll('.input-file__base-input').forEach(x => {
+            x.removeEventListener('change', () => { });
+        });
         const inter = new IndexedSlideInterpretated($(this).children().first());
         const slideTunerCard = $(slideTunerCardSelector);
         SlideTunerCard.clear();
@@ -153,6 +156,14 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
         slideTunerCard.append(renderedCardChildren);
         SlideTunerCard.setDataMetaId(slideId);
         inter.setSelectedStatus();
+        document.querySelectorAll('.input-file__base-input').forEach(x => {
+            x.addEventListener('change', function () {
+                if (x.files.length == 1) {
+                    let file = x.files[0];
+                    x.parentElement.submit();
+                }
+            });
+        });
     });
 });
 $(globalMeta).on(slideUpdatedEvent, function (e) {

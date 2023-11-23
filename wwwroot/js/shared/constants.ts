@@ -48,6 +48,7 @@ type selector = '#right-sidebar-container'
     | '.slide-tuner__card'
     | '.slide-tuner__item'
     | '.sidebar__item'
+    | '.fieldset'
     | '.fieldset__innerContent'
     | '.text-input-wrap'
     | `[${attribute}]`
