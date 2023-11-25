@@ -2,8 +2,11 @@
 <div class="input-file" removable="{{removeFor}}" data-type="{{dataType}}">
     [[TextInput]]
     <label class="input-file__wrapper" for="{{fileInputId}}">
-        <form action="/template/foo" enctype="multipart/form-data">
-            <input formenctype="multipart/form-data" class="input-file__base-input" id="{{fileInputId}}" type="file" accept="image/*" />
+        <form action="/api/fileinput/save" enctype="multipart/form-data"  method="post">
+            <input formenctype="multipart/form-data" class="input-file__base-input" name="file" id="{{fileInputId}}" type="file" accept="image/*" />
+            <div class="innerimage" style="width: 25px; height: 25px">
+                <img />
+            </div>
         </form>
         <span class="container-center">
             <span class="hovered-image--download"></span>

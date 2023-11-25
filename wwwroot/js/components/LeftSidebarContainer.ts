@@ -203,22 +203,23 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     inter.setSelectedStatus();
 
     document.querySelectorAll('.input-file__base-input').forEach(x => {
-        x.addEventListener('change', function () {
+        x.addEventListener('change', async function () {
             //@ts-ignore
             if (x.files.length == 1) {
                 //@ts-ignore
                 let file = x.files[0];
-                //let url = URL.createObjectURL(file)
-                //console.log(url)
-                //@ts-ignore
-                x.parentElement.submit();
-                //let reader = new FileReader();
-                //reader.readAsText(file);
-                //reader.onload = function () {
-                //    console.log(reader.result)
 
-                //    fetch('/template/foo?src=' + reader.result);
-                //}
+                let form = x.closest('form')
+                let data = new FormData(form);
+                let response = await fetch(form.action, { method: 'POST', body: data });
+                let g = await response.text();
+
+                
+
+                let next = $(form).find('img')
+                $(next).attr('src', g)
+    
+
             }
         })
     })

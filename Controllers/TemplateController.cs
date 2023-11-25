@@ -12,9 +12,6 @@ namespace QuestionnaireConstructor.Controllers
     {
         public override string ViewPath => "~/Views/Main/TemplateView.cshtml";
 
-        public void Foo([FromForm] IFormFile formFile)
-        {
-            var c = "";
-        }
+       
     }
 }

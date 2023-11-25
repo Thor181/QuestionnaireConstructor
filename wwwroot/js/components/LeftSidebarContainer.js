@@ -158,10 +158,17 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
         inter.setSelectedStatus();
         document.querySelectorAll('.input-file__base-input').forEach(x => {
             x.addEventListener('change', function () {
-                if (x.files.length == 1) {
-                    let file = x.files[0];
-                    x.parentElement.submit();
-                }
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (x.files.length == 1) {
+                        let file = x.files[0];
+                        let form = x.closest('form');
+                        let data = new FormData(form);
+                        let response = yield fetch(form.action, { method: 'POST', body: data });
+                        let g = yield response.text();
+                        let next = $(form).find('img');
+                        $(next).attr('src', g);
+                    }
+                });
             });
         });
     });
