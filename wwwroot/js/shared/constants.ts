@@ -39,6 +39,7 @@ type attribute = 'data-order-max'
     | 'top-level'
     | 'meta-value'
     | 'data-meta-title'
+    | 'top-level'
 
 type selector = '#right-sidebar-container'
     | '.plus-button'
@@ -51,6 +52,7 @@ type selector = '#right-sidebar-container'
     | '.fieldset'
     | '.fieldset__innerContent'
     | '.text-input-wrap'
+    | '.input-file__inner-image'
     | `[${attribute}]`
 
 type event = 'SlideAdded'
@@ -117,7 +119,7 @@ const saveDataTypes = {
 }
 
 type buttonConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
-type imageSelectConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
+type imageSelectConfig = { title: string, inputValue: string, placeholder: string, removable: boolean, imagePath: string };
 
 const combine = (attribute: attribute, value: string) => {
     return `[${attribute}='${value}']`

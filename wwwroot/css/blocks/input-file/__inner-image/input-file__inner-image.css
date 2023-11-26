@@ -1,0 +1,7 @@
+﻿.input-file__inner-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    border: 1px solid var(--gray_lightest); 
+    padding: 5px;
+}

@@ -23,6 +23,7 @@ const fieldsetInnerContentSelector: consts.selector = '.fieldset__innerContent';
 const dataMetaTitleSelector: consts.selector = '[data-meta-title]';
 const dataTypeSelector: consts.selector = '[data-type]';
 const fieldsetSelector: consts.selector = '.fieldset';
+const inputFileInnerImageSelector: consts.selector = '.input-file__inner-image';
 
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const removeForAttr: consts.attribute = 'remove-for';
@@ -86,33 +87,9 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
         storageSlideData.data[title] = value;
     }
     else {
-
         let topLevel = inter.getChildFor();
-        let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
-        //let children = innerContent.children(consts.combine('data-type', textType));
-        let children = innerContent.children(dataTypeSelector).not('button');
-        let count = children.length;
 
-        let newButtons = [];
-
-        for (var i = 0; i < count; i++) {
-            let child = children.eq(i);
-            let newTitle = 'Variant ' + (i + 1);
-            let oldTitle = child.find(consts.combine('data-kind', 'title')).text();
-            child.find(consts.combine('data-kind', 'title')).text(newTitle);
-            let valueEl = child.find(consts.combine('data-kind', 'value'));
-            valueEl.attr('placeholder', newTitle);
-            valueEl.attr(metaValueAttr, i + 1);
-            let value = valueEl.val();
-
-            let newObj = { [newTitle]: value, Value: i + 1 }
-
-            if (topLevel == consts.renderTypes.getKeyByValue('imagebuttons')) {
-                newObj = { ...newObj, imagepath: '' };
-            }
-
-            newButtons.push(newObj);
-        }
+        let newButtons = updateMultipleInputs(topLevel);
 
         storageSlideData.data[topLevel] = newButtons;
     }
@@ -120,7 +97,34 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
     GlobalMeta.updateSlideData(storageSlideData);
 });
 
+function updateMultipleInputs(topLevel: string) {
+    let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
+    let children = innerContent.children(dataTypeSelector).not('button');
+    let count = children.length;
 
+    let newButtons = [];
+
+    for (var i = 0; i < count; i++) {
+        let child = children.eq(i);
+        let newTitle = 'Variant ' + (i + 1);
+        child.find(consts.combine('data-kind', 'title')).text(newTitle);
+        let valueEl = child.find(consts.combine('data-kind', 'value'));
+        valueEl.attr('placeholder', newTitle);
+        valueEl.attr(metaValueAttr, i + 1);
+        let value = valueEl.val();
+
+        let newObj = { [newTitle]: value, Value: i + 1 };
+
+        if (topLevel == 'ImageButtons') {
+            let img = child.find(inputFileInnerImageSelector).find('img');
+            let path = img.attr('src');
+            newObj["ImagePath"] = path;
+        }
+
+        newButtons.push(newObj);
+    }
+    return newButtons;
+}
 
 $(slideTunerCardSelector).on('click', consts.combine('data-type', removebtnType), function () {
     const id = SlideTunerCard.getDataMetaId();
@@ -149,16 +153,19 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnTyp
 
     let removeFor = generateShortUniq();
 
+    let newValue = count + 1;
+
     let inputRemovable = new TextInputRemovable();
     inputRemovable.removeFor = removeFor;
     inputRemovable.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
     inputRemovable.rendered.inputValue = '';
-    inputRemovable.rendered.metaValue = count + 1;
-    inputRemovable.rendered.placeholder = `Variant ${count + 1}`;
-    inputRemovable.rendered.title = `Variant ${count + 1}`;
+    inputRemovable.rendered.metaValue = newValue;
+    inputRemovable.rendered.placeholder = `Variant ${newValue}`;
+    inputRemovable.rendered.title = `Variant ${newValue}`;
 
     let imageSelect = new ImageSelect();
     imageSelect.rendered.removeFor = removeFor;
+    imageSelect.rendered.metaValue = newValue;
 
     imageSelect.components.TextInput = inputRemovable;
 
@@ -173,34 +180,72 @@ $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect
     GlobalMeta.updateSlideData(slideData);
 });
 
+$(slideTunerCardSelector).on('change', '.input-file__base-input', async function () {
+    let input = $(this)[0];
+    if (input.files.length == 1) {
+
+        let form = input.closest('form')
+        let formData = new FormData(form);
+        let response = await fetch(form.action, { method: 'POST', body: formData });
+        let imageServerPath = await response.text();
+
+        let topLevel = input.closest(topLevelSelector).getAttribute(topLevelAttr);
+
+        let img = $(input).closest('[data-type="inputfile"]').find(inputFileInnerImageSelector).find('img');
+        $(img).attr('src', imageServerPath)
+
+        let metaValue = input.getAttribute(metaValueAttr);
+
+        const slideId = SlideTunerCard.getDataMetaId();
+        const slideData = GlobalMeta.getSlideData(slideId);
+        const data = slideData.data;
+
+        let btns: [] = data[topLevel];
+        let obj: { ImagePath: string } = btns.filter(x => x["Value"] == metaValue)[0];
+
+        obj.ImagePath = imageServerPath;
+        GlobalMeta.updateSlideData(slideData);
+    }
+})
+
 function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
-            //TODO: исправить баг с неправильным отображением имени поля: - создать поле для ввода Varian 5, удалить Variant 4
+
 
             let fieldset = $(fieldsetSelector + topLevelSelector);
             let topLevel = fieldset.attr(topLevelAttr);
 
-            let innerContent = fieldset.children(fieldsetInnerContentSelector);
+            //let innerContent = fieldset.children(fieldsetInnerContentSelector);
 
-            let children = innerContent.children(dataTypeSelector).not('button');
-            let count = children.length;
+            //let children = innerContent.children(dataTypeSelector).not('button');
+            //let count = children.length;
 
-            let newButtons = []
+            //let newButtons = []
 
-            for (var i = 0; i < count; i++) {
-                let child = children.eq(i);
-                let newTitle = 'Variant ' + (i + 1);
-                let oldTitle = child.find(consts.combine('data-kind', 'title')).text();
-                child.find(consts.combine('data-kind', 'title')).text(newTitle);
-                let valueEl = child.find(consts.combine('data-kind', 'value'));
-                valueEl.attr('placeholder', newTitle);
-                valueEl.attr(metaValueAttr, i + 1);
-                let value = valueEl.val();
+            //for (var i = 0; i < count; i++) {
+            //    let child = children.eq(i);
+            //    let newTitle = 'Variant ' + (i + 1);
+            //    child.find(consts.combine('data-kind', 'title')).text(newTitle);
+            //    let valueEl = child.find(consts.combine('data-kind', 'value'));
+            //    valueEl.attr('placeholder', newTitle);
+            //    valueEl.attr(metaValueAttr, i + 1);
+            //    let value = valueEl.val();
 
-                newButtons.push({ [newTitle]: value, Value: i + 1 });
-            }
+            //    let newObj = { [newTitle]: value, Value: i + 1 };
+
+            //    if (topLevel == 'ImageButtons') {
+
+            //        let img = child.find(inputFileInnerImageSelector).find('img');
+            //        let path = img.attr('src');
+            //        newObj["ImagePath"] = path;
+            //    }
+
+            //    newButtons.push(newObj);
+            //}
+
+            let newButtons = updateMultipleInputs(topLevel);
 
             let id = SlideTunerCard.getDataMetaId();
             let slideData = GlobalMeta.getSlideData(id);

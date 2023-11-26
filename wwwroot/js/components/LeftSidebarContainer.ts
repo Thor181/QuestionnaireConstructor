@@ -17,6 +17,8 @@ const dataMetaOrderSelector: consts.selector = '[data-meta-order]';
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerItem: consts.selector = '.slide-tuner__item';
 const dataKindSelector: consts.selector = '[data-kind]';
+const topLevelSelector: consts.selector = '[top-level]';
+const inputFileInnerImageSelector: consts.selector = '.input-file__inner-image';
 
 const imageButtonsRenderType = consts.renderTypes.ImageButtons;
 
@@ -28,6 +30,8 @@ const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const dataMetaOrderAttr: consts.attribute = 'data-meta-order';
 const dataKindAttr: consts.attribute = 'data-kind'
 const dataOrderMax: consts.attribute = 'data-order-max';
+const topLevelAttr: consts.attribute = 'top-level';
+const metaValueAttr: consts.attribute = 'meta-value';
 
 const slideUpdatedEvent: consts.event = 'SlideUpdated';
 
@@ -169,7 +173,13 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
                 let removable = isRemovable && i > 0;
 
-                let config: consts.imageSelectConfig = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
+                let config: consts.imageSelectConfig = {
+                    title: notValueKey,
+                    inputValue: button[notValueKey],
+                    placeholder: notValueKey,
+                    removable: removable,
+                    imagePath: button["ImagePath"]
+                };
                 buttonsConfigs.push(config);
             }
 
@@ -202,29 +212,35 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
     inter.setSelectedStatus();
 
-    document.querySelectorAll('.input-file__base-input').forEach(x => {
-        x.addEventListener('change', async function () {
-            //@ts-ignore
-            if (x.files.length == 1) {
-                //@ts-ignore
-                let file = x.files[0];
+    //document.querySelectorAll('.input-file__base-input').forEach(input => {
+    //    input.addEventListener('change', async function () {
+    //        //@ts-ignore
+    //        if (input.files.length == 1) {
 
-                let form = x.closest('form')
-                let data = new FormData(form);
-                let response = await fetch(form.action, { method: 'POST', body: data });
-                let g = await response.text();
+    //            let form = input.closest('form')
+    //            let formData = new FormData(form);
+    //            let response = await fetch(form.action, { method: 'POST', body: formData });
+    //            let imageServerPath = await response.text();
 
-                
+    //            let topLevel = input.closest(topLevelSelector).getAttribute(topLevelAttr);
 
-                let next = $(form).find('img')
-                $(next).attr('src', g)
-    
+    //            let img = $(input).closest('[data-type="inputfile"]').find(inputFileInnerImageSelector).find('img');
+    //            $(img).attr('src', imageServerPath)
 
-            }
-        })
-    })
+    //            let metaValue = input.getAttribute(metaValueAttr);
+
+    //            let btns: [] = data[topLevel];
+    //            let obj: {ImagePath: string} = btns.filter(x => x["Value"] == metaValue)[0];
+
+    //            obj.ImagePath = imageServerPath;
+    //            GlobalMeta.updateSlideData(slideData);
+    //        }
+    //    })
+    //})
 
 });
+
+
 
 $(globalMeta).on(slideUpdatedEvent, function (e) {
     //@ts-ignore

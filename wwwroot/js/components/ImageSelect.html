@@ -1,16 +1,19 @@
 ﻿
 <div class="input-file" removable="{{removeFor}}" data-type="{{dataType}}">
     [[TextInput]]
-    <label class="input-file__wrapper" for="{{fileInputId}}">
-        <form action="/api/fileinput/save" enctype="multipart/form-data"  method="post">
-            <input formenctype="multipart/form-data" class="input-file__base-input" name="file" id="{{fileInputId}}" type="file" accept="image/*" />
-            <div class="innerimage" style="width: 25px; height: 25px">
-                <img />
-            </div>
-        </form>
-        <span class="container-center">
-            <span class="hovered-image--download"></span>
-            <span style="color: #130E4AB2">{{selectTitle}}</span>
-        </span>
-    </label>
+    <div class="input-file__container">
+        <label class="input-file__wrapper" for="{{fileInputId}}">
+            <form action="/api/fileinput/save" enctype="multipart/form-data" method="post">
+                <input formenctype="multipart/form-data" class="input-file__base-input" name="file" id="{{fileInputId}}" type="file" accept=".jpg,.jpeg,.png" meta-value="{{metaValue}}" />
+            </form>
+            <span class="container-center">
+                <span class="hovered-image--download"></span>
+                <span style="color: #130E4AB2">{{selectTitle}}</span>
+            </span>
+        </label>
+        <div class="input-file__inner-image">
+            <img style="width: 100%; height: 100%" src="{{imagePath}}" onerror="this.setAttribute('src', '/img/other/imagedummy.svg')" />
+        </div>
+    </div>
+
 </div>

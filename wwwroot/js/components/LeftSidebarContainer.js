@@ -23,6 +23,8 @@ const dataMetaOrderSelector = '[data-meta-order]';
 const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerItem = '.slide-tuner__item';
 const dataKindSelector = '[data-kind]';
+const topLevelSelector = '[top-level]';
+const inputFileInnerImageSelector = '.input-file__inner-image';
 const imageButtonsRenderType = consts.renderTypes.ImageButtons;
 const globalMeta = '#global-meta';
 const indexAttr = 'index';
@@ -31,6 +33,8 @@ const dataMetaIdAttr = 'data-meta-id';
 const dataMetaOrderAttr = 'data-meta-order';
 const dataKindAttr = 'data-kind';
 const dataOrderMax = 'data-order-max';
+const topLevelAttr = 'top-level';
+const metaValueAttr = 'meta-value';
 const slideUpdatedEvent = 'SlideUpdated';
 const textType = 'text';
 const nextPrevButtonsType = 'nextprevbuttons';
@@ -134,7 +138,13 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     let buttonKeys = Object.keys(button);
                     let notValueKey = buttonKeys.find(x => x != 'Value');
                     let removable = isRemovable && i > 0;
-                    let config = { title: notValueKey, inputValue: button[notValueKey], placeholder: notValueKey, removable: removable };
+                    let config = {
+                        title: notValueKey,
+                        inputValue: button[notValueKey],
+                        placeholder: notValueKey,
+                        removable: removable,
+                        imagePath: button["ImagePath"]
+                    };
                     buttonsConfigs.push(config);
                 }
                 yield generator.addImageSelectFields(buttonsConfigs, propName, isAddable);
@@ -156,21 +166,6 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
         slideTunerCard.append(renderedCardChildren);
         SlideTunerCard.setDataMetaId(slideId);
         inter.setSelectedStatus();
-        document.querySelectorAll('.input-file__base-input').forEach(x => {
-            x.addEventListener('change', function () {
-                return __awaiter(this, void 0, void 0, function* () {
-                    if (x.files.length == 1) {
-                        let file = x.files[0];
-                        let form = x.closest('form');
-                        let data = new FormData(form);
-                        let response = yield fetch(form.action, { method: 'POST', body: data });
-                        let g = yield response.text();
-                        let next = $(form).find('img');
-                        $(next).attr('src', g);
-                    }
-                });
-            });
-        });
     });
 });
 $(globalMeta).on(slideUpdatedEvent, function (e) {

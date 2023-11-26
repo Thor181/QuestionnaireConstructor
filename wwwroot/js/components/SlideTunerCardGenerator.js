@@ -77,6 +77,8 @@ class SlideTunerCardGenerator extends BaseComponent {
                 let imageSelect = new ImageSelect();
                 imageSelect.components.TextInput = textInput;
                 imageSelect.rendered.removeFor = removeFor;
+                imageSelect.rendered.metaValue = i + 1;
+                imageSelect.rendered.imagePath = config.imagePath;
                 let renderedImageSelect = yield imageSelect.render();
                 fieldset.children.push(renderedImageSelect);
             }

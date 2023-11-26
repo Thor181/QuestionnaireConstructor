@@ -32,6 +32,9 @@ class ImageSelect extends BaseComponent {
             if (isNullOrEmpty(this.rendered.dataType)) {
                 this.rendered.dataType = inputFileType;
             }
+            if (isNullOrEmpty(this.rendered.imagePath)) {
+                this.rendered.imagePath = '/img/other/imagedummy.svg';
+            }
             return yield _super.getControl.call(this, "/js/components/ImageSelect.html", this.rendered);
         });
     }

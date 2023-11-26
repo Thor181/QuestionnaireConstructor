@@ -13,15 +13,21 @@ namespace QuestionnaireConstructor.Controllers.Api
     {
         public override string ViewPath => throw new NotImplementedException();
 
+        private readonly string[] _extensions = { ".jpg", ".jpeg", ".png" };
+
         [HttpPost]
         public async Task<string> SaveAsync(IFormFile file)
         {
-            if (file.Length < 0)
+            if (file == null || file.Length < 0)
+                return string.Empty;
+
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!_extensions.Any(x => extension == x))
                 return string.Empty;
 
             using var stream = file.OpenReadStream();
 
-            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
             var guid = Guid.NewGuid().ToString().Replace("-", "");
             var newName = $"{guid}{extension}";
 

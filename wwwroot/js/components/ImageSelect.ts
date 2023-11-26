@@ -9,7 +9,7 @@ const inputFileType = consts.renderTypes.InputFile;
 
 class ImageSelect extends BaseComponent {
 
-    rendered: { removeFor: string, fileInputId?: string, selectTitle?: string, dataType?: string };
+    rendered: { removeFor: string, fileInputId?: string, selectTitle?: string, dataType?: string, metaValue: number, imagePath: string };
     components: { TextInput: TextInputBase };
 
     constructor() {
@@ -32,6 +32,10 @@ class ImageSelect extends BaseComponent {
             this.rendered.dataType = inputFileType;
         }
 
+        if (isNullOrEmpty(this.rendered.imagePath)) {
+            this.rendered.imagePath = '/img/other/imagedummy.svg'
+        }
+        
 
         return await super.getControl("/js/components/ImageSelect.html", this.rendered);
     }

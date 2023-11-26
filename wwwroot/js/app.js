@@ -17,7 +17,7 @@ $(function () {
         infoAvailableSlide.rendered.title = 'Info slide';
         infoAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--info';
         infoAvailableSlide.rendered.schemeName = 'info';
-        infoAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Infotitle":"", "Infotext":"", "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
+        infoAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Infotitle":"", "Infotext":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
         let sidebarItemControl = new SidebarItem();
         sidebarItemControl.rendered.innerContent = yield infoAvailableSlide.render();
         container.append(yield sidebarItemControl.render());
@@ -25,7 +25,7 @@ $(function () {
         questionAvailableSlide.rendered.title = 'Question slide';
         questionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--question';
         questionAvailableSlide.rendered.schemeName = 'question';
-        questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Yes": "Yes", "Value": 1}, {"No": "No", "Value": 2}], "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
+        questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Yes", "Value": 1}, {"Variant 2": "No", "Value": 2}], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
         let sidebarItemControl2 = new SidebarItem();
         sidebarItemControl2.rendered.innerContent = yield questionAvailableSlide.render();
         container.append(yield sidebarItemControl2.render());
@@ -33,7 +33,7 @@ $(function () {
         multiSelectionAvailableSlide.rendered.title = 'Multi selection slide';
         multiSelectionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--multi';
         multiSelectionAvailableSlide.rendered.schemeName = 'multiselect';
-        multiSelectionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1},{"Variant 2": "Variant1", "Value": 2},{"Variant 3": "Variant1", "Value": 3}], "Single select": true, "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
+        multiSelectionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1},{"Variant 2": "Variant1", "Value": 2},{"Variant 3": "Variant1", "Value": 3}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
         let sidebarItemControl3 = new SidebarItem();
         sidebarItemControl3.rendered.innerContent = yield multiSelectionAvailableSlide.render();
         container.append(yield sidebarItemControl3.render());
@@ -41,7 +41,7 @@ $(function () {
         imageSelectionAvilableSlide.rendered.title = 'Image selection slide';
         imageSelectionAvilableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--image';
         imageSelectionAvilableSlide.rendered.schemeName = 'imageselection';
-        imageSelectionAvilableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "ImageButtons": [ {"Variant 1": "Variant1", "Value": 1, "Image": ""},{"Variant 2": "Variant1", "Value": 2, "Image": ""},{"Variant 3": "Variant1", "Value": 3, "Image": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"asdz"}, {"Button previous":"" }] }';
+        imageSelectionAvilableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "ImageButtons": [ {"Variant 1": "Variant1", "Value": 1, "ImagePath": ""},{"Variant 2": "Variant1", "Value": 2, "ImagePath": ""},{"Variant 3": "Variant1", "Value": 3, "ImagePath": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
         let sidebarItemControl4 = new SidebarItem();
         sidebarItemControl4.rendered.innerContent = yield imageSelectionAvilableSlide.render();
         container.append(yield sidebarItemControl4.render());
