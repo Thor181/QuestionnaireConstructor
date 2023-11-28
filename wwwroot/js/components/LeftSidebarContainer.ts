@@ -42,6 +42,8 @@ const buttonsType: consts.componentType = 'buttons';
 const multiselectType: consts.componentType = 'multiselect';
 const toggleSwitchType: consts.componentType = 'toggleswitch';
 const imageselectType: consts.componentType = 'imageselection';
+const colorButtonsType: consts.componentType = 'colorbuttons';
+const colorType: consts.componentType = 'color';
 
 const leftContainer = document.querySelector(leftContainerSelector);
 
@@ -104,7 +106,6 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     document.querySelectorAll('.input-file__base-input').forEach(x => {
         x.removeEventListener('change', () => { });
     })
-
 
     const inter = new IndexedSlideInterpretated($(this).children().first());
 
@@ -186,6 +187,29 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             await generator.addImageSelectFields(buttonsConfigs, propName, isAddable);
 
         }
+        else if (type == colorButtonsType) {
+            let buttons: [] = data[propName];
+            let buttonsConfigs: Array<consts.colorConfig> = [];
+
+            let isRemovable = slideData.meta.type == colorType;
+            let isAddable = slideData.meta.type == colorType;
+
+            for (var i = 0; i < buttons.length; i++) {
+                let button = buttons[i];
+
+                let removable = isRemovable && i > 0;
+ 
+                let config: consts.colorConfig = {
+                    color: button["Color"],
+                    removable: removable,
+                    value: button["Value"]
+                };
+
+                buttonsConfigs.push(config);
+            }
+
+            await generator.addColorsSelect(buttonsConfigs, propName, isAddable);
+        }
         else if (type == toggleSwitchType) {
             let propValue = data[propName];
 
@@ -211,32 +235,6 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
     SlideTunerCard.setDataMetaId(slideId);
 
     inter.setSelectedStatus();
-
-    //document.querySelectorAll('.input-file__base-input').forEach(input => {
-    //    input.addEventListener('change', async function () {
-    //        //@ts-ignore
-    //        if (input.files.length == 1) {
-
-    //            let form = input.closest('form')
-    //            let formData = new FormData(form);
-    //            let response = await fetch(form.action, { method: 'POST', body: formData });
-    //            let imageServerPath = await response.text();
-
-    //            let topLevel = input.closest(topLevelSelector).getAttribute(topLevelAttr);
-
-    //            let img = $(input).closest('[data-type="inputfile"]').find(inputFileInnerImageSelector).find('img');
-    //            $(img).attr('src', imageServerPath)
-
-    //            let metaValue = input.getAttribute(metaValueAttr);
-
-    //            let btns: [] = data[topLevel];
-    //            let obj: {ImagePath: string} = btns.filter(x => x["Value"] == metaValue)[0];
-
-    //            obj.ImagePath = imageServerPath;
-    //            GlobalMeta.updateSlideData(slideData);
-    //        }
-    //    })
-    //})
 
 });
 

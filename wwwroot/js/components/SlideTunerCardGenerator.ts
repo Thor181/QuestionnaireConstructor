@@ -10,6 +10,8 @@ import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import ToggleSwitch, { toggleSwitchRendered } from './ToggleSwitch.js';
 import ImageSelect from './ImageSelect.js';
+import ColorSelect from './ColorSelect.js';
+import WrapContainer from './WrapContainer.js';
 
 
 const deleteImagePath: consts.imagePath = '/img/delete.svg';
@@ -103,6 +105,37 @@ class SlideTunerCardGenerator extends BaseComponent {
             button_add.rendered.title = 'Add variant';
             button_add.rendered.imagePath = addImagePath;
             button_add.dataType = 'addImageBtn';
+
+            fieldset.rendered.button_add = await button_add.render();
+        }
+
+        let item = new SlideTunerCardItem();
+        item.rendered.innerContent = await fieldset.render();
+        let renderedItem = await item.render();
+        this.fieldsets.push(renderedItem);
+    }
+
+    async addColorsSelect(configs: Array<consts.colorConfig>, fieldsetLegend: string, canAdd: boolean) {
+        let fieldset = await this.addFieldset(fieldsetLegend, fieldsetLegend);
+        let wrapContainer = new WrapContainer();
+        for (var i = 0; i < configs.length; i++) {
+            let config = configs[i];
+
+            let colorSelect = new ColorSelect();
+            colorSelect.rendered = { color: config.color, value: config.value }
+
+            let renderedColorSelect = await colorSelect.render();
+            wrapContainer.rendered.innerContent += renderedColorSelect;
+        }
+
+        let renderedWrapContainer = await wrapContainer.render();
+        fieldset.children.push(renderedWrapContainer);
+
+        if (canAdd) {
+            var button_add = new Button();
+            button_add.rendered.title = 'Add variant';
+            button_add.rendered.imagePath = addImagePath;
+            button_add.dataType = 'addColor';
 
             fieldset.rendered.button_add = await button_add.render();
         }

@@ -5,6 +5,8 @@ type imageModifier = 'slide-wrapper__thumbnail-picture--info'
     | 'slide-wrapper__thumbnail-picture--yesno'
     | 'slide-wrapper__thumbnail-picture--multi'
     | 'slide-wrapper__thumbnail-picture--image'
+    | 'slide-wrapper__thumbnail-picture--skincolor'
+    | 'slide-wrapper__thumbnail-picture--color'
 
 type stateModifier = 'sidebar__item--selected'
 
@@ -21,7 +23,8 @@ type componentPath = '/js/components/AvailableSlide.html'
     | '/js/components/TextInputRemovable.html'
     | '/js/components/ToggleSwitch.html'
     | '/js/components/ImageSelect.html'
-
+    | '/js/components/ColorSelect.html'
+    | '/js/components/WrapContainer.html'
 
 type imagePath = '/img/delete.svg'
     | '/img/add.svg'
@@ -53,6 +56,7 @@ type selector = '#right-sidebar-container'
     | '.fieldset__innerContent'
     | '.text-input-wrap'
     | '.input-file__inner-image'
+    | '.color-wrapper__color-input'
     | `[${attribute}]`
 
 type event = 'SlideAdded'
@@ -69,6 +73,9 @@ type componentType = 'text'
     | 'toggleswitch'
     | 'imageselection'
     | 'addImageBtn'
+    | 'colorbuttons'
+    | 'color'
+    | 'addColor'
 
 
 const renderTypes = {
@@ -83,6 +90,7 @@ const renderTypes = {
     'Single select': 'toggleswitch',
     'ImageButtons': 'imagebuttons',
     'InputFile': 'inputfile',
+    'Color buttons': 'colorbuttons',
 
     //@ts-ignore
     getValueByKey(key: string) { return renderTypes[key]; },
@@ -120,6 +128,7 @@ const saveDataTypes = {
 
 type buttonConfig = { title: string, inputValue: string, placeholder: string, removable: boolean };
 type imageSelectConfig = { title: string, inputValue: string, placeholder: string, removable: boolean, imagePath: string };
+type colorConfig = { color: string, removable: boolean, value: string }
 
 const combine = (attribute: attribute, value: string) => {
     return `[${attribute}='${value}']`
@@ -140,7 +149,8 @@ export {
     renderTypes,
     saveDataTypes,
     availableSaveDataTypes,
-    imageSelectConfig
+    imageSelectConfig,
+    colorConfig
 }
 
 const slideType = {
@@ -148,7 +158,9 @@ const slideType = {
     question: 'question',
     yesno: 'yesno',
     multiselect: 'multiselect',
-    imageselection: 'imageselection'
+    imageselection: 'imageselection',
+    skincolor: 'skincolor',
+    color: 'color'
 }
 
 const map = new Map<string, imageModifier>();
@@ -157,6 +169,8 @@ map.set(slideType.question, "slide-wrapper__thumbnail-picture--question");
 map.set(slideType.yesno, "slide-wrapper__thumbnail-picture--yesno");
 map.set(slideType.multiselect, "slide-wrapper__thumbnail-picture--multi");
 map.set(slideType.imageselection, "slide-wrapper__thumbnail-picture--image");
+map.set(slideType.skincolor, "slide-wrapper__thumbnail-picture--skincolor");
+map.set(slideType.color, "slide-wrapper__thumbnail-picture--color");
 
 export function mapTypeToImageModifier(type: string): imageModifier {
     let t = map.get(type);

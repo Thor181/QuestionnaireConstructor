@@ -16,6 +16,7 @@ import TextInputRemovable from './TextInputRemovable.js';
 import generateShortUniq from '../shared/guid.js';
 import waitForElm from '../shared/waitforelm.js';
 import ImageSelect from './ImageSelect.js';
+import ColorSelect from './ColorSelect.js';
 const slideTunerCardSelector = '.slide-tuner__card';
 const slideTunerCardItemSelector = '.slide-tuner__item';
 const textInputSelector = '.text-input-wrap';
@@ -28,6 +29,7 @@ const dataMetaTitleSelector = '[data-meta-title]';
 const dataTypeSelector = '[data-type]';
 const fieldsetSelector = '.fieldset';
 const inputFileInnerImageSelector = '.input-file__inner-image';
+const colorInputSelector = '.color-wrapper__color-input';
 const dataMetaIdAttr = 'data-meta-id';
 const removeForAttr = 'remove-for';
 const topLevelAttr = 'top-level';
@@ -39,6 +41,7 @@ const addbtnType = 'addbtn';
 const textType = 'text';
 const toggleswitchType = 'toggleswitch';
 const addImageBtnType = 'addImageBtn';
+const addColorBtnType = 'addColor';
 const inputfileType = consts.renderTypes.InputFile;
 const addImagePath = '/img/add.svg';
 class SlideTunerCard extends BaseComponent {
@@ -141,6 +144,15 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnTyp
         imageSelect.rendered.metaValue = newValue;
         imageSelect.components.TextInput = inputRemovable;
         $(this).before(yield imageSelect.render());
+    });
+});
+$(slideTunerCardSelector).on('click', consts.combine('data-type', addColorBtnType), function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        let count = $(fieldsetInnerContentSelector).find(colorInputSelector).length;
+        let removeFor = generateShortUniq();
+        let colorSelect = new ColorSelect();
+        colorSelect.rendered = { removeFor: removeFor, color: '#fae3c9', value: String(count + 1) };
+        $(this).siblings('.wrap-container').first().append(yield colorSelect.render());
     });
 });
 $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect'), function () {

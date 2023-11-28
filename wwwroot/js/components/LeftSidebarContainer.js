@@ -43,6 +43,8 @@ const buttonsType = 'buttons';
 const multiselectType = 'multiselect';
 const toggleSwitchType = 'toggleswitch';
 const imageselectType = 'imageselection';
+const colorButtonsType = 'colorbuttons';
+const colorType = 'color';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -148,6 +150,23 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
                     buttonsConfigs.push(config);
                 }
                 yield generator.addImageSelectFields(buttonsConfigs, propName, isAddable);
+            }
+            else if (type == colorButtonsType) {
+                let buttons = data[propName];
+                let buttonsConfigs = [];
+                let isRemovable = slideData.meta.type == colorType;
+                let isAddable = slideData.meta.type == colorType;
+                for (var i = 0; i < buttons.length; i++) {
+                    let button = buttons[i];
+                    let removable = isRemovable && i > 0;
+                    let config = {
+                        color: button["Color"],
+                        removable: removable,
+                        value: button["Value"]
+                    };
+                    buttonsConfigs.push(config);
+                }
+                yield generator.addColorsSelect(buttonsConfigs, propName, isAddable);
             }
             else if (type == toggleSwitchType) {
                 let propValue = data[propName];

@@ -11,6 +11,7 @@ const renderTypes = {
     'Single select': 'toggleswitch',
     'ImageButtons': 'imagebuttons',
     'InputFile': 'inputfile',
+    'Color buttons': 'colorbuttons',
     getValueByKey(key) { return renderTypes[key]; },
     getKeyByValue(value) { return Object.keys(renderTypes).find(x => renderTypes[x] === value); }
 };
@@ -43,7 +44,9 @@ const slideType = {
     question: 'question',
     yesno: 'yesno',
     multiselect: 'multiselect',
-    imageselection: 'imageselection'
+    imageselection: 'imageselection',
+    skincolor: 'skincolor',
+    color: 'color'
 };
 const map = new Map();
 map.set(slideType.info, "slide-wrapper__thumbnail-picture--info");
@@ -51,6 +54,8 @@ map.set(slideType.question, "slide-wrapper__thumbnail-picture--question");
 map.set(slideType.yesno, "slide-wrapper__thumbnail-picture--yesno");
 map.set(slideType.multiselect, "slide-wrapper__thumbnail-picture--multi");
 map.set(slideType.imageselection, "slide-wrapper__thumbnail-picture--image");
+map.set(slideType.skincolor, "slide-wrapper__thumbnail-picture--skincolor");
+map.set(slideType.color, "slide-wrapper__thumbnail-picture--color");
 export function mapTypeToImageModifier(type) {
     let t = map.get(type);
     if (t == null)

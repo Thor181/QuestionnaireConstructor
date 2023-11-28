@@ -11,6 +11,7 @@ import generateShortUniq from '../shared/guid.js';
 import waitForElm from '../shared/waitforelm.js';
 import ImageSelect from './ImageSelect.js';
 import TextInputBase from './Base/TextInputBase.js';
+import ColorSelect from './ColorSelect.js';
 
 const slideTunerCardSelector: consts.selector = '.slide-tuner__card';
 const slideTunerCardItemSelector: consts.selector = '.slide-tuner__item';
@@ -24,6 +25,7 @@ const dataMetaTitleSelector: consts.selector = '[data-meta-title]';
 const dataTypeSelector: consts.selector = '[data-type]';
 const fieldsetSelector: consts.selector = '.fieldset';
 const inputFileInnerImageSelector: consts.selector = '.input-file__inner-image';
+const colorInputSelector: consts.selector = '.color-wrapper__color-input';
 
 const dataMetaIdAttr: consts.attribute = 'data-meta-id';
 const removeForAttr: consts.attribute = 'remove-for';
@@ -37,6 +39,7 @@ const addbtnType: consts.componentType = 'addbtn';
 const textType: consts.componentType = 'text';
 const toggleswitchType: consts.componentType = 'toggleswitch';
 const addImageBtnType: consts.componentType = 'addImageBtn';
+const addColorBtnType: consts.componentType = 'addColor'
 
 const inputfileType = consts.renderTypes.InputFile;
 
@@ -172,6 +175,14 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnTyp
     $(this).before(await imageSelect.render());
 });
 
+$(slideTunerCardSelector).on('click', consts.combine('data-type', addColorBtnType), async function () {
+    let count = $(fieldsetInnerContentSelector).find(colorInputSelector).length;
+    let removeFor = generateShortUniq();
+    let colorSelect = new ColorSelect();
+    colorSelect.rendered = { removeFor: removeFor, color: '#fae3c9', value: String(count + 1) };
+    $(this).siblings('.wrap-container').first().append(await colorSelect.render());
+});
+
 $(slideTunerCardSelector).on('change', consts.combine('data-kind', 'singleselect'), function () {
     const id = SlideTunerCard.getDataMetaId();
     const slideData = GlobalMeta.getSlideData(id);
@@ -212,38 +223,8 @@ function waitFieldsetInnerContent() {
     waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
-
-
             let fieldset = $(fieldsetSelector + topLevelSelector);
             let topLevel = fieldset.attr(topLevelAttr);
-
-            //let innerContent = fieldset.children(fieldsetInnerContentSelector);
-
-            //let children = innerContent.children(dataTypeSelector).not('button');
-            //let count = children.length;
-
-            //let newButtons = []
-
-            //for (var i = 0; i < count; i++) {
-            //    let child = children.eq(i);
-            //    let newTitle = 'Variant ' + (i + 1);
-            //    child.find(consts.combine('data-kind', 'title')).text(newTitle);
-            //    let valueEl = child.find(consts.combine('data-kind', 'value'));
-            //    valueEl.attr('placeholder', newTitle);
-            //    valueEl.attr(metaValueAttr, i + 1);
-            //    let value = valueEl.val();
-
-            //    let newObj = { [newTitle]: value, Value: i + 1 };
-
-            //    if (topLevel == 'ImageButtons') {
-
-            //        let img = child.find(inputFileInnerImageSelector).find('img');
-            //        let path = img.attr('src');
-            //        newObj["ImagePath"] = path;
-            //    }
-
-            //    newButtons.push(newObj);
-            //}
 
             let newButtons = updateMultipleInputs(topLevel);
 

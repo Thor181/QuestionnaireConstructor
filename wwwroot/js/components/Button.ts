@@ -3,7 +3,7 @@ import * as consts from '../shared/constants.js'
 
 const gappedStyleClass: consts.styleModifier = "button--gapped";
 
-type btnType = Extract<consts.componentType, "addbtn" | "removebtn" | "addImageBtn">
+type btnType = Extract<consts.componentType, "addbtn" | "removebtn" | "addImageBtn" | "addColor">
 
 class Button extends BaseComponent {
 

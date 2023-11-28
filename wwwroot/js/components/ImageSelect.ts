@@ -35,7 +35,6 @@ class ImageSelect extends BaseComponent {
         if (isNullOrEmpty(this.rendered.imagePath)) {
             this.rendered.imagePath = '/img/other/imagedummy.svg'
         }
-        
 
         return await super.getControl("/js/components/ImageSelect.html", this.rendered);
     }

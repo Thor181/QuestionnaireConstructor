@@ -52,6 +52,28 @@ $(async function () {
 
     container.append(await sidebarItemControl4.render());
 
+    let skinColorSelectionControl5 = new AvailableSlide();
+    skinColorSelectionControl5.rendered.title = 'Skin color selection slide';
+    skinColorSelectionControl5.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--skincolor';
+    skinColorSelectionControl5.rendered.schemeName = 'skincolor';
+    skinColorSelectionControl5.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }'
+
+    let sidebarItemControl5 = new SidebarItem();
+    sidebarItemControl5.rendered.innerContent = await skinColorSelectionControl5.render();
+
+    container.append(await sidebarItemControl5.render());
+
+    let colorSelection6 = new AvailableSlide();
+    colorSelection6.rendered.title = 'Color selection slide';
+    colorSelection6.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--color';
+    colorSelection6.rendered.schemeName = 'color';
+    colorSelection6.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Color buttons":[ {"Color":"#fae3c9", "Value": 1}, {"Color":"#8fffff", "Value": 2}, {"Color":"#aaaaaa", "Value": 3} ], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }'
+
+    let sidebarItemControl6 = new SidebarItem();
+    sidebarItemControl6.rendered.innerContent = await colorSelection6.render();
+
+    container.append(await sidebarItemControl6.render());
+
     GlobalMeta.initialize();
 });
 
