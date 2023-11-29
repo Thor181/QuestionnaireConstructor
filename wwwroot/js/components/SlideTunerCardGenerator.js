@@ -60,6 +60,7 @@ class SlideTunerCardGenerator extends BaseComponent {
     addImageSelectFields(configs, fieldsetLegend, canAdd) {
         return __awaiter(this, void 0, void 0, function* () {
             let fieldset = yield this.addFieldset(fieldsetLegend, fieldsetLegend);
+            let wrap = new WrapContainer();
             for (var i = 0; i < configs.length; i++) {
                 let config = configs[i];
                 let textInput;
@@ -82,7 +83,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 imageSelect.rendered.metaValue = i + 1;
                 imageSelect.rendered.imagePath = config.imagePath;
                 let renderedImageSelect = yield imageSelect.render();
-                fieldset.children.push(renderedImageSelect);
+                wrap.rendered.innerContent += renderedImageSelect;
             }
             if (canAdd) {
                 var button_add = new Button();
@@ -91,6 +92,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 button_add.dataType = 'addImageBtn';
                 fieldset.rendered.button_add = yield button_add.render();
             }
+            fieldset.children.push(yield wrap.render());
             let item = new SlideTunerCardItem();
             item.rendered.innerContent = yield fieldset.render();
             let renderedItem = yield item.render();
@@ -126,6 +128,7 @@ class SlideTunerCardGenerator extends BaseComponent {
     addButtons(configs, fieldsetLegend, canAdd) {
         return __awaiter(this, void 0, void 0, function* () {
             let fieldset = yield this.addFieldset(fieldsetLegend, 'Buttons');
+            let wrap = new WrapContainer();
             for (var i = 0; i < configs.length; i++) {
                 let config = configs[i];
                 let button;
@@ -142,7 +145,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 button.rendered.placeholder = config.placeholder;
                 button.rendered.metaValue = i + 1;
                 let renderedButton = yield button.render();
-                fieldset.children.push(renderedButton);
+                wrap.rendered.innerContent += renderedButton;
             }
             if (canAdd) {
                 var button_add = new Button();
@@ -151,6 +154,7 @@ class SlideTunerCardGenerator extends BaseComponent {
                 button_add.dataType = 'addbtn';
                 fieldset.rendered.button_add = yield button_add.render();
             }
+            fieldset.children.push(yield wrap.render());
             let item = new SlideTunerCardItem();
             item.rendered.innerContent = yield fieldset.render();
             let renderedItem = yield item.render();

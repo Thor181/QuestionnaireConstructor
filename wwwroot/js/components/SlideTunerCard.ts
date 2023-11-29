@@ -102,7 +102,7 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
 
 function updateMultipleInputs(topLevel: string) {
     let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
-    let children = innerContent.children(dataTypeSelector).not('button');
+    let children = innerContent.children('.wrap-container').children(dataTypeSelector).not('button');
     let count = children.length;
 
     let newButtons = [];
@@ -148,7 +148,8 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), a
     btn.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
     btn.rendered.metaValue = count + 1;
 
-    $(this).before(await btn.render())
+    $(this).siblings('.wrap-container').append(await btn.render());
+    //$(this).before(await btn.render());
 });
 
 $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnType), async function () {
@@ -172,7 +173,7 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnTyp
 
     imageSelect.components.TextInput = inputRemovable;
 
-    $(this).before(await imageSelect.render());
+    $(this).siblings('.wrap-container').append(await imageSelect.render());
 });
 
 $(slideTunerCardSelector).on('click', consts.combine('data-type', addColorBtnType), async function () {
@@ -220,7 +221,29 @@ $(slideTunerCardSelector).on('change', '.input-file__base-input', async function
 })
 
 function waitFieldsetInnerContent() {
-    waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
+    //waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
+
+    //    let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
+    //        let fieldset = $(fieldsetSelector + topLevelSelector);
+    //        let topLevel = fieldset.attr(topLevelAttr);
+
+    //        let newButtons = updateMultipleInputs(topLevel);
+
+    //        let id = SlideTunerCard.getDataMetaId();
+    //        let slideData = GlobalMeta.getSlideData(id);
+    //        slideData.data[topLevel] = newButtons;
+
+    //        GlobalMeta.updateSlideData(slideData);
+
+    //    });
+    //    waitForElm(fieldsetInnerContentSelector).then(() => {
+    //        let innerContent = document.querySelector(fieldsetInnerContentSelector);
+    //        fieldsetInnerContentMutationObserver.observe(innerContent, { childList: true });
+    //    })
+
+    //});
+
+    waitForElm('.fieldset__innerContent .wrap-container').then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
             let fieldset = $(fieldsetSelector + topLevelSelector);
@@ -235,8 +258,8 @@ function waitFieldsetInnerContent() {
             GlobalMeta.updateSlideData(slideData);
 
         });
-        waitForElm(fieldsetInnerContentSelector).then(() => {
-            let innerContent = document.querySelector(fieldsetInnerContentSelector);
+        waitForElm('.fieldset__innerContent .wrap-container').then(() => {
+            let innerContent = document.querySelector('.fieldset__innerContent .wrap-container');
             fieldsetInnerContentMutationObserver.observe(innerContent, { childList: true });
         })
 

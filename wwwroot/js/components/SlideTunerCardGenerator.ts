@@ -12,6 +12,7 @@ import ToggleSwitch, { toggleSwitchRendered } from './ToggleSwitch.js';
 import ImageSelect from './ImageSelect.js';
 import ColorSelect from './ColorSelect.js';
 import WrapContainer from './WrapContainer.js';
+import { warn } from 'console';
 
 
 const deleteImagePath: consts.imagePath = '/img/delete.svg';
@@ -69,7 +70,7 @@ class SlideTunerCardGenerator extends BaseComponent {
 
     async addImageSelectFields(configs: Array<consts.imageSelectConfig>, fieldsetLegend: string, canAdd: boolean) {
         let fieldset = await this.addFieldset(fieldsetLegend, fieldsetLegend);
-
+        let wrap = new WrapContainer();
         for (var i = 0; i < configs.length; i++) {
             let config = configs[i];
 
@@ -97,7 +98,8 @@ class SlideTunerCardGenerator extends BaseComponent {
             imageSelect.rendered.imagePath = config.imagePath;
 
             let renderedImageSelect = await imageSelect.render();
-            fieldset.children.push(renderedImageSelect);
+            wrap.rendered.innerContent += renderedImageSelect;
+            //fieldset.children.push(renderedImageSelect);
         }
 
         if (canAdd) {
@@ -108,6 +110,8 @@ class SlideTunerCardGenerator extends BaseComponent {
 
             fieldset.rendered.button_add = await button_add.render();
         }
+
+        fieldset.children.push(await wrap.render());
 
         let item = new SlideTunerCardItem();
         item.rendered.innerContent = await fieldset.render();
@@ -149,6 +153,8 @@ class SlideTunerCardGenerator extends BaseComponent {
     async addButtons(configs: Array<consts.buttonConfig>, fieldsetLegend: string, canAdd: boolean) {
 
         let fieldset = await this.addFieldset(fieldsetLegend, 'Buttons');
+        let wrap = new WrapContainer();
+
         for (var i = 0; i < configs.length; i++) {
 
             let config = configs[i];
@@ -169,7 +175,8 @@ class SlideTunerCardGenerator extends BaseComponent {
             button.rendered.placeholder = config.placeholder;
             button.rendered.metaValue = i + 1;
             let renderedButton = await button.render();
-            fieldset.children.push(renderedButton);
+            wrap.rendered.innerContent += renderedButton;
+            //fieldset.children.push(renderedButton);
         }
 
         if (canAdd) {
@@ -180,6 +187,8 @@ class SlideTunerCardGenerator extends BaseComponent {
 
             fieldset.rendered.button_add = await button_add.render();
         }
+
+        fieldset.children.push(await wrap.render());
 
         let item = new SlideTunerCardItem();
         item.rendered.innerContent = await fieldset.render();

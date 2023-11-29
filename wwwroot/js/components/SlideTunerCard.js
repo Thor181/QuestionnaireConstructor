@@ -86,7 +86,7 @@ $(slideTunerCardSelector).on('change', textInputSelector, function () {
 });
 function updateMultipleInputs(topLevel) {
     let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
-    let children = innerContent.children(dataTypeSelector).not('button');
+    let children = innerContent.children('.wrap-container').children(dataTypeSelector).not('button');
     let count = children.length;
     let newButtons = [];
     for (var i = 0; i < count; i++) {
@@ -124,7 +124,7 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addbtnType), f
         btn.rendered.placeholder = `Variant ${count + 1}`;
         btn.rendered.childFor = $(this).parents(topLevelSelector).attr(topLevelAttr);
         btn.rendered.metaValue = count + 1;
-        $(this).before(yield btn.render());
+        $(this).siblings('.wrap-container').append(yield btn.render());
     });
 });
 $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnType), function () {
@@ -143,7 +143,7 @@ $(slideTunerCardSelector).on('click', consts.combine('data-type', addImageBtnTyp
         imageSelect.rendered.removeFor = removeFor;
         imageSelect.rendered.metaValue = newValue;
         imageSelect.components.TextInput = inputRemovable;
-        $(this).before(yield imageSelect.render());
+        $(this).siblings('.wrap-container').append(yield imageSelect.render());
     });
 });
 $(slideTunerCardSelector).on('click', consts.combine('data-type', addColorBtnType), function () {
@@ -185,7 +185,7 @@ $(slideTunerCardSelector).on('change', '.input-file__base-input', function () {
     });
 });
 function waitFieldsetInnerContent() {
-    waitForElm(fieldsetInnerContentSelector).then((element) => {
+    waitForElm('.fieldset__innerContent .wrap-container').then((element) => {
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
             let fieldset = $(fieldsetSelector + topLevelSelector);
             let topLevel = fieldset.attr(topLevelAttr);
@@ -195,8 +195,8 @@ function waitFieldsetInnerContent() {
             slideData.data[topLevel] = newButtons;
             GlobalMeta.updateSlideData(slideData);
         });
-        waitForElm(fieldsetInnerContentSelector).then(() => {
-            let innerContent = document.querySelector(fieldsetInnerContentSelector);
+        waitForElm('.fieldset__innerContent .wrap-container').then(() => {
+            let innerContent = document.querySelector('.fieldset__innerContent .wrap-container');
             fieldsetInnerContentMutationObserver.observe(innerContent, { childList: true });
         });
     });
