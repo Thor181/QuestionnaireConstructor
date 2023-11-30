@@ -1,6 +1,6 @@
-﻿<div class="color-input" value="{{value}}">
-    <label class="color-wrapper" remove-for="{{removeFor}}" style="background: {{color}}">
-        <input class="color-wrapper__color-input" id="{{removeFor}}" type="color" />
+﻿<div class="color-input" value="{{value}}" remove-for="{{removeFor}}" data-type="color">
+    <label class="color-wrapper" for="{{removeFor}}" style="background: {{color}}">
+        <input class="color-wrapper__color-input" id="{{removeFor}}" type="color" value="{{color}}" />
     </label>
     <button style="flex-grow: 1" class="button" remove-for="{{removeFor}}">
         <img src="../../img/delete.svg" alt="Remove" />

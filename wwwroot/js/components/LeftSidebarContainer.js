@@ -45,6 +45,7 @@ const toggleSwitchType = 'toggleswitch';
 const imageselectType = 'imageselection';
 const colorButtonsType = 'colorbuttons';
 const colorType = 'color';
+const inputSelectType = 'input-select';
 const leftContainer = document.querySelector(leftContainerSelector);
 const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     const indexSpan = $(leftContainerSelector).find(indexSelector);
@@ -118,8 +119,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
             else if (type == buttonsType) {
                 let buttons = data[propName];
                 let buttonsConfigs = [];
-                let isRemovable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
-                let isAddable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
+                let isRemovable = true;
+                let isAddable = true;
                 for (var i = 0; i < buttons.length; i++) {
                     let button = buttons[i];
                     let buttonKeys = Object.keys(button);

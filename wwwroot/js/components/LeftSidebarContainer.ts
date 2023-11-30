@@ -44,6 +44,7 @@ const toggleSwitchType: consts.componentType = 'toggleswitch';
 const imageselectType: consts.componentType = 'imageselection';
 const colorButtonsType: consts.componentType = 'colorbuttons';
 const colorType: consts.componentType = 'color';
+const inputSelectType: consts.componentType = 'input-select';
 
 const leftContainer = document.querySelector(leftContainerSelector);
 
@@ -144,8 +145,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             let buttons: [] = data[propName];
             let buttonsConfigs: Array<consts.buttonConfig> = [];
 
-            let isRemovable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
-            let isAddable = slideData.meta.type == multiselectType || slideData.meta.type == imageselectType;
+            let isRemovable = true;// slideData.meta.type == multiselectType || slideData.meta.type == imageselectType || slideData.meta.type == inputSelectType;
+            let isAddable = true;// slideData.meta.type == multiselectType || slideData.meta.type == imageselectType || slideData.meta.type == inputSelectType;
 
             for (var i = 0; i < buttons.length; i++) {
                 let button = buttons[i];

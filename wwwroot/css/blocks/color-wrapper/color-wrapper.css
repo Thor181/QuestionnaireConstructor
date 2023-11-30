@@ -1,7 +1,8 @@
 ﻿.color-wrapper {
     height: 52px;
-    width: 200px;
-    border-radius: 12px;
+    width: 50px;
+    border-radius: 100%;
     display: flex;
     border: 1px solid #c5c5c5;
+    cursor: pointer;
 }

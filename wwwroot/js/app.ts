@@ -1,79 +1,108 @@
-﻿import AvailableSlide from './components/AvailableSlide.js';
+﻿import { availableParallelism } from 'os';
+import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js'
 import { GlobalMeta } from './shared/GlobalMeta.js';
 import generateShortUniq from './shared/guid.js';
+import { imageModifier } from './shared/constants.js';
+import { createVerify } from 'crypto';
  
 $(async function () {
 
     
     let container = $('#right-sidebar-container');
 
-    let infoAvailableSlide = new AvailableSlide();
-    infoAvailableSlide.rendered.title = 'Info slide';
-    infoAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--info';
-    infoAvailableSlide.rendered.schemeName = 'info';
-    infoAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Infotitle":"", "Infotext":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
+    await createAvailableSlide(
+        'Info slide',
+        'slide-wrapper__thumbnail-picture--info',
+        'info',
+        '{ "Title":"", "Subtitle":"", "Infotitle":"", "Infotext":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let sidebarItemControl = new SidebarItem();
-    sidebarItemControl.rendered.innerContent = await infoAvailableSlide.render();
+    await createAvailableSlide(
+        'Question slide',
+        'slide-wrapper__thumbnail-picture--question',
+        'question',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Yes", "Value": 1}, {"Variant 2": "No", "Value": 2}], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    container.append(await sidebarItemControl.render());
+    await createAvailableSlide(
+        'Multi selection slide',
+        'slide-wrapper__thumbnail-picture--multi',
+        'multiselect',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1},{"Variant 2": "Variant1", "Value": 2},{"Variant 3": "Variant1", "Value": 3}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let questionAvailableSlide = new AvailableSlide();
-    questionAvailableSlide.rendered.title = 'Question slide';
-    questionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--question';
-    questionAvailableSlide.rendered.schemeName = 'question';
-    questionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Yes", "Value": 1}, {"Variant 2": "No", "Value": 2}], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
+    await createAvailableSlide(
+        'Image selection slide',
+        'slide-wrapper__thumbnail-picture--image',
+        'imageselection',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "ImageButtons": [ {"Variant 1": "Variant1", "Value": 1, "ImagePath": ""},{"Variant 2": "Variant1", "Value": 2, "ImagePath": ""},{"Variant 3": "Variant1", "Value": 3, "ImagePath": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let sidebarItemControl2 = new SidebarItem();
-    sidebarItemControl2.rendered.innerContent = await questionAvailableSlide.render();
+    await createAvailableSlide(
+        'Skin color selection slide',
+        'slide-wrapper__thumbnail-picture--skincolor',
+        'skincolor',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    container.append(await sidebarItemControl2.render());
+    await createAvailableSlide(
+        'Color selection slide',
+        'slide-wrapper__thumbnail-picture--color',
+        'color',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Color buttons":[ {"Color":"#fae3c9", "Value": 1}, {"Color":"#8fffff", "Value": 2}, {"Color":"#aaaaaa", "Value": 3} ], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let multiSelectionAvailableSlide = new AvailableSlide();
-    multiSelectionAvailableSlide.rendered.title = 'Multi selection slide';
-    multiSelectionAvailableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--multi';
-    multiSelectionAvailableSlide.rendered.schemeName = 'multiselect';
-    multiSelectionAvailableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Buttons": [ {"Variant 1": "Variant1", "Value": 1},{"Variant 2": "Variant1", "Value": 2},{"Variant 3": "Variant1", "Value": 3}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }';
+    await createAvailableSlide(
+        'User input slide',
+        'slide-wrapper__thumbnail-picture--input',
+        'input',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let sidebarItemControl3 = new SidebarItem();
-    sidebarItemControl3.rendered.innerContent = await multiSelectionAvailableSlide.render();
+    await createAvailableSlide('Selection with user input',
+        'slide-wrapper__thumbnail-picture--input-select',
+        'input-select',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Other variant": "Other", "Buttons": [ {"Variant 1": "Variant1", "Value": 1},{"Variant 2": "Variant1", "Value": 2},{"Variant 3": "Variant1", "Value": 3}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    container.append(await sidebarItemControl3.render());
+    await createAvailableSlide('Image upload with user input',
+        'slide-wrapper__thumbnail-picture--image-input',
+        'image-input',
+        '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
-    let imageSelectionAvilableSlide = new AvailableSlide();
-    imageSelectionAvilableSlide.rendered.title = 'Image selection slide';
-    imageSelectionAvilableSlide.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--image';
-    imageSelectionAvilableSlide.rendered.schemeName = 'imageselection';
-    imageSelectionAvilableSlide.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "ImageButtons": [ {"Variant 1": "Variant1", "Value": 1, "ImagePath": ""},{"Variant 2": "Variant1", "Value": 2, "ImagePath": ""},{"Variant 3": "Variant1", "Value": 3, "ImagePath": ""}], "Single select": true, "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }'
-
-    let sidebarItemControl4 = new SidebarItem();
-    sidebarItemControl4.rendered.innerContent = await imageSelectionAvilableSlide.render();
-
-    container.append(await sidebarItemControl4.render());
-
-    let skinColorSelectionControl5 = new AvailableSlide();
-    skinColorSelectionControl5.rendered.title = 'Skin color selection slide';
-    skinColorSelectionControl5.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--skincolor';
-    skinColorSelectionControl5.rendered.schemeName = 'skincolor';
-    skinColorSelectionControl5.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }'
-
-    let sidebarItemControl5 = new SidebarItem();
-    sidebarItemControl5.rendered.innerContent = await skinColorSelectionControl5.render();
-
-    container.append(await sidebarItemControl5.render());
-
-    let colorSelection6 = new AvailableSlide();
-    colorSelection6.rendered.title = 'Color selection slide';
-    colorSelection6.rendered.imageModifier = 'slide-wrapper__thumbnail-picture--color';
-    colorSelection6.rendered.schemeName = 'color';
-    colorSelection6.rendered.schemeContent = '{ "Title":"", "Subtitle":"", "Question":"", "Assistive text":"", "Color buttons":[ {"Color":"#fae3c9", "Value": 1}, {"Color":"#8fffff", "Value": 2}, {"Color":"#aaaaaa", "Value": 3} ], "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }'
-
-    let sidebarItemControl6 = new SidebarItem();
-    sidebarItemControl6.rendered.innerContent = await colorSelection6.render();
-
-    container.append(await sidebarItemControl6.render());
+    await createAvailableSlide('Coupon slide',
+        'slide-wrapper__thumbnail-picture--coupon',
+        'coupon',
+        '{ "Title":"", "Subtitle":"", "Infotitle":"", "Infotext":"", "Coupon": "", "NextPrevButtons": [{"Button next":"Continue"}, {"Button previous":"Back" }] }',
+        container
+    );
 
     GlobalMeta.initialize();
 });
+
+
+async function createAvailableSlide(title: string, imagePath: imageModifier, schemeName: string, schemeContent: string, container: JQuery<HTMLElement>) {
+    let slide = new AvailableSlide();
+    slide.rendered.title = title;
+    slide.rendered.imageModifier = imagePath;
+    slide.rendered.schemeName = schemeName;
+    slide.rendered.schemeContent = schemeContent;
+
+    let sidebarItem = new SidebarItem();
+    sidebarItem.rendered.innerContent = await slide.render();
+
+    container.append(await sidebarItem.render());
+}
+
 

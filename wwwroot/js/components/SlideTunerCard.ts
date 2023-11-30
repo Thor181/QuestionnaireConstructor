@@ -1,5 +1,5 @@
 ﻿
-import { GlobalMeta } from '../shared/GlobalMeta.js';
+import { GlobalMeta, SlideData } from '../shared/GlobalMeta.js';
 import * as consts from '../shared/constants.js';
 import BaseComponent from './Base/BaseComponent.js';
 import { LeftSidebarContainer } from './LeftSidebarContainer.js';
@@ -40,6 +40,7 @@ const textType: consts.componentType = 'text';
 const toggleswitchType: consts.componentType = 'toggleswitch';
 const addImageBtnType: consts.componentType = 'addImageBtn';
 const addColorBtnType: consts.componentType = 'addColor'
+const colorType: consts.componentType = 'color'
 
 const inputfileType = consts.renderTypes.InputFile;
 
@@ -61,6 +62,19 @@ class SlideTunerCard extends BaseComponent {
 
     static clear() {
         $(slideTunerCardSelector).children(slideTunerCardItemSelector).remove();
+    }
+
+    static getSlideType(): string {
+        let slideData = this.getSlideData();
+        let slideType = slideData.meta.type;
+        return slideType;
+    }
+
+    static getSlideData(): SlideData {
+        let slideId = SlideTunerCard.getDataMetaId();
+        let slideData = GlobalMeta.getSlideData(slideId);
+
+        return slideData;
     }
 
     async render(): Promise<string> {
@@ -105,26 +119,44 @@ function updateMultipleInputs(topLevel: string) {
     let children = innerContent.children('.wrap-container').children(dataTypeSelector).not('button');
     let count = children.length;
 
+    let slideData = SlideTunerCard.getSlideData();
+    let slideType = SlideTunerCard.getSlideType();
+
     let newButtons = [];
 
-    for (var i = 0; i < count; i++) {
-        let child = children.eq(i);
-        let newTitle = 'Variant ' + (i + 1);
-        child.find(consts.combine('data-kind', 'title')).text(newTitle);
-        let valueEl = child.find(consts.combine('data-kind', 'value'));
-        valueEl.attr('placeholder', newTitle);
-        valueEl.attr(metaValueAttr, i + 1);
-        let value = valueEl.val();
+    if (slideType == colorType) {
 
-        let newObj = { [newTitle]: value, Value: i + 1 };
 
-        if (topLevel == 'ImageButtons') {
-            let img = child.find(inputFileInnerImageSelector).find('img');
-            let path = img.attr('src');
-            newObj["ImagePath"] = path;
+        for (var i = 0; i < count; i++) {
+            let child = children.eq(i);
+            let value = child.attr('Value');
+            let color = child.find('input').val();
+            let btns: [] = slideData.data[topLevel];
+
+            newButtons.push({ Color: color, Value: value });
         }
 
-        newButtons.push(newObj);
+    }
+    else {
+        for (var i = 0; i < count; i++) {
+            let child = children.eq(i);
+            let newTitle = 'Variant ' + (i + 1);
+            child.find(consts.combine('data-kind', 'title')).text(newTitle);
+            let valueEl = child.find(consts.combine('data-kind', 'value'));
+            valueEl.attr('placeholder', newTitle);
+            valueEl.attr(metaValueAttr, i + 1);
+            let value = valueEl.val();
+
+            let newObj = { [newTitle]: value, Value: i + 1 };
+
+            if (topLevel == 'ImageButtons') {
+                let img = child.find(inputFileInnerImageSelector).find('img');
+                let path = img.attr('src');
+                newObj["ImagePath"] = path;
+            }
+
+            newButtons.push(newObj);
+        }
     }
     return newButtons;
 }
@@ -221,6 +253,7 @@ $(slideTunerCardSelector).on('change', '.input-file__base-input', async function
 })
 
 function waitFieldsetInnerContent() {
+    //NOT WRAP CONTAINER
     //waitForElm(fieldsetInnerContentSelector).then((element: HTMLElement) => {
 
     //    let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
@@ -243,6 +276,7 @@ function waitFieldsetInnerContent() {
 
     //});
 
+    //WRAP CONTAINER
     waitForElm('.fieldset__innerContent .wrap-container').then((element: HTMLElement) => {
 
         let fieldsetInnerContentMutationObserver = new MutationObserver((mr, o) => {
@@ -269,20 +303,27 @@ function waitFieldsetInnerContent() {
 
 export { waitFieldsetInnerContent };
 
-$(slideTunerCardSelector).on('click', removeForSelector, function () {
-
-    const id = SlideTunerCard.getDataMetaId();
-    let slideData = GlobalMeta.getSlideData(id);
-
-    let topLevelFieldset = $(this).parents(topLevelSelector);
-
-    let title = $(this).parent().siblings(consts.combine('data-kind', 'title')).text();
-    let topLevel = topLevelFieldset.attr(topLevelAttr);
-    let buttons: [] = slideData.data[topLevel];
-    slideData.data[topLevel] = buttons.filter(x => x[title] == null);
-
-    GlobalMeta.updateSlideData(slideData);
-
+$(slideTunerCardSelector).on('click', 'button' + removeForSelector, function () {
     let removeForId = $(this).attr(removeForAttr);
-    $(consts.combine('removable', removeForId)).remove();
+    $(consts.combine('remove-for', removeForId)).remove();
+});
+
+$(slideTunerCardSelector).on('change', 'input[type="color"]', function () {
+    let id = $(this).attr('id');
+    let label = $(`[for="${id}"]`);
+    let colorInput = label.parent();
+    let value = colorInput.attr('value');
+    let color = $(this).val();
+
+    label.css('background', color);
+
+    let topLevel = $(this).parents(topLevelSelector).attr(topLevelAttr);
+    let slideId = SlideTunerCard.getDataMetaId();
+    let slideData = GlobalMeta.getSlideData(slideId);
+    let data: [] = slideData.data[topLevel];
+    let element: { Color: string } = data.find(x => x['Value'] == value);
+    if (element != undefined) {
+        element.Color = color;
+        GlobalMeta.updateSlideData(slideData);
+    };
 });

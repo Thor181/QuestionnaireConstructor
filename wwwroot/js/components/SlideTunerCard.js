@@ -42,6 +42,7 @@ const textType = 'text';
 const toggleswitchType = 'toggleswitch';
 const addImageBtnType = 'addImageBtn';
 const addColorBtnType = 'addColor';
+const colorType = 'color';
 const inputfileType = consts.renderTypes.InputFile;
 const addImagePath = '/img/add.svg';
 class SlideTunerCard extends BaseComponent {
@@ -54,6 +55,16 @@ class SlideTunerCard extends BaseComponent {
     }
     static clear() {
         $(slideTunerCardSelector).children(slideTunerCardItemSelector).remove();
+    }
+    static getSlideType() {
+        let slideData = this.getSlideData();
+        let slideType = slideData.meta.type;
+        return slideType;
+    }
+    static getSlideData() {
+        let slideId = SlideTunerCard.getDataMetaId();
+        let slideData = GlobalMeta.getSlideData(slideId);
+        return slideData;
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -88,22 +99,35 @@ function updateMultipleInputs(topLevel) {
     let innerContent = $(consts.combine('top-level', topLevel)).find(fieldsetInnerContentSelector).first();
     let children = innerContent.children('.wrap-container').children(dataTypeSelector).not('button');
     let count = children.length;
+    let slideData = SlideTunerCard.getSlideData();
+    let slideType = SlideTunerCard.getSlideType();
     let newButtons = [];
-    for (var i = 0; i < count; i++) {
-        let child = children.eq(i);
-        let newTitle = 'Variant ' + (i + 1);
-        child.find(consts.combine('data-kind', 'title')).text(newTitle);
-        let valueEl = child.find(consts.combine('data-kind', 'value'));
-        valueEl.attr('placeholder', newTitle);
-        valueEl.attr(metaValueAttr, i + 1);
-        let value = valueEl.val();
-        let newObj = { [newTitle]: value, Value: i + 1 };
-        if (topLevel == 'ImageButtons') {
-            let img = child.find(inputFileInnerImageSelector).find('img');
-            let path = img.attr('src');
-            newObj["ImagePath"] = path;
+    if (slideType == colorType) {
+        for (var i = 0; i < count; i++) {
+            let child = children.eq(i);
+            let value = child.attr('Value');
+            let color = child.find('input').val();
+            let btns = slideData.data[topLevel];
+            newButtons.push({ Color: color, Value: value });
         }
-        newButtons.push(newObj);
+    }
+    else {
+        for (var i = 0; i < count; i++) {
+            let child = children.eq(i);
+            let newTitle = 'Variant ' + (i + 1);
+            child.find(consts.combine('data-kind', 'title')).text(newTitle);
+            let valueEl = child.find(consts.combine('data-kind', 'value'));
+            valueEl.attr('placeholder', newTitle);
+            valueEl.attr(metaValueAttr, i + 1);
+            let value = valueEl.val();
+            let newObj = { [newTitle]: value, Value: i + 1 };
+            if (topLevel == 'ImageButtons') {
+                let img = child.find(inputFileInnerImageSelector).find('img');
+                let path = img.attr('src');
+                newObj["ImagePath"] = path;
+            }
+            newButtons.push(newObj);
+        }
     }
     return newButtons;
 }
@@ -202,16 +226,26 @@ function waitFieldsetInnerContent() {
     });
 }
 export { waitFieldsetInnerContent };
-$(slideTunerCardSelector).on('click', removeForSelector, function () {
-    const id = SlideTunerCard.getDataMetaId();
-    let slideData = GlobalMeta.getSlideData(id);
-    let topLevelFieldset = $(this).parents(topLevelSelector);
-    let title = $(this).parent().siblings(consts.combine('data-kind', 'title')).text();
-    let topLevel = topLevelFieldset.attr(topLevelAttr);
-    let buttons = slideData.data[topLevel];
-    slideData.data[topLevel] = buttons.filter(x => x[title] == null);
-    GlobalMeta.updateSlideData(slideData);
+$(slideTunerCardSelector).on('click', 'button' + removeForSelector, function () {
     let removeForId = $(this).attr(removeForAttr);
-    $(consts.combine('removable', removeForId)).remove();
+    $(consts.combine('remove-for', removeForId)).remove();
+});
+$(slideTunerCardSelector).on('change', 'input[type="color"]', function () {
+    let id = $(this).attr('id');
+    let label = $(`[for="${id}"]`);
+    let colorInput = label.parent();
+    let value = colorInput.attr('value');
+    let color = $(this).val();
+    label.css('background', color);
+    let topLevel = $(this).parents(topLevelSelector).attr(topLevelAttr);
+    let slideId = SlideTunerCard.getDataMetaId();
+    let slideData = GlobalMeta.getSlideData(slideId);
+    let data = slideData.data[topLevel];
+    let element = data.find(x => x['Value'] == value);
+    if (element != undefined) {
+        element.Color = color;
+        GlobalMeta.updateSlideData(slideData);
+    }
+    ;
 });
 //# sourceMappingURL=SlideTunerCard.js.map

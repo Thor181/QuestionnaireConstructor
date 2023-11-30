@@ -7,6 +7,10 @@ type imageModifier = 'slide-wrapper__thumbnail-picture--info'
     | 'slide-wrapper__thumbnail-picture--image'
     | 'slide-wrapper__thumbnail-picture--skincolor'
     | 'slide-wrapper__thumbnail-picture--color'
+    | 'slide-wrapper__thumbnail-picture--input'
+    | 'slide-wrapper__thumbnail-picture--input-select'
+    | 'slide-wrapper__thumbnail-picture--image-input'
+    | 'slide-wrapper__thumbnail-picture--coupon'
 
 type stateModifier = 'sidebar__item--selected'
 
@@ -76,6 +80,7 @@ type componentType = 'text'
     | 'colorbuttons'
     | 'color'
     | 'addColor'
+    | 'input-select'
 
 
 const renderTypes = {
@@ -85,6 +90,8 @@ const renderTypes = {
     'Infotext': 'text',
     'Question': 'text',
     'Assistive text': 'text',
+    'Other variant': 'text',
+    'Coupon': 'text',
     'NextPrevButtons': 'nextprevbuttons',
     'Buttons': 'buttons',
     'Single select': 'toggleswitch',
@@ -106,7 +113,7 @@ const availableSaveDataTypes = {
 }
 
 const saveDataTypes = {
-    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text'],
+    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text', 'Other variant', 'Coupon'],
     [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
     [availableSaveDataTypes.Buttons]: [''],
 
@@ -160,7 +167,11 @@ const slideType = {
     multiselect: 'multiselect',
     imageselection: 'imageselection',
     skincolor: 'skincolor',
-    color: 'color'
+    color: 'color',
+    input: 'input',
+    'input-select': 'input-select',
+    'image-input': 'image-input',
+    coupon: 'coupon'
 }
 
 const map = new Map<string, imageModifier>();
@@ -171,6 +182,10 @@ map.set(slideType.multiselect, "slide-wrapper__thumbnail-picture--multi");
 map.set(slideType.imageselection, "slide-wrapper__thumbnail-picture--image");
 map.set(slideType.skincolor, "slide-wrapper__thumbnail-picture--skincolor");
 map.set(slideType.color, "slide-wrapper__thumbnail-picture--color");
+map.set(slideType.input, "slide-wrapper__thumbnail-picture--input");
+map.set(slideType["input-select"], "slide-wrapper__thumbnail-picture--input-select");
+map.set(slideType["image-input"], "slide-wrapper__thumbnail-picture--image-input");
+map.set(slideType.coupon, "slide-wrapper__thumbnail-picture--coupon");
 
 export function mapTypeToImageModifier(type: string): imageModifier {
     let t = map.get(type);

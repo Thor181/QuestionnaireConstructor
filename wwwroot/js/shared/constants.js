@@ -6,6 +6,8 @@ const renderTypes = {
     'Infotext': 'text',
     'Question': 'text',
     'Assistive text': 'text',
+    'Other variant': 'text',
+    'Coupon': 'text',
     'NextPrevButtons': 'nextprevbuttons',
     'Buttons': 'buttons',
     'Single select': 'toggleswitch',
@@ -21,7 +23,7 @@ const availableSaveDataTypes = {
     Buttons: 'Buttons'
 };
 const saveDataTypes = {
-    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text'],
+    [availableSaveDataTypes.Text]: ['Title', 'Subtitle', 'Infotitle', 'Infotext', 'Question', 'Assistive text', 'Other variant', 'Coupon'],
     [availableSaveDataTypes.NextPrevButtons]: ['Button next', 'Button previous'],
     [availableSaveDataTypes.Buttons]: [''],
     getTypeByValue(value) {
@@ -46,7 +48,11 @@ const slideType = {
     multiselect: 'multiselect',
     imageselection: 'imageselection',
     skincolor: 'skincolor',
-    color: 'color'
+    color: 'color',
+    input: 'input',
+    'input-select': 'input-select',
+    'image-input': 'image-input',
+    coupon: 'coupon'
 };
 const map = new Map();
 map.set(slideType.info, "slide-wrapper__thumbnail-picture--info");
@@ -56,6 +62,10 @@ map.set(slideType.multiselect, "slide-wrapper__thumbnail-picture--multi");
 map.set(slideType.imageselection, "slide-wrapper__thumbnail-picture--image");
 map.set(slideType.skincolor, "slide-wrapper__thumbnail-picture--skincolor");
 map.set(slideType.color, "slide-wrapper__thumbnail-picture--color");
+map.set(slideType.input, "slide-wrapper__thumbnail-picture--input");
+map.set(slideType["input-select"], "slide-wrapper__thumbnail-picture--input-select");
+map.set(slideType["image-input"], "slide-wrapper__thumbnail-picture--image-input");
+map.set(slideType.coupon, "slide-wrapper__thumbnail-picture--coupon");
 export function mapTypeToImageModifier(type) {
     let t = map.get(type);
     if (t == null)
