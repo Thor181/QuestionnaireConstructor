@@ -21,7 +21,7 @@ export class GlobalMeta {
         for (var i = 0; i < data.length; i++) {
 
             let item: SlideData = data.filter(x => x.meta.order == i + 1)[0];
-            this.#generateAddedEvent(item.meta.id, item.meta.type);
+            this.#generateAddedEvent(item.meta.id, item.meta.type, true);
         }
     }
 
@@ -65,7 +65,7 @@ export class GlobalMeta {
         let localDataJson: string = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(this.#storageSectionName, localDataJson);
 
-        this.#generateAddedEvent(slideData.meta.id, slideData.meta.type);
+        this.#generateAddedEvent(slideData.meta.id, slideData.meta.type, false);
     }
 
     static updateSlideData(slideData: SlideData) {
@@ -156,18 +156,18 @@ export class GlobalMeta {
     }
 
     //#region Event
-    static #generateAddedEvent(slideId: number, type: string) {
-        let data = new EventData(slideId, type);
+    static #generateAddedEvent(slideId: number, type: string, preventCardGenerating: boolean) {
+        let data = new EventData(slideId, type, preventCardGenerating);
         this.#generateEventInternal("SlideAdded", data);
     }
 
     static #generateUpdatedEvent(slideId: number, type: string) {
-        let data = new EventData(slideId, type);
+        let data = new EventData(slideId, type, false);
         this.#generateEventInternal("SlideUpdated", data);
     }
 
     static #generateRemovedEvent(slideId: number, type: string) {
-        let data = new EventData(slideId, type);
+        let data = new EventData(slideId, type, false);
         this.#generateEventInternal("SlideRemoved", data);
     }
 
@@ -224,10 +224,12 @@ export class Meta {
 export class EventData {
     slideId: number;
     type: string;
+    preventCardGenerating: boolean;
 
-    constructor(slideId: number, type: string) {
+    constructor(slideId: number, type: string, preventCardGenerating: boolean) {
         this.slideId = slideId;
         this.type = type;
+        this.preventCardGenerating = preventCardGenerating;
     }
 }
 

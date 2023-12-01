@@ -7,6 +7,7 @@ import SidebarItem from './SidebarItem.js';
 import SlideTunerCard, { waitFieldsetInnerContent } from './SlideTunerCard.js';
 import SlideTunerCardGenerator from './SlideTunerCardGenerator.js';
 import { toggleSwitchRendered } from './ToggleSwitch.js';
+import { EventData } from '../shared/GlobalMeta.js'
 
 const leftContainerSelector: consts.selector = '#left-sidebar-container';
 const indexSelector: consts.selector = '[index]';
@@ -54,8 +55,10 @@ const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     let i = 0;
     while (i < indexSpan.length) {
         let item = indexSpan.eq(i);
-        item.text(i + 1);
-        item.attr(indexAttr, i + 1);
+        let index = i + 1;
+        item.text(index);
+        item.attr(indexAttr, index);
+
         i++;
     }
 
@@ -63,6 +66,24 @@ const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
 });
 
 leftSidebarMutationObserver.observe(leftContainer, { childList: true });
+
+
+//setInterval(() => {
+    
+//    let res = '';
+//    const indexSpan = $(leftContainerSelector).find(indexSelector);
+//    for (var i = 0; i < indexSpan.length; i++) {
+//        let item = indexSpan.eq(i);
+//        let slideWrapper = item.parents('.slide-wrapper');
+//        let metaOrder = slideWrapper.find('[data-meta-order]').attr('data-meta-order');
+//        let id = slideWrapper.find('[data-meta-id]').attr('data-meta-id');
+
+//        res += `${i + 1}` + ')' + ' ' + id + ':' + item.attr('index') + '|' + metaOrder + '              '
+//    }
+
+//    $('.header').html(res)
+
+//}, 200);
 
 export class LeftSidebarContainer {
 
@@ -110,10 +131,28 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
     const inter = new IndexedSlideInterpretated($(this).children().first());
 
-    const slideTunerCard = $(slideTunerCardSelector);
+    const slideId = inter.getMetaDataId();
+
+    await generateSlideTunerCard(slideId);
+
+    inter.setSelectedStatus();
+});
+
+$(globalMeta).on(slideUpdatedEvent, async function (e) {
+    //@ts-ignore
+    const detail: EventData = e.detail;
+    const slideId = detail.slideId;
+    const data: SlideData = GlobalMeta.getSlideData(slideId);
+
+    let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId.toString()))
+    let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
+    titleElement.text(data.data.Title);
+});
+
+export async function generateSlideTunerCard(slideId: number) {
     SlideTunerCard.clear();
 
-    const slideId = inter.getMetaDataId();
+    const slideTunerCard = $(slideTunerCardSelector);
     const slideData = GlobalMeta.getSlideData(slideId);
 
     const generator = new SlideTunerCardGenerator();
@@ -128,7 +167,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
         else if (type == nextPrevButtonsType) {
             let buttonsInfo = data[propName];
 
-            let nextBtnInfo = buttonsInfo[0]
+            let nextBtnInfo = buttonsInfo[0];
 
             let nextBtnTitle = Object.keys(nextBtnInfo)[0];
             //@ts-ignore
@@ -145,8 +184,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
             let buttons: [] = data[propName];
             let buttonsConfigs: Array<consts.buttonConfig> = [];
 
-            let isRemovable = true;// slideData.meta.type == multiselectType || slideData.meta.type == imageselectType || slideData.meta.type == inputSelectType;
-            let isAddable = true;// slideData.meta.type == multiselectType || slideData.meta.type == imageselectType || slideData.meta.type == inputSelectType;
+            let isRemovable = slideData.meta.type != 'question';
+            let isAddable = slideData.meta.type != 'question';
 
             for (var i = 0; i < buttons.length; i++) {
                 let button = buttons[i];
@@ -199,7 +238,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
                 let button = buttons[i];
 
                 let removable = isRemovable && i > 0;
- 
+
                 let config: consts.colorConfig = {
                     color: button["Color"],
                     removable: removable,
@@ -220,7 +259,7 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
                 dataType: 'toggleswitch',
                 dataKind: 'singleselect',
                 checked: propValue == true ? 'checked' : ''
-            }
+            };
 
             generator.addToggleSwitch(config);
         }
@@ -235,18 +274,38 @@ $(leftContainerSelector).on('click', sidebarItemSelector, async function () {
 
     SlideTunerCard.setDataMetaId(slideId);
 
+    //selected status
+    let item = $(leftContainerSelector).find(`[data-meta-id="${slideId}"]`).parent();
+    const inter = new IndexedSlideInterpretated(item);
     inter.setSelectedStatus();
+}
 
-});
+$('#left-sidebar-container').sortable({ beforeStop: onSorted });
 
+function onSorted(e: any, ui: any) {
 
+    let item: JQuery<HTMLElement> = ui.item.eq(0)
+    let currentIndex = item.find('[index]').attr('index');
+    item.find('[data-meta-order]').attr('data-meta-order', currentIndex);
 
-$(globalMeta).on(slideUpdatedEvent, function (e) {
-    //@ts-ignore
-    const detail: EventData = e.detail;
-    const data: SlideData = GlobalMeta.getSlideData(detail.slideId);
+    reorderMetaOrder();
+}
 
-    let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId))
-    let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
-    titleElement.text(data.data.Title);
-});
+function reorderMetaOrder() {
+    const indexSpan = $(leftContainerSelector).find(indexSelector);
+
+    let i = 0;
+    while (i < indexSpan.length) {
+
+        let item = indexSpan.eq(i);
+        let index = i + 1;
+        let slideWrapper = item.parents('.slide-wrapper');
+        slideWrapper.find('[data-meta-order]').attr('data-meta-order', index);
+        let slideId = Number(slideWrapper.find('[data-meta-id]').attr('data-meta-id'));
+        let slideData = GlobalMeta.getSlideData(slideId);
+        slideData.meta.order = index;
+        GlobalMeta.updateSlideData(slideData);
+
+        i++;
+    }
+}

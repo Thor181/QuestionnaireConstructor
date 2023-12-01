@@ -1,11 +1,9 @@
-﻿import { availableParallelism } from 'os';
-import AvailableSlide from './components/AvailableSlide.js';
+﻿import AvailableSlide from './components/AvailableSlide.js';
 import SidebarItem from './components/SidebarItem.js'
 import { GlobalMeta } from './shared/GlobalMeta.js';
-import generateShortUniq from './shared/guid.js';
 import { imageModifier } from './shared/constants.js';
-import { createVerify } from 'crypto';
- 
+
+
 $(async function () {
 
     
@@ -104,5 +102,6 @@ async function createAvailableSlide(title: string, imagePath: imageModifier, sch
 
     container.append(await sidebarItem.render());
 }
+
 
 

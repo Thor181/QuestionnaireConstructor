@@ -17,7 +17,7 @@ export class GlobalMeta {
         }
         for (var i = 0; i < data.length; i++) {
             let item = data.filter(x => x.meta.order == i + 1)[0];
-            __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, item.meta.id, item.meta.type);
+            __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, item.meta.id, item.meta.type, true);
         }
     }
     static addOrUpdateSlideData(slideData) {
@@ -50,7 +50,7 @@ export class GlobalMeta {
         }
         let localDataJson = JSON.stringify(storageSlidesData);
         window.localStorage.setItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName), localDataJson);
-        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, slideData.meta.id, slideData.meta.type);
+        __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateAddedEvent).call(this, slideData.meta.id, slideData.meta.type, false);
     }
     static updateSlideData(slideData) {
         const storageSlidesData = this.getStorageData(slideData);
@@ -130,14 +130,14 @@ export class GlobalMeta {
         return questionData;
     }
 }
-_a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateAddedEvent(slideId, type) {
-    let data = new EventData(slideId, type);
+_a = GlobalMeta, _GlobalMeta_generateAddedEvent = function _GlobalMeta_generateAddedEvent(slideId, type, preventCardGenerating) {
+    let data = new EventData(slideId, type, preventCardGenerating);
     __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideAdded", data);
 }, _GlobalMeta_generateUpdatedEvent = function _GlobalMeta_generateUpdatedEvent(slideId, type) {
-    let data = new EventData(slideId, type);
+    let data = new EventData(slideId, type, false);
     __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideUpdated", data);
 }, _GlobalMeta_generateRemovedEvent = function _GlobalMeta_generateRemovedEvent(slideId, type) {
-    let data = new EventData(slideId, type);
+    let data = new EventData(slideId, type, false);
     __classPrivateFieldGet(this, _a, "m", _GlobalMeta_generateEventInternal).call(this, "SlideRemoved", data);
 }, _GlobalMeta_generateEventInternal = function _GlobalMeta_generateEventInternal(eventType, detail) {
     let event = new CustomEvent(eventType, { detail: detail });
@@ -157,9 +157,10 @@ export class SlideData {
 export class Meta {
 }
 export class EventData {
-    constructor(slideId, type) {
+    constructor(slideId, type, preventCardGenerating) {
         this.slideId = slideId;
         this.type = type;
+        this.preventCardGenerating = preventCardGenerating;
     }
 }
 //# sourceMappingURL=GlobalMeta.js.map

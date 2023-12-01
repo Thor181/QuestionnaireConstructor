@@ -10,7 +10,10 @@
         "jquery.js",
         "jquery.min.map"
       ]
+    },
+    {
+      "library": "jqueryui@1.13.2",
+      "destination": "wwwroot/lib/jqueryui/"
     }
-    
   ]
 }

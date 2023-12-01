@@ -52,8 +52,9 @@ const leftSidebarMutationObserver = new MutationObserver((mr, o) => {
     let i = 0;
     while (i < indexSpan.length) {
         let item = indexSpan.eq(i);
-        item.text(i + 1);
-        item.attr(indexAttr, i + 1);
+        let index = i + 1;
+        item.text(index);
+        item.attr(indexAttr, index);
         i++;
     }
     leftContainer.setAttribute(dataOrderMaxAttr, i.toString());
@@ -95,9 +96,25 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
             x.removeEventListener('change', () => { });
         });
         const inter = new IndexedSlideInterpretated($(this).children().first());
-        const slideTunerCard = $(slideTunerCardSelector);
-        SlideTunerCard.clear();
         const slideId = inter.getMetaDataId();
+        yield generateSlideTunerCard(slideId);
+        inter.setSelectedStatus();
+    });
+});
+$(globalMeta).on(slideUpdatedEvent, function (e) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const detail = e.detail;
+        const slideId = detail.slideId;
+        const data = GlobalMeta.getSlideData(slideId);
+        let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId.toString()));
+        let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
+        titleElement.text(data.data.Title);
+    });
+});
+export function generateSlideTunerCard(slideId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        SlideTunerCard.clear();
+        const slideTunerCard = $(slideTunerCardSelector);
         const slideData = GlobalMeta.getSlideData(slideId);
         const generator = new SlideTunerCardGenerator();
         const data = slideData.data;
@@ -119,8 +136,8 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
             else if (type == buttonsType) {
                 let buttons = data[propName];
                 let buttonsConfigs = [];
-                let isRemovable = true;
-                let isAddable = true;
+                let isRemovable = slideData.meta.type != 'question';
+                let isAddable = slideData.meta.type != 'question';
                 for (var i = 0; i < buttons.length; i++) {
                     let button = buttons[i];
                     let buttonKeys = Object.keys(button);
@@ -185,14 +202,31 @@ $(leftContainerSelector).on('click', sidebarItemSelector, function () {
         const renderedCardChildren = yield generator.render();
         slideTunerCard.append(renderedCardChildren);
         SlideTunerCard.setDataMetaId(slideId);
+        let item = $(leftContainerSelector).find(`[data-meta-id="${slideId}"]`).parent();
+        const inter = new IndexedSlideInterpretated(item);
         inter.setSelectedStatus();
     });
-});
-$(globalMeta).on(slideUpdatedEvent, function (e) {
-    const detail = e.detail;
-    const data = GlobalMeta.getSlideData(detail.slideId);
-    let item = $(leftContainerSelector).find(consts.combine(dataMetaIdAttr, detail.slideId));
-    let titleElement = item.siblings().find(consts.combine(dataKindAttr, 'title'));
-    titleElement.text(data.data.Title);
-});
+}
+$('#left-sidebar-container').sortable({ beforeStop: onSorted });
+function onSorted(e, ui) {
+    let item = ui.item.eq(0);
+    let currentIndex = item.find('[index]').attr('index');
+    item.find('[data-meta-order]').attr('data-meta-order', currentIndex);
+    reorderMetaOrder();
+}
+function reorderMetaOrder() {
+    const indexSpan = $(leftContainerSelector).find(indexSelector);
+    let i = 0;
+    while (i < indexSpan.length) {
+        let item = indexSpan.eq(i);
+        let index = i + 1;
+        let slideWrapper = item.parents('.slide-wrapper');
+        slideWrapper.find('[data-meta-order]').attr('data-meta-order', index);
+        let slideId = Number(slideWrapper.find('[data-meta-id]').attr('data-meta-id'));
+        let slideData = GlobalMeta.getSlideData(slideId);
+        slideData.meta.order = index;
+        GlobalMeta.updateSlideData(slideData);
+        i++;
+    }
+}
 //# sourceMappingURL=LeftSidebarContainer.js.map
