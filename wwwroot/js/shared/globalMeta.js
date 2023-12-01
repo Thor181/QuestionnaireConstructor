@@ -85,6 +85,10 @@ export class GlobalMeta {
             item.meta.order = i + 1;
         }
     }
+    static getEntireData() {
+        let data = window.localStorage.getItem(__classPrivateFieldGet(this, _a, "f", _GlobalMeta_storageSectionName));
+        return data;
+    }
     static getStorageData(slideData) {
         if (slideData == null) {
             console.error('questionData value cannot be null');

@@ -1,0 +1,9 @@
+﻿.button--filled {
+    background: var(--main_blue);
+    color: white;
+
+}
+
+.button--filled:hover {
+    background: var(--main_blue-darker);
+}

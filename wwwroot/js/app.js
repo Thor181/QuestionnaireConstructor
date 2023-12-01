@@ -38,4 +38,20 @@ function createAvailableSlide(title, imagePath, schemeName, schemeContent, conta
         container.append(yield sidebarItem.render());
     });
 }
+$('#save-quiz').on('click', function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        let data = GlobalMeta.getEntireData();
+        let body = { data: data };
+        let jsonBody = JSON.stringify(body);
+        let result = yield fetch('/api/quiz/save', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: jsonBody
+        });
+        console.log(result);
+    });
+});
 //# sourceMappingURL=app.js.map

@@ -116,6 +116,11 @@ export class GlobalMeta {
         }
     }
 
+    static getEntireData(): string {
+        let data = window.localStorage.getItem(this.#storageSectionName);
+        return data;
+    }
+
     private static getStorageData(slideData: SlideData): Array<SlideData> {
         if (slideData == null) {
             console.error('questionData value cannot be null')

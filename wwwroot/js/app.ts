@@ -6,7 +6,7 @@ import { imageModifier } from './shared/constants.js';
 
 $(async function () {
 
-    
+
     let container = $('#right-sidebar-container');
 
     await createAvailableSlide(
@@ -103,5 +103,21 @@ async function createAvailableSlide(title: string, imagePath: imageModifier, sch
     container.append(await sidebarItem.render());
 }
 
+$('#save-quiz').on('click', async function () {
+    let data = GlobalMeta.getEntireData();
 
+    let body = { data: data };
+    let jsonBody = JSON.stringify(body);
+
+    let result = await fetch('/api/quiz/save', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: jsonBody
+    });
+
+    console.log(result);
+});
 

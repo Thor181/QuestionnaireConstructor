@@ -5,12 +5,21 @@
 <script type="module" src="/js/components/GlobalMetaComponent.js"></script>
 
 <header class="header placement-fixed--top grid-placement_column-span-full">
+    <div class="header__container">
+
+        <div class="header__item"> </div>
+        <div class="header__item">
+            <button id="save-quiz" class="button button--filled button--gapped">
+                <img src="./img/save.svg" />
+                <span>Save</span>
+            </button>
+        </div>
+    </div>
 </header>
 
 @* LEFT SIDEBAR *@
 <div class="sidebar placement-fixed--left">
     <div id="left-sidebar-container" class="sidebar__container" data-order-max="0">
-        
     </div>
     <script type="module" src="/js/components/SidebarContainer.js"></script>
     <script type="module" src="/js/components/LeftSidebarContainer.js"></script>
@@ -30,7 +39,6 @@
 @* RIGHT SIDEBAR *@
 <div class="sidebar placement-fixed--right">
     <div id="right-sidebar-container" class="sidebar__container">
-
     </div>
     <script type="module" src="/js/components/RightSidebarContainer.js"></script>
 
