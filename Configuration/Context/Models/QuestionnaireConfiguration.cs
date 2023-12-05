@@ -17,7 +17,7 @@ namespace Models.Configuration.Context.Models
             builder.ToTable("Questionnaire");
 
             builder.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("id");
 
             builder.Property(e => e.Data).HasColumnName("data");

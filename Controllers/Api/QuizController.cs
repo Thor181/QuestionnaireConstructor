@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using QuestionnaireConstructor.Models.Api;
+using QuestionnaireConstructor.Models.Database;
+using QuestionnaireConstructor.Service.DataLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +19,10 @@ namespace QuestionnaireConstructor.Controllers.Api
         public override string ViewPath => throw new NotImplementedException();
 
         [HttpPost]
-        public bool Save(QuizData data)
+        public async Task<bool> Save(QuizData data)
         {
-            
-            var JUST_BREAKPOINT = string.Empty;
+            using var questionnaireLogic = HttpContext.RequestServices.GetRequiredService<QuestionnaireLogic>();
+            await questionnaireLogic.AddFromDataAsync(data);
 
             return true;
         }

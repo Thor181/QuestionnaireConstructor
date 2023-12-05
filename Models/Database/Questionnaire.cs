@@ -1,9 +1,10 @@
-﻿using System;
+﻿using QuestionnaireConstructor.Models.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace QuestionnaireConstructor.Models.Database
 {
-    public partial class Questionnaire
+    public partial class Questionnaire : IDbEntity
     {
         public int Id { get; set; }
         public int? UserId { get; set; }
